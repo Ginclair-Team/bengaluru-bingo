@@ -20,9 +20,9 @@ export const STANDALONE_FONTS: ScorecardFonts = {
   body: "'Pixelify Sans', 'Trebuchet MS', sans-serif",
 };
 
-const INK = "#1A1C2C";
-const PAPER = "#E4EDC2";
-const STAMPED = "#FFD23F";
+const INK = "#2E1F18";
+const PAPER = "#F4E6CF";
+const STAMPED = "#F6B09B";
 
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

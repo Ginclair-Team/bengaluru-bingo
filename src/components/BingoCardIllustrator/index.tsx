@@ -13,11 +13,11 @@ import { TILE_ART, tileSvg } from "./art";
  *
  *   "16x16 pixel art sprite of [a friendly Bengaluru elephant] [holding a
  *    crockpot], single character, front view, hard pixels with no
- *    anti-aliasing, closed 1px near-black (#1A1C2C) outline, at most one
+ *    anti-aliasing, closed 1px espresso (#2E1F18) outline, at most one
  *    highlight and one shadow per colour area, light from the top-left, two
- *    single-pixel eyes and a 2px mouth, limited palette (#1A1C2C ink,
- *    #FFFFFF, #FFE9C4, #FFD23F, #FF8A3D, #E5383B, #FF6FB5, #C2185B, #8E5BD9,
- *    #3D8BFD, #23C4C4, #3CC47C, #1E7A4C, #A0623A, #B8C4CC, #6B7A86),
+ *    single-pixel eyes and a 2px mouth, limited warm palette (#2E1F18 ink,
+ *    #FFF9F0, #F6E3C8, #F2C14E, #E8894F, #D4513F, #F59A86, #A93D29, #8C6A94,
+ *    #7598B5, #74AFA4, #86B26A, #4F7A46, #9A6440, #CDC2B5, #8A7B6C),
  *    transparent background, centred, one empty row at the bottom, no text,
  *    no gradients, no drop shadow."
  */

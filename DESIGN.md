@@ -2,46 +2,46 @@
 name: Bengaluru Bingo
 description: A Y2K pocket console running one game. Stamp 25 Bengaluru tiles on the LCD, press START for your scorecard. A Ginhouse game.
 colors:
-  desk: "#2A1E5C"
-  desk-2: "#35277A"
-  desk-shadow: "#150E36"
-  desk-ink: "#FFF6D6"
-  desk-dim: "#C9BEF5"
-  shell: "#19C2B8"
-  shell-hi: "#7FF0E4"
-  shell-lo: "#0E8C88"
-  shell-edge: "#0A4F52"
-  shell-ink: "#042B2D"
-  bezel: "#1A1C2C"
-  bezel-hi: "#3A3D5C"
-  bezel-ink: "#E4EDC2"
-  lcd-off: "#59663F"
-  lcd-ink: "#1A1C2C"
-  lcd-dim: "#4B5B5A"
-  lcd-mid: "#A9BC8F"
-  lcd-paper: "#E4EDC2"
-  lcd-white: "#F8FBE8"
-  lcd-stamped: "#FFD23F"
-  stamp: "#C2185B"
-  cursor: "#FF2E88"
-  btn-ab: "#FF2E88"
-  btn-ab-hi: "#FF8CC0"
-  btn-ab-lo: "#B0125A"
-  btn-dark: "#2B2D42"
-  btn-dark-hi: "#4A4E69"
-  btn-dark-lo: "#14151F"
-  btn-pill: "#FFD23F"
-  btn-pill-hi: "#FFF0A8"
-  btn-pill-lo: "#C79A00"
-  led-on: "#B6FF3C"
-  led-off: "#3F5A1A"
-  focus: "#FFD23F"
-  cat-food: "#FFD23F"
-  cat-commute: "#FF8A3D"
-  cat-outdoors: "#3CC47C"
-  cat-hustle: "#B594F5"
-  cat-scene: "#FF6FB5"
-  cat-none: "#FFE9C4"
+  desk: "#2B1D17"
+  desk-2: "#35251D"
+  desk-shadow: "#140D0A"
+  desk-ink: "#FBEEDC"
+  desk-dim: "#D8BFA8"
+  shell: "#EFE0C9"
+  shell-hi: "#FFF7EA"
+  shell-lo: "#D2BB9C"
+  shell-edge: "#7A5A44"
+  shell-ink: "#3A281E"
+  bezel: "#3A281E"
+  bezel-hi: "#5A4234"
+  bezel-ink: "#F4E6CF"
+  lcd-off: "#8A7A5E"
+  lcd-ink: "#2E1F18"
+  lcd-dim: "#5E4638"
+  lcd-mid: "#DCC6A6"
+  lcd-paper: "#F4E6CF"
+  lcd-white: "#FFF8EC"
+  lcd-stamped: "#F6B09B"
+  stamp: "#A93D29"
+  cursor: "#CF563E"
+  btn-ab: "#F28C78"
+  btn-ab-hi: "#FFB9A9"
+  btn-ab-lo: "#C4614D"
+  btn-dark: "#4A3428"
+  btn-dark-hi: "#6B4E3D"
+  btn-dark-lo: "#2A1C15"
+  btn-pill: "#C99A6B"
+  btn-pill-hi: "#E6C49C"
+  btn-pill-lo: "#8F6A45"
+  led-on: "#FF9C86"
+  led-off: "#5A3A30"
+  focus: "#F28C78"
+  cat-food: "#E9B949"
+  cat-commute: "#D9824F"
+  cat-outdoors: "#A7B27C"
+  cat-hustle: "#CDAE8E"
+  cat-scene: "#F28C78"
+  cat-none: "#F6E3C8"
 typography:
   display:
     fontFamily: "Press Start 2P, ui-monospace, monospace"
@@ -104,9 +104,9 @@ components:
 
 **Creative North Star: "One pocket console, one cartridge."**
 
-The whole product is a handheld from the year 2000 lying on a desk: the **GINHOUSE POCKET GH-25** (25 for the 25 tiles), in translucent "Jelly Teal" plastic, with *Bengaluru Bingo* as the cartridge that's always in it. The game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, START, SELECT. Everything on the LCD is pixel art.
+The whole product is a handheld from the year 2000 lying on a desk: the **GINHOUSE POCKET GH-25** (25 for the 25 tiles), in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent), with *Bengaluru Bingo* as the cartridge that's always in it. The game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, START, SELECT. Everything on the LCD is pixel art.
 
-Mood: candy plastic, chunky hard bevels, sticker labels, blinking cursors, 8-bit blips. Friendly, a little silly, fast.
+Mood: warm café plastic on an espresso desk, chunky hard bevels, sticker labels, blinking cursors, 8-bit blips. Friendly, a little silly, fast.
 
 - **One fixed palette.** No seasons, no month logic, no theme switch. Delete the season engine (`src/theme/*`, `SeasonSwitch`, `SeasonalScorecard` becomes a plain scorecard wrapper, `scorecardSvg` loses its `season` argument, `/api/scores` stops sending `season`).
 - **Original hardware.** Not a replica of any real console: symmetric shell, octagonal A/B keys, disc D-pad, a 5x5 speaker grille that doubles as a stamp map.
@@ -116,61 +116,63 @@ Mood: candy plastic, chunky hard bevels, sticker labels, blinking cursors, 8-bit
 
 All tokens are CSS custom properties on `:root`. Components use the variable, never the hex.
 
+**Brand rule (Ginclair):** creams and browns carry the whole product; salmon (`#F28C78` family) is the single accent, used for the A/B keys, focus, cursor, stamps and a few headers. No blues, teals, greens or purples in the chrome; those hues survive only, muted, inside sprite art so the illustrations stay readable.
+
 ### Desk (page)
 | Token | Hex | Use |
 |---|---|---|
-| `--desk` | `#2A1E5C` | Page background |
-| `--desk-2` | `#35277A` | 8px checker pattern over the desk (`repeating-conic-gradient`, 16px tile) |
-| `--desk-shadow` | `#150E36` | Hard drop shadow under device and panels |
-| `--desk-ink` | `#FFF6D6` | Headings and body on the desk (14.0:1 on `--desk`) |
-| `--desk-dim` | `#C9BEF5` | Secondary text on the desk (8.7:1) |
+| `--desk` | `#2B1D17` | Page background (espresso) |
+| `--desk-2` | `#35251D` | 8px checker pattern over the desk (`repeating-conic-gradient`, 16px tile) |
+| `--desk-shadow` | `#140D0A` | Hard drop shadow under device and panels |
+| `--desk-ink` | `#FBEEDC` | Headings and body on the desk (14.2:1 on `--desk`) |
+| `--desk-dim` | `#D8BFA8` | Secondary text on the desk (9.3:1) |
 
 ### Shell (plastic)
 | Token | Hex | Use |
 |---|---|---|
-| `--shell` | `#19C2B8` | Shell body. Applied as `rgb(25 194 184 / 0.9)` so the desk checker ghosts through |
-| `--shell-hi` | `#7FF0E4` | 4px top/left inner bevel |
-| `--shell-lo` | `#0E8C88` | 4px bottom/right inner bevel |
-| `--shell-edge` | `#0A4F52` | 3px outer outline of the shell |
-| `--shell-ink` | `#042B2D` | Legends printed on the shell (5.7:1 on the composited shell) |
+| `--shell` | `#EFE0C9` | Shell body (latte cream). Applied as `rgb(239 224 201 / 0.96)` so the desk ghosts through faintly |
+| `--shell-hi` | `#FFF7EA` | 4px top/left inner bevel |
+| `--shell-lo` | `#D2BB9C` | 4px bottom/right inner bevel |
+| `--shell-edge` | `#7A5A44` | 3px outer outline of the shell |
+| `--shell-ink` | `#3A281E` | Legends printed on the shell (10.8:1) |
 
-Translucency treatment: three layers inside the shell, back to front. (1) the 0.9 alpha fill; (2) a "circuit board" SVG pattern (1px-wide right-angle traces and 3px square pads, `#FFFFFF` at 10% opacity, 48px tile) clipped to the shell; (3) one diagonal hard-edged gloss stripe: a 28u-wide band of `#FFFFFF` at 14% from the top-left corner, at 45deg, no blur. Legends must never sit on the gloss stripe.
+Plastic treatment: three layers inside the shell, back to front. (1) the 0.96 alpha fill; (2) a "circuit board" SVG pattern (1px-wide right-angle traces and 3px square pads, `--shell-edge` at 12% opacity, 48px tile) clipped to the shell; (3) one diagonal hard-edged gloss stripe: a 28u-wide band of `#FFFFFF` at 40% from the top-left corner, at 45deg, no blur. Legends must never sit on the gloss stripe.
 
 ### Bezel and LCD
 | Token | Hex | Use |
 |---|---|---|
-| `--bezel` | `#1A1C2C` | Screen surround |
-| `--bezel-hi` | `#3A3D5C` | 2px inner bevel line of the bezel |
-| `--bezel-ink` | `#E4EDC2` | Text on the bezel (13.7:1) |
-| `--lcd-off` | `#59663F` | Unpowered screen (boot frame 0) |
-| `--lcd-ink` | `#1A1C2C` | All LCD text, borders, sprite outline |
-| `--lcd-dim` | `#4B5B5A` | Secondary LCD text (5.9:1 on paper) |
-| `--lcd-mid` | `#A9BC8F` | Grid lines, disabled rows, dividers |
-| `--lcd-paper` | `#E4EDC2` | Screen background, unstamped tile |
-| `--lcd-white` | `#F8FBE8` | Hover tile, dialog fill, flash frame |
-| `--lcd-stamped` | `#FFD23F` | Stamped tile fill (ink text 11.6:1) |
-| `--stamp` | `#C2185B` | Stamp badge, bingo banner fill (white text 6.3:1) |
-| `--cursor` | `#FF2E88` | Cursor brackets (decorative; always paired with an ink bracket) |
+| `--bezel` | `#3A281E` | Screen surround (dark brown) |
+| `--bezel-hi` | `#5A4234` | 2px inner bevel line of the bezel |
+| `--bezel-ink` | `#F4E6CF` | Text on the bezel (11.4:1) |
+| `--lcd-off` | `#8A7A5E` | Unpowered screen (boot frame 0) |
+| `--lcd-ink` | `#2E1F18` | All LCD text, borders, sprite outline |
+| `--lcd-dim` | `#5E4638` | Secondary LCD text (7.1:1 on paper, 4.8:1 on stamped) |
+| `--lcd-mid` | `#DCC6A6` | Grid lines, disabled rows, dividers |
+| `--lcd-paper` | `#F4E6CF` | Screen background (warm cream), unstamped tile |
+| `--lcd-white` | `#FFF8EC` | Hover tile, dialog fill, flash frame |
+| `--lcd-stamped` | `#F6B09B` | Stamped tile fill, pale salmon (ink text 8.8:1) |
+| `--stamp` | `#A93D29` | Stamp badge, bingo banner fill (`--lcd-white` text 5.9:1) |
+| `--cursor` | `#CF563E` | Cursor brackets, link cable, grille dots (3.4:1 on paper; always paired with an ink bracket) |
 
 ### Hardware
 | Token | Hex | Use |
 |---|---|---|
-| `--btn-ab` / `-hi` / `-lo` | `#FF2E88` / `#FF8CC0` / `#B0125A` | A and B keys: face, top bevel, side wall. Letter in `--lcd-ink` (5.0:1) |
-| `--btn-dark` / `-hi` / `-lo` | `#2B2D42` / `#4A4E69` / `#14151F` | D-pad disc and cross. Arrows in `--bezel-ink` |
-| `--btn-pill` / `-hi` / `-lo` | `#FFD23F` / `#FFF0A8` / `#C79A00` | START, SELECT, and primary page buttons. Text in `--lcd-ink` |
-| `--led-on` / `--led-off` | `#B6FF3C` / `#3F5A1A` | Power LED |
-| `--focus` | `#FFD23F` | Focus ring, always doubled (see Focus) |
+| `--btn-ab` / `-hi` / `-lo` | `#F28C78` / `#FFB9A9` / `#C4614D` | A and B keys (salmon): face, top bevel, side wall. Letter in `--lcd-ink` (6.6:1). Also text selection |
+| `--btn-dark` / `-hi` / `-lo` | `#4A3428` / `#6B4E3D` / `#2A1C15` | D-pad disc and cross (cocoa). Arrows in `--bezel-ink` |
+| `--btn-pill` / `-hi` / `-lo` | `#C99A6B` / `#E6C49C` / `#8F6A45` | START, SELECT, and primary page buttons (caramel). Text in `--lcd-ink` (6.3:1) |
+| `--led-on` / `--led-off` | `#FF9C86` / `#5A3A30` | Power LED (salmon glow) |
+| `--focus` | `#F28C78` | Focus ring, always doubled (see Focus) |
 
 ### Category colours (scorecard frame, chips, journey headers)
-`--cat-food #FFD23F`, `--cat-commute #FF8A3D`, `--cat-outdoors #3CC47C`, `--cat-hustle #B594F5`, `--cat-scene #FF6FB5`, `--cat-none #FFE9C4`. Ink text on every one is at least 6:1. Update `CATEGORIES[*].color` in `src/lib/game.ts` to these.
+`--cat-food #E9B949` (turmeric), `--cat-commute #D9824F` (terracotta), `--cat-outdoors #A7B27C` (sage), `--cat-hustle #CDAE8E` (latte), `--cat-scene #F28C78` (salmon), `--cat-none #F6E3C8` (cream). Ink text on every one is at least 5.4:1. `CATEGORIES[*].color` in `src/lib/game.ts` mirrors these.
 
 ### Contrast rules
-- Text on the LCD is only ever `--lcd-ink` or `--lcd-dim` on paper/white/stamped, `--lcd-paper` on ink, or `#FFFFFF` on `--stamp`.
-- Never put white text on `--btn-ab` or `--cursor` pink (3.4:1). Use ink.
-- The scanline overlay is capped at 6% ink so pairs above stay over 4.5:1.
+- Text on the LCD is only ever `--lcd-ink` or `--lcd-dim` on paper/white/stamped, `--lcd-paper` on ink, or `--lcd-white` on `--stamp`.
+- Never put light text on `--btn-ab` or `--cursor` salmon. Use ink.
+- The scanline overlay is capped at 7% ink so pairs above stay over 4.5:1.
 
 ### Focus
-`outline: 3px solid var(--lcd-ink); box-shadow: 0 0 0 6px var(--focus);` on every focusable element, `:focus-visible` only. The ink-plus-yellow double ring holds 3:1 on desk, shell, bezel and LCD alike. Tiles use the cursor (below) as their focus indicator plus an inset 2px ink outline.
+`outline: 3px solid var(--lcd-ink); box-shadow: 0 0 0 6px var(--focus);` on every focusable element, `:focus-visible` only. The ink-plus-salmon double ring holds 3:1 on desk, shell, bezel and LCD alike. Tiles use the cursor (below) as their focus indicator plus an inset 2px ink outline.
 
 ## 3. Typography
 
@@ -227,7 +229,7 @@ device width = clamp(328px, min(100vw - 16px, (100dvh - 24px) * 0.544), 440px)
 | B key | centre 232, 524; 52 x 52 | Same as A. Legend `BACK`. |
 | SELECT | centre 136, 600; 56 x 24 (hit 56 x 44) | `--btn-pill` rectangle with 4u stepped corners, 4u `--btn-pill-lo` wall. Legend `SELECT` above in `ui-s`, in `--shell-ink`. |
 | START | centre 208, 600; 56 x 24 (hit 56 x 44) | Same. Legend `START`. |
-| Speaker grille | 284, 576, 32, 32 | 5x5 grid of 4u square holes, 3u gaps. Hole = `--shell-edge`. A hole turns `--cursor` pink when its tile is stamped: a live mini-map. `aria-hidden`. |
+| Speaker grille | 284, 576, 32, 32 | 5x5 grid of 4u square holes, 3u gaps. Hole = `--shell-edge`. A hole turns `--cursor` salmon when its tile is stamped: a live mini-map. `aria-hidden`. |
 
 ### LCD internals (292 x 368u)
 | Region | Height | Content |
@@ -276,7 +278,7 @@ Header row: `YOUR CARD` left, `NO.9Z3K7` right. Stage plus info area: the scorec
 Header row: `SHARE`. A vertical list of six rows, each 44u tall, full LCD width, 2u `--lcd-mid` divider, 8x8 icon + `ui-l` text:
 1. `SAVE IMAGE` 2. `WHATSAPP` 3. `POST ON X` 4. `COPY LINK` 5. `LINK CABLE` 6. `BACK TO BOARD`.
 The selected row is inverted (`--lcd-ink` fill, `--lcd-paper` text) with a blinking `>` at the left. Rows are the real controls: `<button>`, the two `react-share` buttons, and a `<Link>`; pressing A calls `.click()` on the selected one. Under the list a 2-line status area (`role="status"`, `body-lcd`) carries the existing messages ("Link copied.", save errors with the fallback text).
-- `LINK CABLE` with a friend's card waiting: goes to `/journey/[friend]/[mine]`; row reads `LINK CABLE: CLUB CARDS` and carries a pink dot.
+- `LINK CABLE` with a friend's card waiting: goes to `/journey/[friend]/[mine]`; row reads `LINK CABLE: CLUB CARDS` and carries a salmon dot.
 - Without one: opens the `linkInfo` overlay, a dialog with the existing clubbing explanation in `body-lcd` and one button `COPY MY LINK`.
 - `SAVE IMAGE` uses `html-to-image` on the inline scorecard with `pixelRatio = ceil(1000 / renderedWidth)` so the PNG is at least 1000px wide.
 
@@ -366,24 +368,24 @@ Sprites are text grids: an array of equal-length strings, one character per pixe
 | Key | Hex | Name | Shadow key |
 |---|---|---|---|
 | `.` | transparent | | |
-| `K` | `#1A1C2C` | Ink (outline, eyes) | |
-| `W` | `#FFFFFF` | White (highlight) | `S` |
-| `C` | `#FFE9C4` | Cream (idli, paper, skin of buildings) | `N` |
-| `Y` | `#FFD23F` | Yellow | `O` |
-| `O` | `#FF8A3D` | Orange | `R` |
-| `R` | `#E5383B` | Red | `M` |
-| `P` | `#FF6FB5` | Pink | `M` |
-| `M` | `#C2185B` | Magenta (stamp) | `K` |
-| `V` | `#8E5BD9` | Violet | `K` |
-| `B` | `#3D8BFD` | Blue | `V` |
-| `T` | `#23C4C4` | Teal | `D` |
-| `G` | `#3CC47C` | Green | `D` |
-| `D` | `#1E7A4C` | Dark green | `K` |
-| `N` | `#A0623A` | Brown | `K` |
-| `S` | `#B8C4CC` | Steel | `H` |
-| `H` | `#6B7A86` | Dark steel | `K` |
+| `K` | `#2E1F18` | Ink, espresso (outline, eyes) | |
+| `W` | `#FFF9F0` | Warm white (highlight) | `S` |
+| `C` | `#F6E3C8` | Cream (idli, paper, skin of buildings) | `N` |
+| `Y` | `#F2C14E` | Turmeric yellow | `O` |
+| `O` | `#E8894F` | Orange | `R` |
+| `R` | `#D4513F` | Brick red | `M` |
+| `P` | `#F59A86` | Salmon (was pink) | `M` |
+| `M` | `#A93D29` | Deep salmon (stamp) | `K` |
+| `V` | `#8C6A94` | Dusty plum | `K` |
+| `B` | `#7598B5` | Dusty blue | `V` |
+| `T` | `#74AFA4` | Muted teal | `D` |
+| `G` | `#86B26A` | Green | `D` |
+| `D` | `#4F7A46` | Dark green | `K` |
+| `N` | `#9A6440` | Brown | `K` |
+| `S` | `#CDC2B5` | Warm grey (steel) | `H` |
+| `H` | `#8A7B6C` | Dark warm grey | `K` |
 
-Avatar scenes may add three backdrop-only keys: `L` `#A8E4FF` (day sky), `U` `#2D2A6E` (night sky), `E` `#E8C27A` (ground/sand). No other colours, anywhere.
+Every sprite hue is warmed toward the Ginclair cream/brown/salmon family but kept distinct, so a tree is still green and the metro still purple. Avatar scenes may add three backdrop-only keys: `L` `#F4DFC6` (day sky, peach cream), `U` `#3D2B33` (night sky, cocoa), `E` `#D9B07C` (ground/sand). No other colours, anywhere.
 
 ### Rules
 - **Outline**: every sprite has a closed 1px `K` outline. No coloured outlines, no missing corners (diagonals step 1 by 1). Steam, rays, rain and sparkles are the only unoutlined pixels.
@@ -482,7 +484,7 @@ Composition rule: character head and shoulders, centred slightly left (the score
 
 | id | Badge | Scene |
 |---|---|---|
-| `food` | Foodie | Pink elephant (`P` head, `M` shadow, big ears) in a red shirt holding up a cone dosa (`Y`/`O`) on the left. Day sky `L`, red sun top-left, green ground `G`. |
+| `food` | Foodie | Salmon elephant (`P` head, `M` shadow, big ears) in a red shirt holding up a cone dosa (`Y`/`O`) on the left. Day sky `L`, red sun top-left, green ground `G`. |
 | `commute` | Jam Survivor | Grey wolf (`S`/`H`) in an orange riding helmet with a visor. Night sky `U` with 5 white star pixels, a `Y` moon, a row of red tail-light pixels along the horizon, a traffic light post at the left edge. |
 | `outdoors` | Park Walker | Green parakeet (`G` body, `D` wing, `R` beak, `Y` collar) on a brown branch that crosses the frame. Day sky `L`, pink tabebuia blossom clusters (`P`) top corners, one falling petal. |
 | `hustle` | Tech Guru | Orange cat (`O`, `C` muzzle) behind an open steel laptop with a `T` glow on its face, coffee cup on the left. Dusk sky: `V` dithered into `P`, `Y` sun, two office-tower silhouettes in `U` with lit `Y` windows. |
@@ -558,7 +560,8 @@ A screen frame (max 360px) showing an LCD in `--lcd-paper`: the `none` fox head 
 - **No rotation** of anything, including stamps and stickers. Arrows rotate in 90deg steps only.
 - **No smooth easing.** `steps()` only. No springs, no 3D flip, no parallax, no idle device wobble.
 - **No sentences in Press Start 2P or Silkscreen.** Sentences are Pixelify Sans.
-- **No white text on pink**, no `--lcd-dim` text under 12px, no text on the gloss stripe.
+- **No light text on salmon**, no `--lcd-dim` text under 12px, no text on the gloss stripe.
+- **No off-brand chrome.** Desk, shell, bezel, LCD, keys and panels stay in the cream/brown/salmon tokens; cool hues appear only inside sprite art.
 - **No button-only actions.** Everything the hardware keys do is also reachable by tapping the LCD or a real link/button, and by keyboard.
 - **No audio files, image files or icon fonts.** Sound is oscillators; art is inline SVG rects.
 - **No emoji** as icons.

@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
   <!-- shell edge -->
-  <rect x="2" y="0" width="12" height="16" fill="#0A4F52"/>
-  <rect x="1" y="1" width="14" height="14" fill="#0A4F52"/>
+  <rect x="2" y="0" width="12" height="16" fill="#7A5A44"/>
+  <rect x="1" y="1" width="14" height="14" fill="#7A5A44"/>
   <!-- shell -->
-  <rect x="3" y="1" width="10" height="14" fill="#19C2B8"/>
-  <rect x="2" y="2" width="12" height="12" fill="#19C2B8"/>
+  <rect x="3" y="1" width="10" height="14" fill="#EFE0C9"/>
+  <rect x="2" y="2" width="12" height="12" fill="#EFE0C9"/>
   <!-- bezel -->
-  <rect x="3" y="2" width="10" height="7" fill="#1A1C2C"/>
+  <rect x="3" y="2" width="10" height="7" fill="#3A281E"/>
   <!-- lcd -->
-  <rect x="4" y="3" width="8" height="5" fill="#E4EDC2"/>
+  <rect x="4" y="3" width="8" height="5" fill="#F4E6CF"/>
   <!-- stamped tiles -->
-  <rect x="5" y="4" width="2" height="2" fill="#FFD23F"/>
-  <rect x="9" y="5" width="2" height="2" fill="#C2185B"/>
+  <rect x="5" y="4" width="2" height="2" fill="#F6B09B"/>
+  <rect x="9" y="5" width="2" height="2" fill="#A93D29"/>
   <!-- d-pad -->
-  <rect x="4" y="11" width="3" height="1" fill="#2B2D42"/>
-  <rect x="5" y="10" width="1" height="3" fill="#2B2D42"/>
+  <rect x="4" y="11" width="3" height="1" fill="#4A3428"/>
+  <rect x="5" y="10" width="1" height="3" fill="#4A3428"/>
   <!-- A and B keys -->
-  <rect x="10" y="10" width="2" height="2" fill="#FF2E88"/>
-  <rect x="8" y="12" width="2" height="2" fill="#FF2E88"/>
+  <rect x="10" y="10" width="2" height="2" fill="#F28C78"/>
+  <rect x="8" y="12" width="2" height="2" fill="#F28C78"/>
 </svg>

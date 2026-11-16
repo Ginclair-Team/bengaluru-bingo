@@ -18,15 +18,15 @@ export const TILE_COUNT = GRID * GRID;
 export const TILES = tilesJson as Tile[];
 
 export const CATEGORIES: Record<CategoryId, { label: string; badge: string; color: string }> = {
-  food: { label: "Tiffin", badge: "Foodie", color: "#FFD23F" },
-  commute: { label: "Commute", badge: "Jam Survivor", color: "#FF8A3D" },
-  outdoors: { label: "Outdoors", badge: "Park Walker", color: "#3CC47C" },
-  hustle: { label: "Hustle", badge: "Tech Guru", color: "#B594F5" },
-  scene: { label: "Scene", badge: "Quiz Captain", color: "#FF6FB5" },
+  food: { label: "Tiffin", badge: "Foodie", color: "#E9B949" },
+  commute: { label: "Commute", badge: "Jam Survivor", color: "#D9824F" },
+  outdoors: { label: "Outdoors", badge: "Park Walker", color: "#A7B27C" },
+  hustle: { label: "Hustle", badge: "Tech Guru", color: "#CDAE8E" },
+  scene: { label: "Scene", badge: "Quiz Captain", color: "#F28C78" },
 };
 
 /** Scorecard frame colour when nothing is stamped (cat-none). */
-export const NONE_COLOR = "#FFE9C4";
+export const NONE_COLOR = "#F6E3C8";
 
 export const CATEGORY_ORDER: CategoryId[] = ["food", "commute", "outdoors", "hustle", "scene"];
 

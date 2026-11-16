@@ -6,26 +6,28 @@
 // same colour); the same output is used in React and inside scorecardSvg.
 
 export const PALETTE: Record<string, string> = {
-  K: "#1A1C2C", // ink
-  W: "#FFFFFF", // white
-  C: "#FFE9C4", // cream
-  Y: "#FFD23F", // yellow
-  O: "#FF8A3D", // orange
-  R: "#E5383B", // red
-  P: "#FF6FB5", // pink
-  M: "#C2185B", // magenta
-  V: "#8E5BD9", // violet
-  B: "#3D8BFD", // blue
-  T: "#23C4C4", // teal
-  G: "#3CC47C", // green
-  D: "#1E7A4C", // dark green
-  N: "#A0623A", // brown
-  S: "#B8C4CC", // steel
-  H: "#6B7A86", // dark steel
+  // Warm Ginclair set: every hue stays distinct so sprites still read, but
+  // all of them lean toward cream, brown and salmon.
+  K: "#2E1F18", // ink (espresso)
+  W: "#FFF9F0", // white (warm)
+  C: "#F6E3C8", // cream
+  Y: "#F2C14E", // yellow (turmeric)
+  O: "#E8894F", // orange
+  R: "#D4513F", // red (brick)
+  P: "#F59A86", // salmon (was pink)
+  M: "#A93D29", // deep salmon (stamp)
+  V: "#8C6A94", // violet (dusty plum)
+  B: "#7598B5", // blue (dusty)
+  T: "#74AFA4", // teal (muted)
+  G: "#86B26A", // green
+  D: "#4F7A46", // dark green
+  N: "#9A6440", // brown
+  S: "#CDC2B5", // steel (warm grey)
+  H: "#8A7B6C", // dark steel (warm)
   // Avatar-scene backdrop keys only.
-  L: "#A8E4FF", // day sky
-  U: "#2D2A6E", // night sky
-  E: "#E8C27A", // ground / sand
+  L: "#F4DFC6", // day sky (peach cream)
+  U: "#3D2B33", // night sky (cocoa)
+  E: "#D9B07C", // ground / sand
 };
 
 export type Sprite = string[];
