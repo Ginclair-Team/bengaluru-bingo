@@ -11,7 +11,9 @@ create table if not exists scores (
   percent      smallint    not null check (percent between 0 and 100),
   bingo_lines  smallint    not null check (bingo_lines between 0 and 12),
   badge        text        not null,
-  season       text        check (season in ('summer', 'monsoon', 'winter', 'spring')),
+  -- Legacy: seasons were removed from the game; the app no longer sends this.
+  -- Kept nullable so existing databases and rows keep working. Safe to drop.
+  season       text,
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
 );

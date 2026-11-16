@@ -1,27 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Dela_Gothic_One, Martian_Mono } from "next/font/google";
-import { ThemeProvider } from "@/theme/context";
-import { seasonBootScript, seasonCss, seasonForDate } from "@/theme/seasons";
+import { Pixelify_Sans, Press_Start_2P, Silkscreen } from "next/font/google";
 import "./globals.css";
 
-const display = Dela_Gothic_One({
+// Three pixel faces. The variable names are a contract with the scorecard.
+const display = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
-const mono = Martian_Mono({
+const label = Silkscreen({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-mono",
+  variable: "--font-label",
+  display: "swap",
+});
+
+const body = Pixelify_Sans({
+  weight: ["400", "600"],
+  subsets: ["latin"],
+  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Bengaluru Bingo, a Ginhouse game",
   description:
-    "Stamp everything you've done in Bengaluru, flip the card, and share how native you are. A Ginhouse game by Ginclair.",
+    "Stamp everything you've done in Bengaluru on a pocket console, press START, and share how native you are. A Ginhouse game by Ginclair.",
   applicationName: "Bengaluru Bingo",
   authors: [{ name: "Ginclair" }],
   openGraph: {
@@ -35,27 +41,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#2A1E5C",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // The server's guess; the boot script corrects it to the visitor's own
-  // calendar (or their pinned season) before first paint.
-  const season = seasonForDate(new Date());
-
   return (
-    <html
-      lang="en-IN"
-      data-season={season}
-      className={`${display.variable} ${mono.variable}`}
-      suppressHydrationWarning
-    >
-      <head>
-        <style dangerouslySetInnerHTML={{ __html: seasonCss(season) }} />
-        <script dangerouslySetInnerHTML={{ __html: seasonBootScript }} />
-      </head>
-      <body>
-        <ThemeProvider initialSeason={season}>{children}</ThemeProvider>
-      </body>
+    <html lang="en-IN" className={`${display.variable} ${label.variable} ${body.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

@@ -34,16 +34,17 @@ A "City-Bio" engine: the score describes the player's own relationship with one 
 - Tile content is static JSON. No real-time scraping of Reddit/X during play; a `scrapers` folder exists only as a seeding stub for later.
 - Scorecard: an SVG infographic with the native percentage and a ranking badge (for example "The Tech Guru", "Foodie").
 - Card clubbing: player A's card and player B's card link into one shared journey view.
-- Seasonal theme engine: the palette shifts with the date. Summer (May to August), Monsoon (September to November), Spring/Autumn; Winter is named in the spec but has no palette defined yet (open decision).
+- Presentation: the game runs inside a Y2K handheld console, the Ginhouse Pocket GH-25, with a pixel LCD and working D-pad, A, B, START and SELECT keys (also mapped to the keyboard). Tiles stay directly tappable. One fixed palette; the earlier seasonal theme engine is retired (owner's direction, 2026-11-16).
+- Optional 8-bit sound and vibration, generated in the browser, with a persisted mute switch.
 - No PII: no names or phone numbers stored, only `anonymous_id`.
-- Tile characters are original SVG art for now; `components/BingoCardIllustrator` is the slot for AI-generated art later.
+- Tile characters are original pixel art (16x16 text grids rendered as SVG rects); `components/BingoCardIllustrator` is the slot for them.
 
 ## Brand Commitments
 
 - Owner: Ginclair. Brand: Ginhouse. System text and the scorecard carry Ginhouse branding.
-- Binding visual constraints from the owner's spec: rigid retro bingo grid; "Tangz-style" character illustration with thick black outlines and flat vibrant pastel gradient grounds; chunky sans headers (Fredoka or Poppins named); monospace or technical sans for data labels; scorecard reads as a digital postcard; bento grouping on share cards.
-- Seasonal dominants named in the spec: Summer #FF4757 with Sand #F3F0E6 and Cream #FFF9C9; Monsoon #00B4D8 with rainy grey and ocean blue; Spring/Autumn #FF9F43 with muted beige and gold.
-- The spec cites three reference images (bingo board, postcard scorecard, Tangz illustration). The owner is supplying them; they are binding once present.
+- Binding visual direction from the owner (2026-11-16, supersedes the earlier trading-card and seasonal spec): a Y2K handheld-console interface with real buttons, pixel-art illustrations throughout, and no seasonal theme change. Details live in `DESIGN.md`.
+- Still binding from the original spec: rigid 5x5 bingo grid; friendly characters with dot eyes; scorecard reads as a collectible card worth posting.
+- The device is original Ginhouse hardware. No third-party console names, logos or look-alike branding.
 
 ## Evidence on Hand
 
@@ -61,4 +62,4 @@ A "City-Bio" engine: the score describes the player's own relationship with one 
 
 ## Accessibility & Inclusion
 
-WCAG AA colour contrast in every seasonal theme, including white text on the red summer board. Touch targets sized for thumbs. Reduced-motion preference respected.
+WCAG AA colour contrast for every text pair in the fixed palette. Touch targets of at least 44px, including the console keys. Everything the console keys do is also reachable by tapping the screen and by keyboard. Visible focus states. Reduced-motion preference respected. Sound and vibration are optional and mutable.

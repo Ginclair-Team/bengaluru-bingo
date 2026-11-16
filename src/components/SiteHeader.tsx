@@ -1,30 +1,24 @@
 import Link from "next/link";
-import { SeasonSwitch } from "./SeasonSwitch";
+import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
 
-export function SiteHeader({ home = false }: { home?: boolean }) {
-  const title = (
-    <span className="display block text-xl sm:text-2xl">Bengaluru Bingo</span>
-  );
+/** Compact header for the pages off the console: elephant plus wordmark, linking home. */
+export function SiteHeader() {
   return (
-    <header className="flex items-center justify-between gap-3 py-3">
-      <div>
-        {home ? (
-          <h1>{title}</h1>
-        ) : (
-          <Link href="/" className="no-underline">
-            {title}
-          </Link>
-        )}
-        <p className="text-xs font-semibold">A Ginhouse game</p>
-      </div>
-      <SeasonSwitch />
+    <header className="py-3">
+      <Link
+        href="/"
+        className="t-ui-l inline-flex min-h-[44px] items-center gap-3 text-desk-ink no-underline"
+      >
+        <BingoCardIllustrator id="elephant" className="spr" />
+        <span>Bengaluru Bingo</span>
+      </Link>
     </header>
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ className = "" }: { className?: string }) {
   return (
-    <footer className="mt-12 border-t-[3px] border-black pt-4 text-xs font-semibold">
+    <footer className={`t-body text-desk-dim ${className}`}>
       <p>Made at Ginhouse by Ginclair. Nothing personal is stored: your card lives in this browser.</p>
     </footer>
   );

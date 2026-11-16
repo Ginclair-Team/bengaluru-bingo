@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { decodeMarks, scoreFor } from "@/lib/game";
-import { isSeasonId } from "@/theme/seasons";
 
 // POST /api/scores
-// Body: { anonymous_id: uuid, card_code: string, season?: string }
+// Body: { anonymous_id: uuid, card_code: string }
+//
+// Any legacy `season` field in the body is ignored: there are no seasons.
 //
 // Records a finished round. Stores an anonymous id and the card, never a
 // name or phone number. Writes to Supabase when SUPABASE_URL and
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Send a JSON body." }, { status: 400 });
   }
 
-  const { anonymous_id, card_code, season } = (body ?? {}) as Record<string, unknown>;
+  const { anonymous_id, card_code } = (body ?? {}) as Record<string, unknown>;
   if (typeof anonymous_id !== "string" || !UUID.test(anonymous_id)) {
     return NextResponse.json({ error: "anonymous_id must be a UUID." }, { status: 400 });
   }
@@ -36,7 +37,6 @@ export async function POST(request: Request) {
     percent: score.percent,
     bingo_lines: score.lines,
     badge: score.badge,
-    season: isSeasonId(season) ? season : null,
   };
 
   const url = process.env.SUPABASE_URL;

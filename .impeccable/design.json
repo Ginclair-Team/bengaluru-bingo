@@ -1,34 +1,43 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-16T08:15:00.000Z",
+  "generatedAt": "2026-11-16T12:00:00.000Z",
   "title": "Design System: Bengaluru Bingo",
   "extensions": {
     "colorMeta": {
-      "outline": { "role": "neutral", "displayName": "Outline Black", "canonical": "#000000" },
-      "monsoon-board": { "role": "primary", "displayName": "Monsoon Teal", "canonical": "#086F8A", "tonalRamp": ["#022A35", "#064B5E", "#086F8A", "#0A8FB0", "#00B4D8", "#7FD6EA", "#D5F1F7", "#E9FBFF"] },
-      "summer-board": { "role": "primary", "displayName": "Riso Red", "canonical": "#D4253A", "tonalRamp": ["#4A0610", "#9E0F22", "#D4253A", "#FF4757", "#FF8A93", "#FBB9B0", "#FBD9CF", "#FFF9C9"] },
-      "winter-board": { "role": "primary", "displayName": "Winter Violet", "canonical": "#5B3FA8", "tonalRamp": ["#1E1340", "#3A2478", "#5B3FA8", "#7D5FCB", "#A56EDB", "#C9B5EE", "#DDD3F0", "#EFE6FF"] },
-      "spring-board": { "role": "primary", "displayName": "Spring Orange", "canonical": "#FF9F43", "tonalRamp": ["#3D1F00", "#7A3E00", "#B86200", "#E0A100", "#FF9F43", "#FFC78F", "#F1E4CF", "#FFF3DC"] },
-      "monsoon-stamp": { "role": "secondary", "displayName": "Stamp Coral", "canonical": "#E8344A" },
-      "summer-stamp": { "role": "secondary", "displayName": "Stamp Blue", "canonical": "#2B3FD6" },
-      "monsoon-ground": { "role": "neutral", "displayName": "Rainy Grey", "canonical": "#B7C7D0" },
-      "summer-ground": { "role": "neutral", "displayName": "Sand", "canonical": "#F3F0E6" },
-      "monsoon-paper": { "role": "neutral", "displayName": "Monsoon Paper", "canonical": "#D5F1F7" },
-      "art-yellow": { "role": "tertiary", "displayName": "Dosa Yellow", "canonical": "#FFC93C" },
-      "art-pink": { "role": "tertiary", "displayName": "Card Pink", "canonical": "#FF8FB8" }
+      "desk": { "role": "neutral", "displayName": "Desk Grape", "canonical": "#2A1E5C", "tonalRamp": ["#150E36", "#2A1E5C", "#35277A", "#C9BEF5", "#FFF6D6"] },
+      "shell": { "role": "primary", "displayName": "Jelly Teal", "canonical": "#19C2B8", "tonalRamp": ["#042B2D", "#0A4F52", "#0E8C88", "#19C2B8", "#7FF0E4"] },
+      "bezel": { "role": "neutral", "displayName": "Bezel Ink", "canonical": "#1A1C2C", "tonalRamp": ["#14151F", "#1A1C2C", "#2B2D42", "#3A3D5C", "#4A4E69"] },
+      "lcd-paper": { "role": "neutral", "displayName": "LCD Paper", "canonical": "#E4EDC2", "tonalRamp": ["#1A1C2C", "#4B5B5A", "#59663F", "#A9BC8F", "#E4EDC2", "#F8FBE8"] },
+      "lcd-ink": { "role": "neutral", "displayName": "LCD Ink", "canonical": "#1A1C2C" },
+      "lcd-stamped": { "role": "secondary", "displayName": "Stamped Yellow", "canonical": "#FFD23F", "tonalRamp": ["#C79A00", "#FFD23F", "#FFF0A8"] },
+      "btn-ab": { "role": "secondary", "displayName": "Button Pink", "canonical": "#FF2E88", "tonalRamp": ["#B0125A", "#C2185B", "#FF2E88", "#FF8CC0"] },
+      "stamp": { "role": "secondary", "displayName": "Stamp Magenta", "canonical": "#C2185B" },
+      "led-on": { "role": "tertiary", "displayName": "LED Lime", "canonical": "#B6FF3C" },
+      "cat-food": { "role": "tertiary", "displayName": "Tiffin Yellow", "canonical": "#FFD23F" },
+      "cat-commute": { "role": "tertiary", "displayName": "Commute Orange", "canonical": "#FF8A3D" },
+      "cat-outdoors": { "role": "tertiary", "displayName": "Outdoors Green", "canonical": "#3CC47C" },
+      "cat-hustle": { "role": "tertiary", "displayName": "Hustle Lilac", "canonical": "#B594F5" },
+      "cat-scene": { "role": "tertiary", "displayName": "Scene Pink", "canonical": "#FF6FB5" }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Titles, panel headings, badge names, percentages, card numbers." },
-      "board-letters": { "displayName": "Board letters", "purpose": "B I N G O across the top of the board, one letter per column." },
-      "body": { "displayName": "Body", "purpose": "Instructions and descriptions." },
-      "label": { "displayName": "Label", "purpose": "Tile labels and the board footer, uppercase." }
+      "display": { "displayName": "Display", "purpose": "Press Start 2P. B I N G O letters, percentages, badge names, key letters, page titles. Never sentences." },
+      "label": { "displayName": "Label", "purpose": "Silkscreen 400 at 8px. Tile labels and soft-key hints, uppercase." },
+      "ui": { "displayName": "UI", "purpose": "Silkscreen 700. Buttons, menu rows, shell legends, uppercase." },
+      "body": { "displayName": "Body", "purpose": "Pixelify Sans. Every sentence: blurbs, instructions, journey lists." }
     },
-    "shadows": [],
+    "shadows": [
+      { "name": "device", "value": "8px 8px 0 #150E36", "purpose": "Hard shadow under the console on the desk." },
+      { "name": "panel", "value": "4px 4px 0 #150E36", "purpose": "Hard shadow under page panels." },
+      { "name": "button-wall", "value": "0 4px 0 #1A1C2C", "purpose": "The side wall of a page button; removed while pressed." }
+    ],
     "motion": [
-      { "name": "tile-settle", "value": "spring(stiffness 210, damping 17, mass 1.35), stagger 28ms", "purpose": "Tiles settle into the board once on load." },
-      { "name": "stamp-land", "value": "spring(stiffness 520, damping 21, mass 1.1) from scale 1.9", "purpose": "A stamp landing on a tile." },
-      { "name": "card-flip", "value": "spring(stiffness 64, damping 14, mass 1.5) on rotateY", "purpose": "Board to scorecard and back." },
-      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Season colour change and button press." }
+      { "name": "key-press", "value": "60ms steps(1) down, 90ms steps(2) up", "purpose": "A hardware key or page button sinks by its wall height." },
+      { "name": "cursor-blink", "value": "1000ms steps(2) infinite", "purpose": "Cursor brackets alternate tight and 2u out." },
+      { "name": "stamp-land", "value": "150ms steps(3), badge scale 3 to 1", "purpose": "A stamp landing on a tile." },
+      { "name": "screen-wipe", "value": "240ms steps(8) horizontal blinds", "purpose": "Board to scorecard to share menu. Replaces the 3D flip." },
+      { "name": "menu-open", "value": "120ms steps(4) clip from centre line", "purpose": "Menus and dialogs opening on the LCD." },
+      { "name": "bingo", "value": "1200ms sequence: tile flashes 60ms apart, banner in 4 steps, 12 confetti squares in 8 steps", "purpose": "A completed bingo line." },
+      { "name": "boot", "value": "1400ms, type-on at 80ms per letter, skippable", "purpose": "Power-on screen, once per session." }
     ],
     "breakpoints": [
       { "name": "sm", "value": "640px" },
@@ -40,70 +49,72 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one main action in a view, such as flipping the card.",
-      "html": "<button class=\"ds-btn ds-btn-primary\">Flip for my scorecard</button>",
-      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 0.8rem; border:3px solid #000; border-radius:12px; background:var(--paper, #D5F1F7); color:#000; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-weight:700; font-size:14px; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1), background-color .18s; } .ds-btn:hover { background:#fff; } .ds-btn:active { transform:translateY(2px); } .ds-btn:focus-visible { outline:3px solid #000; outline-offset:3px; } .ds-btn-primary { background:#000; color:#fff; } .ds-btn-primary:hover { background:var(--ink, #064B5E); }"
+      "description": "The one main action on a page, such as stamping your own card.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">STAMP MY OWN CARD</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 16px; border:4px solid #1A1C2C; border-radius:0; background:#E4EDC2; color:#1A1C2C; font-family:'Silkscreen', ui-monospace, monospace; font-weight:700; font-size:16px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 0 #1A1C2C; } .ds-btn:hover { background:#F8FBE8; } .ds-btn:active { transform:translateY(4px); box-shadow:none; } .ds-btn:focus-visible { outline:3px solid #1A1C2C; box-shadow:0 0 0 6px #FFD23F; } .ds-btn-primary { background:#FFD23F; } .ds-btn-primary:hover { background:#FFF0A8; }"
     },
     {
       "name": "Button",
       "kind": "button",
       "refersTo": "button",
-      "description": "Secondary actions: share targets, copy link.",
-      "html": "<button class=\"ds-btn2\">Copy link</button>",
-      "css": ".ds-btn2 { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 0.8rem; border:3px solid #000; border-radius:12px; background:var(--paper, #D5F1F7); color:#000; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-weight:700; font-size:14px; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1), background-color .18s; } .ds-btn2:hover { background:#fff; } .ds-btn2:active { transform:translateY(2px); } .ds-btn2:focus-visible { outline:3px solid #000; outline-offset:3px; }"
+      "description": "Secondary page actions.",
+      "html": "<button class=\"ds-btn2\">BACK TO MY BOARD</button>",
+      "css": ".ds-btn2 { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 16px; border:4px solid #1A1C2C; border-radius:0; background:#E4EDC2; color:#1A1C2C; font-family:'Silkscreen', ui-monospace, monospace; font-weight:700; font-size:16px; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 0 #1A1C2C; } .ds-btn2:hover { background:#F8FBE8; } .ds-btn2:active { transform:translateY(4px); box-shadow:none; } .ds-btn2:focus-visible { outline:3px solid #1A1C2C; box-shadow:0 0 0 6px #FFD23F; }"
     },
     {
       "name": "Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Outlined paper container for the tile detail, sharing and journey lists.",
+      "description": "LCD-paper container with an ink border and hard shadow, for journey lists, the manual and the save-file readout.",
       "html": "<div class=\"ds-panel\"><strong>Three cancellations</strong><p>Got cancelled on by three cabs in a row.</p></div>",
-      "css": ".ds-panel { border:3px solid #000; border-radius:16px; background:var(--paper, #D5F1F7); padding:16px; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-size:12px; color:#000; } .ds-panel strong { font-family:'Dela Gothic One', sans-serif; font-weight:400; font-size:16px; } .ds-panel p { margin:4px 0 0; }"
+      "css": ".ds-panel { border:4px solid #1A1C2C; border-radius:0; background:#E4EDC2; padding:16px; box-shadow:4px 4px 0 #150E36; font-family:'Pixelify Sans', ui-monospace, monospace; font-size:16px; line-height:1.4; color:#1A1C2C; } .ds-panel strong { font-family:'Silkscreen', ui-monospace, monospace; font-weight:700; font-size:16px; text-transform:uppercase; } .ds-panel p { margin:4px 0 0; }"
     },
     {
       "name": "Tile",
       "kind": "custom",
       "refersTo": "tile",
-      "description": "One square of the bingo grid: label, character, label, and a stamp when marked.",
-      "html": "<button class=\"ds-tile\"><span>Filter</span><svg viewBox=\"0 0 48 48\" width=\"34\" height=\"34\"><g stroke=\"#000\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M11 31 H37 L34 41 H14 Z\" fill=\"#C9D3DA\"/><path d=\"M15 12 H33 L31 33 H17 Z\" fill=\"#C9D3DA\"/><ellipse cx=\"24\" cy=\"12.5\" rx=\"9\" ry=\"2.6\" fill=\"#A0623A\"/></g></svg><span>Kaapi</span><svg class=\"ds-stamp\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\"><circle cx=\"24\" cy=\"24\" r=\"21\" stroke-width=\"2.6\" stroke-dasharray=\"58 3 40 2 26 4\"/><circle cx=\"17\" cy=\"19\" r=\"2.4\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"31\" cy=\"19\" r=\"2.4\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M13 28 Q24 40 35 28\" stroke-width=\"2.6\"/></svg></button>",
-      "css": ".ds-tile { position:relative; display:grid; grid-template-rows:auto 1fr auto; justify-items:center; align-items:center; width:72px; height:72px; padding:5px 2px; border:0; background:var(--paper, #D5F1F7); color:var(--ink, #064B5E); font-family:'Martian Mono', ui-monospace, monospace; font-stretch:75%; font-weight:600; font-size:9px; letter-spacing:.03em; text-transform:uppercase; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1); } .ds-tile:hover { transform:scale(1.05); } .ds-tile:focus-visible { outline:3px solid #000; outline-offset:-3px; } .ds-stamp { position:absolute; inset:15%; color:var(--stamp, #E8344A); mix-blend-mode:multiply; transform:rotate(-11deg); }"
+      "description": "One square of the LCD bingo grid: a 16x16 pixel sprite, a one-word label, and a corner stamp badge on a yellow fill when stamped.",
+      "html": "<button class=\"ds-tile ds-tile-on\"><svg viewBox=\"0 0 16 16\" width=\"32\" height=\"32\" shape-rendering=\"crispEdges\"><rect x=\"3\" y=\"3\" width=\"10\" height=\"3\" fill=\"#1A1C2C\"/><rect x=\"4\" y=\"4\" width=\"8\" height=\"1\" fill=\"#A0623A\"/><rect x=\"4\" y=\"6\" width=\"8\" height=\"5\" fill=\"#1A1C2C\"/><rect x=\"5\" y=\"6\" width=\"6\" height=\"5\" fill=\"#B8C4CC\"/><rect x=\"5\" y=\"6\" width=\"1\" height=\"5\" fill=\"#FFFFFF\"/><rect x=\"6\" y=\"7\" width=\"1\" height=\"1\" fill=\"#1A1C2C\"/><rect x=\"9\" y=\"7\" width=\"1\" height=\"1\" fill=\"#1A1C2C\"/><rect x=\"7\" y=\"9\" width=\"2\" height=\"1\" fill=\"#1A1C2C\"/><rect x=\"1\" y=\"10\" width=\"14\" height=\"2\" fill=\"#1A1C2C\"/><rect x=\"2\" y=\"11\" width=\"12\" height=\"1\" fill=\"#B8C4CC\"/><rect x=\"3\" y=\"12\" width=\"10\" height=\"3\" fill=\"#1A1C2C\"/><rect x=\"4\" y=\"12\" width=\"8\" height=\"2\" fill=\"#B8C4CC\"/></svg><span>KAAPI</span><i class=\"ds-stamp\"></i></button>",
+      "css": ".ds-tile { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:space-between; width:56px; height:56px; padding:6px 0 5px; border:0; border-radius:0; background:#E4EDC2; color:#1A1C2C; font-family:'Silkscreen', ui-monospace, monospace; font-size:8px; line-height:1; text-transform:uppercase; cursor:pointer; } .ds-tile:hover { background:#F8FBE8; } .ds-tile-on { background:#FFD23F; box-shadow:inset 0 0 0 2px #1A1C2C; } .ds-tile:focus-visible { outline:3px solid #1A1C2C; box-shadow:0 0 0 6px #FFD23F; } .ds-stamp { position:absolute; top:2px; right:2px; width:14px; height:14px; background:#C2185B; }"
     },
     {
-      "name": "Season Switch",
-      "kind": "nav",
-      "description": "Four outlined swatches; the active season is larger.",
-      "html": "<div class=\"ds-seasons\"><span style=\"background:#D4253A\"></span><span class=\"ds-on\" style=\"background:#086F8A\"></span><span style=\"background:#5B3FA8\"></span><span style=\"background:#FF9F43\"></span></div>",
-      "css": ".ds-seasons { display:flex; align-items:center; gap:14px; } .ds-seasons span { display:block; width:16px; height:16px; border:3px solid #000; border-radius:50%; } .ds-seasons .ds-on { width:26px; height:26px; }"
+      "name": "Console Key",
+      "kind": "button",
+      "description": "The A and B hardware keys: a pink octagon with a darker wall that collapses when pressed.",
+      "html": "<button class=\"ds-key\" aria-label=\"A: stamp\">A</button>",
+      "css": ".ds-key { width:52px; height:52px; border:0; background:#FF2E88; color:#1A1C2C; font-family:'Press Start 2P', ui-monospace, monospace; font-size:16px; cursor:pointer; clip-path:polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px); box-shadow:inset 0 3px 0 #FF8CC0, inset 0 -6px 0 #B0125A; } .ds-key:active { transform:translateY(6px); box-shadow:inset 0 3px 0 #FF8CC0; } .ds-key:focus-visible { outline:3px solid #1A1C2C; }"
     }
   ],
   "narrative": {
-    "northStar": "One card, two faces",
-    "overview": "The whole product is a single physical card. The front is a printed bingo board in the season's colour that you mark with a rubber stamp. The back is your trading card: a character, a badge, stars, stat boxes and a card number. Everything else on screen is a quiet label next to that object.",
+    "northStar": "One pocket console, one cartridge",
+    "overview": "The whole product is a handheld from the year 2000 lying on a desk: the Ginhouse Pocket GH-25, in translucent Jelly Teal plastic, with Bengaluru Bingo as the cartridge that is always in it. The game is played on its colour LCD, by tapping the screen or with the D-pad, A, B, START and SELECT. Everything on the LCD is pixel art, in one fixed palette.",
     "keyCharacteristics": [
-      "Flat colour and black outline carry everything. There are no shadows and no blur.",
-      "The board and the scorecard share one 5:7 footprint and flip into each other.",
-      "Illustration is geometric: circles, rounded rectangles, dot eyes.",
-      "Stamps are the only thing allowed to sit crooked."
+      "A translucent candy-plastic console on a dark checkered desk, with hard bevels and hard shadows only.",
+      "A pale green-cream LCD with ink text, a blinking bracket cursor and yellow stamped tiles.",
+      "Illustration is pixel art on fixed grids (16x16 tiles, 64x44 avatars) from a 16-colour keyed palette, with dot eyes.",
+      "Everything moves in steps: wipes, blinks and key presses, never springs or fades."
     ],
     "rules": [
-      { "name": "The Re-ink Rule", "body": "A component never names a season's hex. It uses the role (board, paper, ink, stamp) and the calendar does the rest.", "section": "colors" },
-      { "name": "The AA Rule", "body": "Board ink on board and ink on paper hold at least 4.5:1 in every season. The spec's named dominants (#FF4757, #00B4D8) are too light for that, so they are deepened on the board and kept as the small accent.", "section": "colors" },
-      { "name": "The Card Scale Rule", "body": "Type printed on the card is sized in container units against the card face, so the card scales as one object from a phone to a desktop.", "section": "typography" },
-      { "name": "The No Shadow Rule", "body": "If something needs to stand out, give it an outline or a fill, never a shadow.", "section": "elevation" }
+      { "name": "The One Palette Rule", "body": "There are no seasons. Components use the fixed tokens (desk, shell, bezel, lcd, btn, cat) and never a raw hex or a date.", "section": "colors" },
+      { "name": "The AA Rule", "body": "LCD text is ink or dim on paper, white or stamped; paper on ink; or white on stamp magenta. Never white on button pink. Scanlines stay at 6% so every pair holds 4.5:1.", "section": "colors" },
+      { "name": "The Sentence Rule", "body": "Press Start 2P and Silkscreen are for a few uppercase words. Every sentence is set in Pixelify Sans.", "section": "typography" },
+      { "name": "The Unit Rule", "body": "Everything on the console is sized in u, one 344th of the device width, so the console scales as one object and tiles never drop under 53px.", "section": "layout" },
+      { "name": "The Hard Pixel Rule", "body": "Shadows have zero blur, corners are square or stepped, art is rects on a grid with crispEdges, and motion uses steps().", "section": "elevation" },
+      { "name": "The Two Paths Rule", "body": "Everything the hardware keys do is also reachable by tapping the LCD or a real link or button, and by keyboard.", "section": "components" }
     ],
     "dos": [
-      "Do use season roles (bg-board, text-ink, bg-paper) instead of fixed hex values.",
-      "Do outline every surface in 3px black and every illustration in one stroke weight.",
-      "Do draw new characters from circles and rounded rectangles with dot eyes, on a 48x48 grid.",
-      "Do size anything printed on the card in cqw.",
-      "Do check both lettering pairs for 4.5:1 when adding a season."
+      "Do size everything on the console in u and keep every key's hit area at 44px or more.",
+      "Do draw sprites as text grids with the single-character palette keys and render them as SVG rects with crispEdges.",
+      "Do give every sprite a closed 1px ink outline, one highlight, one shadow, and dot eyes.",
+      "Do use the doubled ink-plus-yellow focus ring on every focusable element.",
+      "Do keep sound and vibration behind the single persisted mute switch, and drop animation under reduced motion."
     ],
     "donts": [
-      "Don't add shadows, blur or gradients to interface surfaces. Gradients belong only to the sky behind an avatar.",
-      "Don't round the tiles or loosen the 2px grid.",
-      "Don't rotate anything except stamps.",
-      "Don't use emoji or an icon font; icons are drawn in the same round stroke.",
-      "Don't put a second primary button in one view."
+      "Don't use any third-party console name, logo, boot animation or look-alike proportions.",
+      "Don't bring back seasonal colours, a season switch or month logic.",
+      "Don't use anti-aliased art, soft shadows, blur, glows, springs, rotation or the 3D flip.",
+      "Don't set sentences in Press Start 2P or Silkscreen, or put white text on button pink.",
+      "Don't ship audio files, image files, icon fonts or emoji icons."
     ]
   }
 }

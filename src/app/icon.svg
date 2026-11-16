@@ -1,9 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect x="2" y="2" width="44" height="44" rx="10" fill="#086F8A" stroke="#000" stroke-width="4"/>
-  <g fill="none" stroke="#E8344A" stroke-linecap="round">
-    <circle cx="24" cy="24" r="13" stroke-width="4" stroke="#FFF4DC"/>
-  </g>
-  <circle cx="19" cy="21" r="2.4" fill="#FFF4DC"/>
-  <circle cx="29" cy="21" r="2.4" fill="#FFF4DC"/>
-  <path d="M17 27 Q24 34 31 27" fill="none" stroke="#FFF4DC" stroke-width="3.4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- shell edge -->
+  <rect x="2" y="0" width="12" height="16" fill="#0A4F52"/>
+  <rect x="1" y="1" width="14" height="14" fill="#0A4F52"/>
+  <!-- shell -->
+  <rect x="3" y="1" width="10" height="14" fill="#19C2B8"/>
+  <rect x="2" y="2" width="12" height="12" fill="#19C2B8"/>
+  <!-- bezel -->
+  <rect x="3" y="2" width="10" height="7" fill="#1A1C2C"/>
+  <!-- lcd -->
+  <rect x="4" y="3" width="8" height="5" fill="#E4EDC2"/>
+  <!-- stamped tiles -->
+  <rect x="5" y="4" width="2" height="2" fill="#FFD23F"/>
+  <rect x="9" y="5" width="2" height="2" fill="#C2185B"/>
+  <!-- d-pad -->
+  <rect x="4" y="11" width="3" height="1" fill="#2B2D42"/>
+  <rect x="5" y="10" width="1" height="3" fill="#2B2D42"/>
+  <!-- A and B keys -->
+  <rect x="10" y="10" width="2" height="2" fill="#FF2E88"/>
+  <rect x="8" y="12" width="2" height="2" fill="#FF2E88"/>
 </svg>

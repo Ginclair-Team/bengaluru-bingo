@@ -1,102 +1,193 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useState, type RefObject } from "react";
 import { TwitterShareButton, WhatsappShareButton } from "react-share";
+import { ArrowIcon, ChatIcon, ClubIcon, LinkIcon, PostIcon, SaveIcon } from "@/components/icons";
 import type { Score } from "@/lib/game";
-import { ChatIcon, ClubIcon, LinkIcon, PostIcon, SaveIcon } from "./icons";
 
-type Status = { kind: "idle" } | { kind: "ok" | "error"; message: string };
+export type ShareStatus = { kind: "idle" } | { kind: "ok" | "error"; message: string };
 
+export function cardUrl(code: string): string {
+  return typeof window === "undefined" ? `/card/${code}` : `${window.location.origin}/card/${code}`;
+}
+
+/** Copy the card link. Resolves to the status line to show. */
+export async function copyCardLink(code: string): Promise<ShareStatus> {
+  const url = cardUrl(code);
+  try {
+    await navigator.clipboard.writeText(url);
+    return { kind: "ok", message: "Link copied." };
+  } catch {
+    return { kind: "error", message: `Copying is blocked in this browser. Your link is ${url}` };
+  }
+}
+
+/**
+ * The share menu. Six rows, each a real control (button, react-share button
+ * or link). The Game drives the selection from the D-pad and calls .click()
+ * on the selected row when A or START is pressed.
+ */
 export function SharePanel({
   score,
   cardRef,
   friendCode,
+  selected,
+  onSelect,
+  status,
+  setStatus,
+  onLinkInfo,
+  onBack,
+  listRef,
 }: {
   score: Score;
-  /** The element to save as an image. */
-  cardRef: React.RefObject<HTMLDivElement>;
+  /** The element that contains the inline <Scorecard>, saved as an image. */
+  cardRef: RefObject<HTMLDivElement>;
   /** A friend's card this player arrived from, if any. */
   friendCode: string | null;
+  selected: number;
+  onSelect: (index: number) => void;
+  status: ShareStatus;
+  setStatus: (status: ShareStatus) => void;
+  onLinkInfo: () => void;
+  onBack: () => void;
+  listRef: RefObject<HTMLUListElement>;
 }) {
-  const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [saving, setSaving] = useState(false);
 
-  const url =
-    typeof window === "undefined" ? `/card/${score.code}` : `${window.location.origin}/card/${score.code}`;
+  const url = cardUrl(score.code);
   const text = `I am ${score.percent}% Bengaluru native (${score.badge}). Stamp your own card:`;
 
   const saveImage = useCallback(async () => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || saving) return;
     setSaving(true);
     try {
       const { toPng } = await import("html-to-image");
-      const dataUrl = await toPng(cardRef.current, { pixelRatio: 3, cacheBust: true });
+      const width = cardRef.current.getBoundingClientRect().width || 500;
+      const pixelRatio = Math.max(1, Math.ceil(1000 / width));
+      const dataUrl = await toPng(cardRef.current, { pixelRatio, cacheBust: true });
       const a = document.createElement("a");
       a.href = dataUrl;
       a.download = `bengaluru-bingo-${score.code}.png`;
       a.click();
       setStatus({ kind: "ok", message: "Image saved. It's ready for your story or status." });
     } catch {
-      setStatus({ kind: "error", message: "The image couldn't be saved here. Take a screenshot of the card instead." });
+      setStatus({
+        kind: "error",
+        message: "The image couldn't be saved here. Take a screenshot of the card instead.",
+      });
     } finally {
       setSaving(false);
     }
-  }, [cardRef, score.code]);
+  }, [cardRef, saving, score.code, setStatus]);
 
   const copyLink = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setStatus({ kind: "ok", message: "Link copied." });
-    } catch {
-      setStatus({ kind: "error", message: `Copying is blocked in this browser. Your link is ${url}` });
-    }
-  }, [url]);
+    setStatus(await copyCardLink(score.code));
+  }, [score.code, setStatus]);
+
+  const caret = (
+    <span className="caret" aria-hidden="true">
+      {">"}
+    </span>
+  );
+
+  const rows: { id: string; node: React.ReactNode }[] = [
+    {
+      id: "save",
+      node: (
+        <button type="button" className="menu-row" aria-disabled={saving || undefined} onClick={saveImage}>
+          {caret}
+          <SaveIcon className="ico" />
+          <span>{saving ? "Saving" : "Save image"}</span>
+        </button>
+      ),
+    },
+    {
+      id: "whatsapp",
+      node: (
+        <WhatsappShareButton url={url} title={text} separator=" " resetButtonStyle={false} className="menu-row">
+          {caret}
+          <ChatIcon className="ico" />
+          <span>WhatsApp</span>
+        </WhatsappShareButton>
+      ),
+    },
+    {
+      id: "x",
+      node: (
+        <TwitterShareButton url={url} title={text} resetButtonStyle={false} className="menu-row">
+          {caret}
+          <PostIcon className="ico" />
+          <span>Post on X</span>
+        </TwitterShareButton>
+      ),
+    },
+    {
+      id: "copy",
+      node: (
+        <button type="button" className="menu-row" onClick={copyLink}>
+          {caret}
+          <LinkIcon className="ico" />
+          <span>Copy link</span>
+        </button>
+      ),
+    },
+    {
+      id: "cable",
+      node: friendCode ? (
+        <Link href={`/journey/${friendCode}/${score.code}`} className="menu-row">
+          {caret}
+          <ClubIcon className="ico" />
+          <span>Link cable</span>
+          <span className="sub">
+            Club cards <span className="dot" aria-hidden="true" />
+          </span>
+        </Link>
+      ) : (
+        <button type="button" className="menu-row" onClick={onLinkInfo}>
+          {caret}
+          <ClubIcon className="ico" />
+          <span>Link cable</span>
+        </button>
+      ),
+    },
+    {
+      id: "back",
+      node: (
+        <button type="button" className="menu-row" onClick={onBack}>
+          {caret}
+          <ArrowIcon dir="left" className="ico" />
+          <span>Back to board</span>
+        </button>
+      ),
+    },
+  ];
 
   return (
-    <section aria-labelledby="share-heading" className="panel p-4">
-      <h2 id="share-heading" className="display text-lg">
-        Post your card
-      </h2>
-
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        <button type="button" className="btn btn--primary" onClick={saveImage} disabled={saving}>
-          <SaveIcon />
-          {saving ? "Saving" : "Save image"}
-        </button>
-        <WhatsappShareButton url={url} title={text} separator=" " resetButtonStyle={false} className="btn">
-          <ChatIcon />
-          WhatsApp
-        </WhatsappShareButton>
-        <TwitterShareButton url={url} title={text} resetButtonStyle={false} className="btn">
-          <PostIcon />
-          Post on X
-        </TwitterShareButton>
-        <button type="button" className="btn" onClick={copyLink}>
-          <LinkIcon />
-          Copy link
-        </button>
-      </div>
-
-      <p role="status" className="mt-2 min-h-[1.5em] break-words text-xs font-semibold">
-        {status.kind !== "idle" ? status.message : ""}
+    <>
+      <ul className="menu" ref={listRef} aria-label="Share your card">
+        {rows.map((row, i) => (
+          <li
+            key={row.id}
+            data-row
+            data-selected={selected === i}
+            data-autofocus={selected === i}
+            onFocus={() => onSelect(i)}
+            onPointerEnter={(e) => {
+              if (e.pointerType === "mouse") onSelect(i);
+            }}
+          >
+            {row.node}
+          </li>
+        ))}
+      </ul>
+      <p role="status" className="lcd-status t-body-lcd" style={{ margin: 0 }}>
+        {status.kind !== "idle"
+          ? status.message
+          : friendCode
+            ? "A friend's card is waiting on the link cable."
+            : ""}
       </p>
-
-      <h3 className="display mt-3 text-base">Club cards</h3>
-      {friendCode ? (
-        <>
-          <p className="mt-1 text-xs">Your friend's card is waiting. Put the two side by side.</p>
-          <Link href={`/journey/${friendCode}/${score.code}`} className="btn mt-3 w-full">
-            <ClubIcon />
-            Club with my friend's card
-          </Link>
-        </>
-      ) : (
-        <p className="mt-1 text-xs">
-          Send your link to a friend. When they stamp their own card, the two join into one Bingo
-          Journey: what you've both done, and what to try together.
-        </p>
-      )}
-    </section>
+    </>
   );
 }

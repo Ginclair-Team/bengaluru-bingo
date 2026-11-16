@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SeasonalScorecard } from "@/components/Cards/SeasonalScorecard";
+import { CardScorecard } from "@/components/Cards/CardScorecard";
 import { ClubActions } from "@/components/ClubActions";
+import { ScreenFrame } from "@/components/device/ScreenFrame";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { decodeMarks, scoreFor } from "@/lib/game";
 
@@ -29,24 +30,26 @@ export default function CardPage({ params }: Props) {
   const score = scoreFor(marks);
 
   return (
-    <div className="mx-auto max-w-[472px] px-3 pb-10 sm:px-4 lg:max-w-[1040px] lg:px-8">
+    <div className="mx-auto max-w-[472px] px-4 pb-10 lg:max-w-[1040px] lg:px-8">
       <SiteHeader />
-      <main className="lg:grid lg:grid-cols-[440px_minmax(0,1fr)] lg:items-start lg:gap-14">
-        <SeasonalScorecard marks={marks} />
-        <div className="mt-5 lg:mt-0 lg:max-w-[30rem]">
-          <h1 className="display text-2xl lg:text-4xl">
+      <main className="lg:grid lg:grid-cols-[380px_minmax(0,1fr)] lg:items-start lg:gap-14">
+        <ScreenFrame className="screen-frame--on-desk">
+          <CardScorecard marks={marks} className="scorecard" />
+        </ScreenFrame>
+        <div className="mt-8 lg:mt-0 lg:max-w-[30rem]">
+          <h1 className="wordmark t-display-xl" style={{ textShadow: "3px 3px 0 var(--cursor)" }}>
             A friend is {score.percent}% Bengaluru native
           </h1>
-          <p className="mt-3 text-sm font-semibold">
+          <p className="t-body mt-5">
             They stamped {score.marked} of 25 tiles and earned the {score.badge} badge. Stamp your
             own card to see where you two overlap.
           </p>
-          <div className="mt-5">
+          <div className="mt-6">
             <ClubActions friendCode={score.code} />
           </div>
         </div>
       </main>
-      <SiteFooter />
+      <SiteFooter className="mt-10" />
     </div>
   );
 }

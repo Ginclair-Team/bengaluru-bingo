@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ClubIcon } from "@/components/icons";
+import { ArrowIcon, ClubIcon } from "@/components/icons";
 import { encodeMarks } from "@/lib/game";
 import { loadGame } from "@/lib/storage";
 
@@ -16,14 +16,15 @@ export function ClubActions({ friendCode }: { friendCode: string }) {
   }, []);
 
   return (
-    <div className="grid gap-2">
+    <div className="flex flex-col items-stretch sm:flex-row sm:flex-wrap sm:items-start">
       {mine && mine !== friendCode ? (
         <>
           <Link href={`/journey/${friendCode}/${mine}`} className="btn btn--primary">
-            <ClubIcon />
-            Club with my card
+            <ClubIcon className="ico" />
+            Link cable: club with my card
           </Link>
           <Link href="/" className="btn">
+            <ArrowIcon dir="left" className="ico" />
             Back to my board
           </Link>
         </>

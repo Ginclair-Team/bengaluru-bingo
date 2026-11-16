@@ -1,21 +1,37 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
+import { ScreenFrame } from "@/components/device/ScreenFrame";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-[472px] px-3 pb-10 sm:px-4 lg:max-w-[1040px] lg:px-8">
+    <div className="mx-auto max-w-[472px] px-4 pb-10">
       <SiteHeader />
-      <main className="py-10">
-        <h1 className="display text-3xl">That card isn't on the board</h1>
-        <p className="mt-3 max-w-[36rem] text-sm font-semibold">
+      <main className="py-6">
+        <div className="mx-auto max-w-[360px]">
+          <ScreenFrame className="screen-frame--on-desk">
+            <div className="flex flex-col items-center gap-4 px-4 py-8" aria-hidden="true">
+              <div style={{ "--s": "64px" } as CSSProperties}>
+                <BingoCardIllustrator id="elephant" className="spr" />
+              </div>
+              <p className="t-display-l m-0 text-center">No card found</p>
+              <span className="block-cursor" />
+            </div>
+          </ScreenFrame>
+        </div>
+        <h1 className="sr-only">That card isn&apos;t on the board</h1>
+        <p className="t-body mx-auto mt-6 max-w-[36rem] text-center">
           The link is incomplete or was mistyped. Ask your friend to send it again, or stamp a card
           of your own.
         </p>
-        <Link href="/" className="btn btn--primary mt-5">
-          Stamp my own card
-        </Link>
+        <div className="mt-4 flex justify-center">
+          <Link href="/" className="btn btn--primary">
+            Stamp my own card
+          </Link>
+        </div>
       </main>
-      <SiteFooter />
+      <SiteFooter className="text-center" />
     </div>
   );
 }

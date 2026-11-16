@@ -1,100 +1,210 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { useMemo, useState, useEffect, type CSSProperties } from "react";
 import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
-import { TILES, isMarked, type Marks } from "@/lib/game";
+import { stampBadgeSvg } from "@/components/BingoCardIllustrator/art";
+import { categoryGlyphSvg } from "@/components/Cards/glyphs";
+import { StarIcon } from "@/components/icons";
+import { CATEGORIES, GRID, TILES, TILE_COUNT, countMarks, isMarked, type Marks } from "@/lib/game";
 
-// Weighty springs: tiles settle into the board once on load, and a stamp
-// lands with a thud rather than a fade.
-const gridVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.028, delayChildren: 0.08 } },
+export type Celebration = {
+  id: number;
+  /** Tiles to flash, in order. */
+  cells: number[];
+  banner: string;
+  full: boolean;
 };
 
-const tileVariants = {
-  hidden: { y: -14, scale: 0.88 },
-  show: { y: 0, scale: 1, transition: { type: "spring", stiffness: 210, damping: 17, mass: 1.35 } },
-};
+const CONFETTI = ["--cursor", "--lcd-stamped", "--cat-outdoors", "--cat-hustle"];
+const CONFETTI_X = [22, 58, 96, 130, 170, 206, 240, 40, 118, 188, 76, 262];
 
-/** Each stamp sits at its own slightly careless angle, the same every visit. */
-function stampAngle(index: number): number {
-  return ((index * 47) % 37) - 18;
-}
+// The tiles-in animation plays on the first board paint of a page load only.
+let introPlayed = false;
 
-function Stamp({ index }: { index: number }) {
-  const angle = stampAngle(index);
-  return (
-    <motion.span
-      className="tile-stamp"
-      initial={{ scale: 1.9, opacity: 0, rotate: angle - 14 }}
-      animate={{ scale: 1, opacity: 0.92, rotate: angle }}
-      exit={{ scale: 0.92, opacity: 0, transition: { duration: 0.12 } }}
-      transition={{ type: "spring", stiffness: 520, damping: 21, mass: 1.1 }}
-    >
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeLinecap="round" aria-hidden="true">
-        <circle cx="24" cy="24" r="21" strokeWidth="2.6" strokeDasharray="58 3 40 2 26 4" />
-        <circle cx="17" cy="19" r="2.4" fill="currentColor" stroke="none" />
-        <circle cx="31" cy="19" r="2.4" fill="currentColor" stroke="none" />
-        <path d="M13 28 Q24 40 35 28" strokeWidth="2.6" />
-      </svg>
-    </motion.span>
-  );
-}
-
+/** The 5 x 5 LCD board: header letters, the grid, and the info bar. */
 export function Board({
   marks,
-  focused,
-  onToggle,
+  cursor,
+  hover,
+  touched,
+  lines,
+  fresh,
+  celebrate,
+  onTap,
+  onHover,
 }: {
   marks: Marks;
-  focused: number | null;
-  onToggle: (index: number) => void;
+  cursor: number;
+  /** A tile under a fine pointer; the info bar previews it. */
+  hover: number | null;
+  /** False until the first input; the info bar shows the controls hint. */
+  touched: boolean;
+  lines: number;
+  fresh: { index: number; n: number } | null;
+  celebrate: Celebration | null;
+  onTap: (index: number) => void;
+  onHover: (index: number | null) => void;
 }) {
+  const [intro] = useState(() => !introPlayed);
+  useEffect(() => {
+    introPlayed = true;
+  }, []);
+
+  const badge = useMemo(() => stampBadgeSvg(), []);
+  const shown = hover ?? cursor;
+  const tile = TILES[shown];
+  const shownMarked = isMarked(marks, shown);
+  const cat = CATEGORIES[tile.category];
+  const col = cursor % GRID;
+  const row = Math.floor(cursor / GRID);
+  const flashOrder = useMemo(() => {
+    const map = new Map<number, number>();
+    celebrate?.cells.forEach((c, i) => map.set(c, i));
+    return map;
+  }, [celebrate]);
+  const step = celebrate?.full ? 40 : 60;
+
   return (
-    <div className="board">
-      <div className="board-letters" aria-hidden="true">
-        {"BINGO".split("").map((letter) => (
-          <span key={letter}>{letter}</span>
-        ))}
+    <div className="lcd-screen">
+      <div className="lcd-header" style={{ padding: 0, position: "relative" }}>
+        <div className="board-letters t-display-s" aria-hidden="true">
+          {"BINGO".split("").map((letter) => (
+            <span key={letter}>{letter}</span>
+          ))}
+        </div>
+        {celebrate && (
+          <div key={celebrate.id} className="banner t-display-s" aria-hidden="true">
+            {celebrate.banner}
+          </div>
+        )}
       </div>
 
-      <motion.div
+      <div
         className="board-grid"
-        role="group"
+        role="grid"
         aria-label="Bingo card, 25 tiles"
-        variants={gridVariants}
-        initial="hidden"
-        animate="show"
+        data-intro={intro}
+        onPointerLeave={() => onHover(null)}
       >
-        {TILES.map((tile, index) => {
-          const marked = isMarked(marks, index);
-          return (
-            <motion.button
-              key={tile.id}
-              type="button"
-              className="tile"
-              variants={tileVariants}
-              whileHover={{ scale: 1.05, zIndex: 2 }}
-              whileTap={{ scale: 0.95 }}
-              aria-pressed={marked}
-              aria-label={`${tile.name}. ${tile.blurb}`}
-              data-focused={focused === index}
-              onClick={() => onToggle(index)}
-            >
-              <span>{tile.top}</span>
-              <BingoCardIllustrator id={tile.id} className="tile-art" strokeWidth={2.4} />
-              <span>{tile.bottom}</span>
-              <AnimatePresence initial={false}>{marked && <Stamp index={index} />}</AnimatePresence>
-            </motion.button>
-          );
-        })}
-      </motion.div>
-
-      <div className="board-foot" aria-hidden="true">
-        <span>Bengaluru</span>
-        <strong>Namma Ooru</strong>
-        <span className="text-right">Ginhouse</span>
+        {Array.from({ length: GRID }, (_, r) => (
+          <div key={r} role="row" className="board-row">
+            {Array.from({ length: GRID }, (_, c) => {
+              const index = r * GRID + c;
+              const t = TILES[index];
+              const marked = isMarked(marks, index);
+              const flashIdx = flashOrder.get(index);
+              return (
+                <div
+                  key={t.id}
+                  role="gridcell"
+                  className="board-cell"
+                  style={{ "--row": r } as CSSProperties}
+                >
+                  <button
+                    type="button"
+                    className="tile"
+                    data-tile={index}
+                    data-autofocus={cursor === index}
+                    data-fresh={fresh?.index === index && marked ? true : undefined}
+                    data-flash={flashIdx !== undefined ? true : undefined}
+                    style={
+                      flashIdx !== undefined
+                        ? ({ "--d": `${flashIdx * step}ms` } as CSSProperties)
+                        : undefined
+                    }
+                    tabIndex={cursor === index ? 0 : -1}
+                    aria-pressed={marked}
+                    aria-label={`${t.name}. ${t.blurb}`}
+                    onClick={() => onTap(index)}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType === "mouse") onHover(index);
+                    }}
+                  >
+                    <BingoCardIllustrator id={t.id} className="spr tile-art" />
+                    <span className="tile-label t-label">{t.short}</span>
+                    {marked && (
+                      <span
+                        className="tile-badge"
+                        aria-hidden="true"
+                        dangerouslySetInnerHTML={{ __html: badge }}
+                      />
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+        <div
+          className="cursor"
+          role="presentation"
+          aria-hidden="true"
+          style={{
+            transform: `translate(calc(${col * 58} * var(--u)), calc(${row * 58} * var(--u)))`,
+          }}
+        >
+          <div className="cursor-inner">
+            <i className="cursor-c tl" />
+            <i className="cursor-c tr" />
+            <i className="cursor-c bl" />
+            <i className="cursor-c br" />
+          </div>
+        </div>
       </div>
+
+      <div className="infobar">
+        <span className="sr-only-live" aria-live="polite" aria-atomic="true">
+          {touched || hover !== null
+            ? `${tile.name}, ${shownMarked ? "stamped" : "not stamped"}`
+            : ""}
+        </span>
+        <div aria-hidden="true">
+          {touched || hover !== null ? (
+            <>
+              <div className="infobar-line1">
+                <span className="infobar-name t-body-strong">{tile.name}</span>
+                <span className="infobar-count">
+                  <span className="t-display-s">
+                    {countMarks(marks)}/{TILE_COUNT}
+                  </span>
+                  {Array.from({ length: Math.min(lines, 5) }, (_, i) => (
+                    <StarIcon key={i} className="ico" />
+                  ))}
+                  {lines > 5 && <span className="t-label">x{lines}</span>}
+                </span>
+              </div>
+              <div className="infobar-detail">
+                <span className="chip t-label" style={{ background: `var(--cat-${tile.category})` }}>
+                  <span
+                    className="glyph"
+                    dangerouslySetInnerHTML={{ __html: categoryGlyphSvg(tile.category) }}
+                  />
+                  {cat.label}
+                </span>
+                <span className="blurb t-body-lcd">{tile.blurb}</span>
+              </div>
+            </>
+          ) : (
+            <p className="t-label" style={{ margin: 0, padding: "calc(14 * var(--u)) 0", textAlign: "center" }}>
+              D-PAD MOVE &middot; A STAMP &middot; START SCORE
+            </p>
+          )}
+        </div>
+      </div>
+
+      {celebrate &&
+        CONFETTI_X.map((x, i) => (
+          <i
+            key={`${celebrate.id}-${i}`}
+            className="confetti"
+            aria-hidden="true"
+            style={{
+              left: `calc(${x} * var(--u))`,
+              background: `var(${CONFETTI[i % CONFETTI.length]})`,
+              animationDelay: `${(i % 4) * 40}ms`,
+            }}
+          />
+        ))}
     </div>
   );
 }

@@ -1,136 +1,626 @@
 import type { CategoryId } from "@/lib/game";
+import { spriteRects, type Sprite } from "@/lib/pixel";
+import { TILE_ART } from "@/components/BingoCardIllustrator/art";
 
-// Scorecard characters, one per badge. Drawn on a 240x176 scene: thick black
-// outline, flat fills, a two-stop pastel sky behind. Plain SVG strings so the
-// same drawing works in the page and in the server-rendered image.
+// Avatar scenes: 64 x 44 pixel grids (DESIGN.md section 8), shown at 7px per
+// pixel on the scorecard. Each scene is composed from layers (sky, ground,
+// props, then a character) with a few small drawing helpers, then frozen into
+// a Sprite (an array of equal-length strings, one char per pixel).
+//
+// Composition rule: head and shoulders sit slightly left of centre, the
+// horizon is at row 32, and the score plaque covers the bottom-right 26 x 10.
 
 export type AvatarId = CategoryId | "none";
 
-function sky(id: string, from: string, to: string): string {
-  return (
-    `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">` +
-    `<stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/>` +
-    `</linearGradient></defs>` +
-    `<rect x="-4" y="-4" width="248" height="184" fill="url(#${id})" stroke="none"/>`
-  );
+const W = 64;
+const H = 44;
+type Grid = string[][];
+
+const blank = (ch = "."): Grid => Array.from({ length: H }, () => Array<string>(W).fill(ch));
+
+function px(g: Grid, x: number, y: number, c: string) {
+  if (x >= 0 && y >= 0 && x < W && y < H) g[y][x] = c;
+}
+function rect(g: Grid, x: number, y: number, w: number, h: number, c: string) {
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(g, x + i, y + j, c);
+}
+/** Filled ellipse; (cx, cy) are continuous coordinates (pixel centres at +0.5). */
+function ell(g: Grid, cx: number, cy: number, rx: number, ry: number, c: string) {
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const dx = (x + 0.5 - cx) / rx;
+      const dy = (y + 0.5 - cy) / ry;
+      if (dx * dx + dy * dy <= 1) g[y][x] = c;
+    }
+}
+/** Filled triangle. */
+function tri(g: Grid, a: [number, number], b: [number, number], c: [number, number], ch: string) {
+  const sign = (p: [number, number], q: [number, number], r: [number, number]) =>
+    (p[0] - r[0]) * (q[1] - r[1]) - (q[0] - r[0]) * (p[1] - r[1]);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const p: [number, number] = [x + 0.5, y + 0.5];
+      const d1 = sign(p, a, b);
+      const d2 = sign(p, b, c);
+      const d3 = sign(p, c, a);
+      const neg = d1 < 0 || d2 < 0 || d3 < 0;
+      const pos = d1 > 0 || d2 > 0 || d3 > 0;
+      if (!(neg && pos)) g[y][x] = ch;
+    }
+}
+/** A fat line made of discs. */
+function thick(g: Grid, x0: number, y0: number, x1: number, y1: number, r: number, c: string) {
+  const n = Math.ceil(Math.hypot(x1 - x0, y1 - y0) * 2) + 1;
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    ell(g, x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, r, r, c);
+  }
+}
+function checker(g: Grid, x: number, y: number, w: number, h: number, a: string, b: string) {
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(g, x + i, y + j, (x + i + y + j) % 2 === 0 ? a : b);
+}
+function stamp(g: Grid, src: Sprite, ox: number, oy: number) {
+  src.forEach((row, j) => {
+    for (let i = 0; i < row.length; i++) if (row[i] !== ".") px(g, ox + i, oy + j, row[i]);
+  });
+}
+/** Composite `top` over `base`; "." in `top` is transparent. */
+function over(base: Grid, top: Grid) {
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (top[y][x] !== ".") base[y][x] = top[y][x];
+}
+/** 1px shadow on the right/bottom edge of every `fill` pixel. */
+function shade(t: Grid, fill: string, shadow: string) {
+  const src = t.map((r) => r.slice());
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      if (src[y][x] !== fill) continue;
+      const r = x + 1 < W ? src[y][x + 1] : ".";
+      const b = y + 1 < H ? src[y + 1][x] : ".";
+      if (r !== fill || b !== fill) t[y][x] = shadow;
+    }
+}
+/** Ink outline of `n` pixels around the silhouette of a layer. */
+function outline(t: Grid, n: number): Grid {
+  let cur = t.map((r) => r.slice());
+  for (let k = 0; k < n; k++) {
+    const next = cur.map((r) => r.slice());
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++) {
+        if (cur[y][x] !== ".") continue;
+        if (
+          (x > 0 && cur[y][x - 1] !== ".") ||
+          (x + 1 < W && cur[y][x + 1] !== ".") ||
+          (y > 0 && cur[y - 1][x] !== ".") ||
+          (y + 1 < H && cur[y + 1][x] !== ".")
+        )
+          next[y][x] = "K";
+      }
+    cur = next;
+  }
+  return cur;
+}
+/** Draw a body part on its own layer, shade it, then add it to `into`. */
+function part(into: Grid, draw: (t: Grid) => void, fill?: string, shadow?: string) {
+  const t = blank(".");
+  draw(t);
+  if (fill && shadow) shade(t, fill, shadow);
+  over(into, t);
+}
+/** An ink-ringed ellipse (ring first, then fill). */
+function ring(t: Grid, cx: number, cy: number, rx: number, ry: number, fill: string) {
+  ell(t, cx, cy, rx + 1, ry + 1, "K");
+  ell(t, cx, cy, rx, ry, fill);
+}
+function toSprite(g: Grid): Sprite {
+  return g.map((r) => r.join(""));
+}
+/** Scatter single pixels. */
+function dots(g: Grid, pts: [number, number][], c: string) {
+  pts.forEach(([x, y]) => px(g, x, y, c));
 }
 
-function eyes(y: number, r = 5): string {
-  return (
-    `<circle cx="98" cy="${y}" r="${r}" fill="#000" stroke="none"/>` +
-    `<circle cx="142" cy="${y}" r="${r}" fill="#000" stroke="none"/>`
-  );
+function ground(g: Grid, c: string, edge?: string) {
+  rect(g, 0, 32, W, H - 32, c);
+  if (edge) rect(g, 0, 32, W, 1, edge);
 }
 
-const body = (fill: string) =>
-  `<path d="M52 180 V152 Q52 120 86 120 H154 Q188 120 188 152 V180 Z" fill="${fill}"/>`;
+// ---------------------------------------------------------------- food
+function food(): Grid {
+  const g = blank("L");
+  // Red sun, top-left.
+  part(g, (t) => {
+    ring(t, 9, 9, 4.5, 4.5, "R");
+    px(t, 7, 6, "W");
+    px(t, 8, 6, "W");
+    px(t, 6, 7, "W");
+  }, "R", "M");
+  // A cloud.
+  part(g, (t) => {
+    ell(t, 49, 9, 6, 3.5, "W");
+    ell(t, 54, 7, 4, 3, "W");
+    ell(t, 44, 10, 4, 2.5, "W");
+  }, "W", "S");
+  ground(g, "G", "D");
+  dots(g, [[4, 36], [5, 36], [13, 40], [14, 40], [26, 38], [27, 38], [34, 41], [35, 41], [47, 36], [48, 36], [58, 39], [59, 39]], "D");
 
-const SCENES: Record<AvatarId, (uid: string) => string> = {
-  // Foodie: an elephant with a dosa.
-  food: (uid) =>
-    sky(`sky-${uid}`, "#8FD6FF", "#E4F7FF") +
-    `<circle cx="36" cy="34" r="16" fill="#FF4757"/>` +
-    `<rect x="-4" y="134" width="248" height="50" fill="#5FD08A"/>` +
-    `<ellipse cx="62" cy="84" rx="30" ry="38" fill="#FF8FB8"/>` +
-    `<ellipse cx="178" cy="84" rx="30" ry="38" fill="#FF8FB8"/>` +
-    body("#FF4757") +
-    `<rect x="70" y="32" width="100" height="100" rx="44" fill="#FFB8D4"/>` +
-    `<path d="M108 94 H132 V138 Q132 156 150 152 V170 Q108 176 108 138 Z" fill="#FFB8D4"/>` +
-    eyes(80) +
-    `<path d="M178 172 L205 108 L232 172 Z" fill="#FFC93C"/>` +
-    `<circle cx="190" cy="160" r="11" fill="#FFB8D4"/>`,
+  const L = blank(".");
+  const cx = 36;
+  // Ears, inner ear shaded.
+  part(L, (t) => {
+    ring(t, cx - 17.5, 19, 8, 10.5, "P");
+    ring(t, cx + 17.5, 19, 8, 10.5, "P");
+  }, "P", "M");
+  part(L, (t) => {
+    ell(t, cx - 18.5, 20, 4, 7, "M");
+    ell(t, cx + 18.5, 20, 4, 7, "M");
+  });
+  // Red shirt.
+  part(L, (t) => {
+    ring(t, cx, 47, 21, 15, "R");
+    px(t, cx - 14, 36, "W");
+    px(t, cx - 13, 36, "W");
+    px(t, cx - 14, 37, "W");
+  }, "R", "M");
+  // Head.
+  part(L, (t) => {
+    ring(t, cx, 18, 13.5, 12.5, "P");
+    px(t, cx - 8, 9, "W");
+    px(t, cx - 7, 9, "W");
+    px(t, cx - 9, 10, "W");
+    px(t, cx - 8, 10, "W");
+  }, "P", "M");
+  // Trunk, down the middle.
+  part(L, (t) => {
+    rect(t, cx - 4, 22, 8, 13, "K");
+    rect(t, cx - 3, 22, 6, 12, "P");
+    rect(t, cx - 3, 34, 7, 1, "K");
+    rect(t, cx - 2, 35, 6, 1, "K");
+    rect(t, cx + 1, 33, 4, 2, "P");
+    px(t, cx + 4, 34, "K");
+    px(t, cx + 5, 33, "K");
+    px(t, cx + 5, 34, "K");
+    px(t, cx - 3, 22, "P");
+    px(t, cx + 2, 22, "P");
+  }, "P", "M");
+  // Arm and hand lifting the dosa.
+  part(L, (t) => {
+    thick(t, 22, 40, 11, 33, 3.5, "K");
+    thick(t, 22, 40, 11, 33, 2.5, "P");
+    ring(t, 8.5, 32, 3.5, 2.8, "P");
+  }, "P", "M");
+  const body = outline(L, 2);
+  over(g, body);
+  // Face: 2x2 eyes, blush, wrinkles on the trunk.
+  rect(g, cx - 6, 15, 2, 2, "K");
+  rect(g, cx + 4, 15, 2, 2, "K");
+  rect(g, cx - 11, 21, 3, 1, "M");
+  rect(g, cx + 8, 21, 3, 1, "M");
+  rect(g, cx - 2, 27, 3, 1, "M");
+  rect(g, cx - 2, 30, 4, 1, "M");
+  // The dosa, held up.
+  stamp(g, TILE_ART.dosa, -1, 15);
+  return g;
+}
 
-  // Tech Guru: a cat behind a laptop.
-  hustle: (uid) =>
-    sky(`sky-${uid}`, "#D6C2FF", "#FFD6E8") +
-    `<circle cx="204" cy="34" r="17" fill="#FFC93C"/>` +
-    body("#3CC47C") +
-    `<path d="M78 62 L82 20 L114 46 Z" fill="#FFA53C"/>` +
-    `<path d="M162 62 L158 20 L126 46 Z" fill="#FFA53C"/>` +
-    `<rect x="72" y="38" width="96" height="86" rx="36" fill="#FFA53C"/>` +
-    eyes(76) +
-    `<path d="M115 88 H125 L120 94 Z" fill="#FF8FB8"/>` +
-    `<path d="M120 94 V99 M120 99 Q114 106 109 100 M120 99 Q126 106 131 100 M84 90 H64 M84 98 L66 105 M156 90 H176 M156 98 L174 105" fill="none"/>` +
-    `<rect x="66" y="132" width="108" height="50" rx="6" fill="#C9D3DA"/>` +
-    `<circle cx="120" cy="156" r="7" fill="#FFF4DC"/>` +
-    `<rect x="190" y="140" width="30" height="42" rx="4" fill="#FFF4DC"/>` +
-    `<rect x="186" y="132" width="38" height="10" rx="3" fill="#A0623A"/>`,
+// ------------------------------------------------------------- commute
+function commute(): Grid {
+  const g = blank("U");
+  // Moon (crescent) and stars.
+  ell(g, 53, 9, 5, 5, "Y");
+  ell(g, 55.5, 8, 4.2, 4.2, "U");
+  dots(g, [[13, 7], [22, 3], [41, 5], [59, 16], [61, 5]], "W");
+  // Road with lane dashes and red tail-lights along the horizon.
+  ground(g, "K", "H");
+  for (let x = 2; x < W; x += 10) rect(g, x, 40, 5, 1, "H");
+  for (const x of [11, 19, 44, 52, 59]) {
+    px(g, x, 30, "R");
+    px(g, x + 1, 30, "R");
+    px(g, x, 31, "R");
+    px(g, x + 1, 31, "R");
+  }
+  // Traffic light post, left edge.
+  rect(g, 3, 24, 2, 19, "H");
+  rect(g, 4, 24, 1, 19, "S");
+  rect(g, 0, 4, 8, 21, "K");
+  rect(g, 2, 7, 4, 4, "R");
+  px(g, 2, 7, "W");
+  rect(g, 2, 12, 4, 4, "O");
+  rect(g, 2, 17, 4, 4, "D");
+  rect(g, 1, 6, 1, 1, "R");
+  rect(g, 6, 6, 1, 1, "R");
 
-  // Jam Survivor: a wolf in a riding helmet, out after dark.
-  commute: (uid) =>
-    sky(`sky-${uid}`, "#2B3A8C", "#7C6BD6") +
-    `<circle cx="40" cy="36" r="17" fill="#FFC93C"/>` +
-    `<path d="M196 28 V40 M190 34 H202 M214 70 V78 M210 74 H218" fill="none" stroke="#FFF4DC"/>` +
-    body("#FF8FB8") +
-    `<path d="M80 60 L76 22 L108 46 Z" fill="#8FB2E8"/>` +
-    `<path d="M160 60 L164 22 L132 46 Z" fill="#8FB2E8"/>` +
-    `<rect x="72" y="40" width="96" height="88" rx="34" fill="#8FB2E8"/>` +
-    `<path d="M68 76 Q68 20 120 20 Q172 20 172 76 Z" fill="#FF8A3D"/>` +
-    `<path d="M68 66 H172" fill="none"/>` +
-    `<ellipse cx="120" cy="108" rx="26" ry="17" fill="#E3EEFF"/>` +
-    `<ellipse cx="120" cy="100" rx="7" ry="5" fill="#000"/>` +
-    `<path d="M120 105 V112 M111 113 Q120 120 129 113" fill="none"/>` +
-    eyes(88),
+  const L = blank(".");
+  const cx = 30;
+  // Pointed ears behind the helmet.
+  part(L, (t) => {
+    tri(t, [cx - 14, 14], [cx - 11, 1], [cx - 4, 8], "S");
+    tri(t, [cx + 14, 14], [cx + 11, 1], [cx + 4, 8], "S");
+  }, "S", "H");
+  // Shoulders (steel) and a hi-vis strap.
+  part(L, (t) => {
+    ring(t, cx, 48, 21, 16, "S");
+    px(t, cx - 13, 37, "W");
+    px(t, cx - 12, 37, "W");
+  }, "S", "H");
+  part(L, (t) => {
+    tri(t, [cx - 6, 35], [cx - 2, 35], [cx - 11, 43], "Y");
+    tri(t, [cx + 6, 35], [cx + 2, 35], [cx + 11, 43], "Y");
+  });
+  // Head.
+  part(L, (t) => {
+    ring(t, cx, 20, 13.5, 12, "S");
+  }, "S", "H");
+  // Muzzle.
+  part(L, (t) => {
+    ring(t, cx, 29.5, 6.5, 4.5, "W");
+  }, "W", "S");
+  // Inner ears.
+  tri(L, [cx - 12, 11], [cx - 10, 3], [cx - 6, 8], "P");
+  tri(L, [cx + 12, 11], [cx + 10, 3], [cx + 6, 8], "P");
+  // Orange riding helmet with a visor.
+  part(L, (t) => {
+    ell(t, cx, 14, 15.5, 10.5, "K");
+    ell(t, cx, 14, 14.5, 9.5, "O");
+    for (let y = 16; y < H; y++) for (let x = 0; x < W; x++) t[y][x] = ".";
+    px(t, cx - 8, 7, "W");
+    px(t, cx - 7, 7, "W");
+    px(t, cx - 9, 8, "W");
+    px(t, cx - 8, 8, "W");
+  }, "O", "R");
+  part(L, (t) => {
+    rect(t, cx - 15, 16, 30, 5, "K");
+    rect(t, cx - 14, 17, 28, 3, "H");
+    rect(t, cx - 13, 17, 6, 1, "W");
+  });
+  const body = outline(L, 2);
+  over(g, body);
+  rect(g, cx - 6, 22, 2, 2, "K");
+  rect(g, cx + 4, 22, 2, 2, "K");
+  rect(g, cx - 2, 26, 4, 2, "K");
+  rect(g, cx - 1, 31, 2, 1, "K");
+  return g;
+}
 
-  // Park Walker: a parakeet on a branch.
-  outdoors: (uid) =>
-    sky(`sky-${uid}`, "#B9F2C8", "#FFF6BE") +
-    `<circle cx="200" cy="38" r="19" fill="#FF8A3D"/>` +
-    `<path d="M-4 150 Q50 96 110 140 Q170 100 244 146 V184 H-4 Z" fill="#5FD08A"/>` +
-    `<path d="M98 128 L84 180 H114 Z" fill="#4DA8F7"/>` +
-    `<rect x="-4" y="142" width="248" height="15" fill="#A0623A"/>` +
-    `<path d="M116 40 Q124 18 138 30 Q130 34 134 42 Z" fill="#FF4757"/>` +
-    `<ellipse cx="124" cy="92" rx="50" ry="56" fill="#FF4757"/>` +
-    `<path d="M152 66 Q190 96 160 142 Q130 124 152 66 Z" fill="#4DA8F7"/>` +
-    `<path d="M158 100 Q172 112 160 132" fill="none"/>` +
-    `<path d="M84 70 Q58 76 70 102 Q86 98 92 84 Z" fill="#FFC93C"/>` +
-    `<circle cx="106" cy="70" r="9" fill="#FFF4DC"/>` +
-    `<circle cx="106" cy="70" r="3.6" fill="#000" stroke="none"/>` +
-    `<path d="M112 146 V156 M134 146 V156" fill="none"/>`,
+// ------------------------------------------------------------ outdoors
+function blossom(g: Grid, x: number, y: number) {
+  part(g, (t) => {
+    ell(t, x, y, 3.2, 3.2, "P");
+    ell(t, x - 3, y + 2, 2.6, 2.6, "P");
+    ell(t, x + 3, y + 2, 2.6, 2.6, "P");
+    px(t, x - 1, y - 1, "W");
+    px(t, x, y - 1, "W");
+  }, "P", "M");
+  px(g, Math.round(x), Math.round(y) + 1, "Y");
+}
+function outdoors(): Grid {
+  const g = blank("L");
+  ell(g, 54, 14, 5, 2.4, "W");
+  ell(g, 50, 15, 4, 2, "W");
+  ground(g, "G", "D");
+  dots(g, [[5, 38], [6, 38], [20, 41], [21, 41], [38, 37], [39, 37], [52, 40], [53, 40]], "D");
+  // Blossom clusters, top corners.
+  rect(g, 0, 3, 14, 2, "N");
+  rect(g, 2, 5, 2, 4, "N");
+  rect(g, 50, 3, 14, 2, "N");
+  rect(g, 59, 5, 2, 4, "N");
+  blossom(g, 5, 6);
+  blossom(g, 12, 8);
+  blossom(g, 59, 6);
+  blossom(g, 52, 8);
+  // One falling petal.
+  px(g, 45, 24, "P");
+  px(g, 46, 24, "P");
+  px(g, 46, 25, "M");
 
-  // Quiz Captain: an owl with a pint.
-  scene: (uid) =>
-    sky(`sky-${uid}`, "#2B1E5C", "#7A4FE0") +
-    `<circle cx="38" cy="36" r="17" fill="#FFC93C"/>` +
-    `<path d="M200 30 V42 M194 36 H206 M24 84 V92 M20 88 H28" fill="none" stroke="#FFF4DC"/>` +
-    `<path d="M82 52 L78 20 L106 40 Z" fill="#B78BEA"/>` +
-    `<path d="M158 52 L162 20 L134 40 Z" fill="#B78BEA"/>` +
-    `<path d="M62 180 V100 Q62 34 120 34 Q178 34 178 100 V180 Z" fill="#B78BEA"/>` +
-    `<ellipse cx="120" cy="150" rx="34" ry="38" fill="#FFF4DC"/>` +
-    `<circle cx="98" cy="84" r="20" fill="#FFF4DC"/>` +
-    `<circle cx="142" cy="84" r="20" fill="#FFF4DC"/>` +
-    `<circle cx="98" cy="84" r="7" fill="#000" stroke="none"/>` +
-    `<circle cx="142" cy="84" r="7" fill="#000" stroke="none"/>` +
-    `<path d="M111 104 H129 L120 120 Z" fill="#FFC93C"/>` +
-    `<path d="M214 132 H222 Q232 132 232 142 V148 Q232 158 222 158 H214" fill="none"/>` +
-    `<rect x="184" y="124" width="32" height="50" rx="4" fill="#FFC93C"/>` +
-    `<path d="M180 128 Q178 112 192 116 Q200 106 208 114 Q222 112 220 128 Z" fill="#FFF4DC"/>`,
+  const L = blank(".");
+  const cx = 30;
+  // Wing and body.
+  part(L, (t) => {
+    ring(t, cx, 45, 16, 15, "G");
+    px(t, cx - 10, 33, "W");
+    px(t, cx - 9, 33, "W");
+  }, "G", "D");
+  part(L, (t) => {
+    ring(t, cx + 7, 42, 8, 9, "D");
+  }, "D", "K");
+  // Head.
+  part(L, (t) => {
+    ring(t, cx, 17, 13.5, 12.5, "G");
+    px(t, cx - 9, 8, "W");
+    px(t, cx - 8, 8, "W");
+    px(t, cx - 10, 9, "W");
+    px(t, cx - 9, 9, "W");
+  }, "G", "D");
+  // Yellow collar.
+  part(L, (t) => {
+    ell(t, cx, 30, 11, 3.5, "K");
+    ell(t, cx, 29.5, 10, 2.5, "Y");
+  }, "Y", "O");
+  // Eye rings, a feather crest and a hooked red beak.
+  part(L, (t) => {
+    ell(t, cx - 6.5, 14.5, 3.4, 3.4, "W");
+    ell(t, cx + 6.5, 14.5, 3.4, 3.4, "W");
+  });
+  dots(L, [[cx - 3, 4], [cx - 2, 4], [cx - 1, 4], [cx, 4], [cx + 1, 4], [cx + 2, 4], [cx - 2, 5], [cx - 1, 5], [cx, 5], [cx + 1, 5]], "D");
+  part(L, (t) => {
+    tri(t, [cx - 5, 19], [cx + 5, 19], [cx + 0.5, 28], "K");
+    tri(t, [cx - 4, 19.5], [cx + 4, 19.5], [cx + 0.5, 26.5], "R");
+    px(t, cx - 2, 21, "W");
+    px(t, cx - 1, 21, "W");
+  }, "R", "M");
+  const body = outline(L, 2);
+  over(g, body);
+  rect(g, cx - 8, 14, 2, 2, "K");
+  rect(g, cx + 6, 14, 2, 2, "K");
+  // Brown branch across the frame, in front of the feet.
+  const br = blank(".");
+  thick(br, -2, 38, 66, 33, 2.6, "N");
+  shade(br, "N", "K");
+  const brk = outline(br, 1);
+  over(g, brk);
+  dots(g, [[8, 38], [9, 38], [22, 36], [23, 36], [40, 35], [41, 35], [55, 33], [56, 33]], "K");
+  return g;
+}
 
-  // New Arrival: a fox with a suitcase.
-  none: (uid) =>
-    sky(`sky-${uid}`, "#FFE2B4", "#FFD0E2") +
-    `<circle cx="38" cy="36" r="17" fill="#FF4757"/>` +
-    `<rect x="-4" y="150" width="248" height="34" fill="#FFF4DC"/>` +
-    body("#A56EDB") +
-    `<path d="M78 62 L72 18 L110 44 Z" fill="#FF8A3D"/>` +
-    `<path d="M162 62 L168 18 L130 44 Z" fill="#FF8A3D"/>` +
-    `<path d="M68 72 Q68 36 120 36 Q172 36 172 72 Q172 96 120 130 Q68 96 68 72 Z" fill="#FF8A3D"/>` +
-    `<path d="M92 100 Q120 84 148 100 L120 130 Z" fill="#FFF4DC"/>` +
-    `<ellipse cx="120" cy="102" rx="7" ry="5" fill="#000"/>` +
-    eyes(74) +
-    `<path d="M192 122 V110 Q192 104 198 104 H208 Q214 104 214 110 V122" fill="none"/>` +
-    `<rect x="178" y="122" width="50" height="46" rx="6" fill="#4DA8F7"/>` +
-    `<path d="M178 140 H228" fill="none"/>`,
+// -------------------------------------------------------------- hustle
+function hustle(): Grid {
+  const g = blank("P");
+  // Dusk sky: violet dithered into pink.
+  rect(g, 0, 0, W, 9, "V");
+  checker(g, 0, 9, W, 3, "V", "P");
+  checker(g, 0, 12, W, 2, "P", "V");
+  // Sun low on the horizon, left.
+  part(g, (t) => {
+    ring(t, 9, 26, 5.5, 5.5, "Y");
+    px(t, 6, 23, "W");
+    px(t, 7, 23, "W");
+  }, "Y", "O");
+  // Two office towers with lit windows.
+  rect(g, 49, 9, 9, 23, "U");
+  rect(g, 56, 17, 8, 15, "U");
+  rect(g, 42, 20, 8, 12, "U");
+  for (let y = 11; y < 31; y += 4) for (const x of [51, 54]) px(g, x, y, "Y");
+  for (let y = 19; y < 31; y += 4) for (const x of [58, 61]) px(g, x, y, "Y");
+  for (let y = 22; y < 31; y += 4) px(g, 44, y, "Y");
+  px(g, 47, 25, "Y");
+  px(g, 47, 29, "Y");
+  // Desk.
+  ground(g, "N", "E");
+  dots(g, [[6, 37], [7, 37], [18, 40], [19, 40], [30, 38], [31, 38], [47, 41], [48, 41]], "K");
+  // Coffee cup, left.
+  part(g, (t) => {
+    ring(t, 8, 28, 4, 4, "C");
+    rect(t, 5, 25, 7, 1, "N");
+    rect(t, 11, 26, 3, 3, "K");
+    rect(t, 12, 27, 1, 1, "P");
+  });
+  dots(g, [[6, 21], [7, 20], [9, 20], [10, 19]], "W");
+
+  const L = blank(".");
+  const cx = 28;
+  // Ears.
+  part(L, (t) => {
+    tri(t, [cx - 14, 15], [cx - 11, 1], [cx - 3, 8], "O");
+    tri(t, [cx + 14, 15], [cx + 11, 1], [cx + 3, 8], "O");
+  }, "O", "R");
+  tri(L, [cx - 12, 11], [cx - 10, 4], [cx - 6, 8], "P");
+  tri(L, [cx + 12, 11], [cx + 10, 4], [cx + 6, 8], "P");
+  // Head.
+  part(L, (t) => {
+    ring(t, cx, 16, 13.5, 11, "O");
+    px(t, cx - 9, 8, "W");
+    px(t, cx - 8, 8, "W");
+    px(t, cx - 10, 9, "W");
+    px(t, cx - 9, 9, "W");
+    // forehead stripes
+    rect(t, cx - 1, 6, 1, 3, "R");
+    rect(t, cx - 5, 7, 1, 2, "R");
+    rect(t, cx + 4, 7, 1, 2, "R");
+  }, "O", "R");
+  // Cream muzzle.
+  part(L, (t) => {
+    ell(t, cx, 21, 7, 4.5, "C");
+  }, "C", "N");
+  const body = outline(L, 2);
+  over(g, body);
+  rect(g, cx - 7, 13, 2, 2, "K");
+  rect(g, cx + 5, 13, 2, 2, "K");
+  rect(g, cx - 1, 20, 2, 1, "K");
+  rect(g, cx - 2, 22, 4, 1, "K");
+  // Teal screen-glow on the face.
+  dots(g, [[cx - 11, 19], [cx - 10, 20], [cx - 9, 21], [cx + 10, 19], [cx + 9, 20], [cx + 8, 21], [cx - 3, 10], [cx + 2, 10]], "T");
+  // Open steel laptop (lid facing us), in front of the cat.
+  part(g, (t) => {
+    rect(t, cx - 18, 26, 37, 13, "K");
+    rect(t, cx - 17, 27, 35, 11, "S");
+    rect(t, cx - 17, 27, 5, 1, "W");
+    rect(t, cx - 17, 28, 1, 2, "W");
+    rect(t, cx - 17, 37, 35, 1, "H");
+    rect(t, cx + 17, 28, 1, 9, "H");
+    rect(t, cx - 2, 31, 4, 3, "W");
+    rect(t, cx - 21, 39, 43, 2, "K");
+    rect(t, cx - 20, 39, 41, 1, "H");
+  });
+  return g;
+}
+
+// --------------------------------------------------------------- scene
+function scene(): Grid {
+  const g = blank("U");
+  // Fairy lights.
+  const bulbs = ["Y", "P", "T"];
+  for (let x = 0; x < W; x++) {
+    const y = 4 + Math.round(Math.sin((x / W) * Math.PI * 3) * 1.5 + 1);
+    px(g, x, y, "H");
+  }
+  for (let i = 0, x = 4; x < W; x += 7, i++) {
+    const y = 4 + Math.round(Math.sin((x / W) * Math.PI * 3) * 1.5 + 1);
+    px(g, x, y + 1, "H");
+    rect(g, x - 1, y + 2, 3, 2, bulbs[i % 3]);
+  }
+  // Little "?" sign, right.
+  rect(g, 49, 12, 11, 14, "K");
+  rect(g, 50, 13, 9, 12, "C");
+  rect(g, 52, 15, 5, 1, "K");
+  rect(g, 56, 16, 1, 2, "K");
+  rect(g, 55, 18, 1, 1, "K");
+  rect(g, 54, 19, 1, 2, "K");
+  rect(g, 54, 22, 1, 1, "K");
+  // Bar counter.
+  ground(g, "N", "E");
+  rect(g, 0, 33, W, 1, "K");
+  dots(g, [[8, 37], [9, 37], [21, 40], [22, 40], [36, 38], [37, 38]], "K");
+  // Pint glass, left.
+  part(g, (t) => {
+    rect(t, 3, 20, 11, 14, "K");
+    rect(t, 4, 24, 9, 9, "Y");
+    rect(t, 4, 21, 9, 3, "W");
+    px(t, 3, 21, "W");
+    px(t, 13, 21, "W");
+    rect(t, 5, 25, 1, 5, "W");
+    rect(t, 12, 25, 1, 8, "O");
+    rect(t, 4, 32, 9, 1, "O");
+  });
+
+  const L = blank(".");
+  const cx = 32;
+  // Ear tufts.
+  part(L, (t) => {
+    tri(t, [cx - 14, 14], [cx - 13, 2], [cx - 5, 8], "N");
+    tri(t, [cx + 14, 14], [cx + 13, 2], [cx + 5, 8], "N");
+  }, "N", "K");
+  // Wing holding the pint, body.
+  part(L, (t) => {
+    ring(t, cx, 48, 20, 15, "N");
+  }, "N", "K");
+  part(L, (t) => {
+    ell(t, cx, 46, 11, 9, "C");
+    for (const [x, y] of [[-5, 38], [0, 38], [5, 38], [-3, 41], [3, 41], [0, 44]] as [number, number][]) {
+      px(t, cx + x, y, "N");
+      px(t, cx + x + 1, y + 1, "N");
+    }
+  });
+  part(L, (t) => {
+    thick(t, cx - 15, 40, 15, 36, 3, "K");
+    thick(t, cx - 15, 40, 15, 36, 2, "N");
+  });
+  // Head.
+  part(L, (t) => {
+    ring(t, cx, 18, 13.5, 12, "N");
+    px(t, cx - 9, 8, "W");
+    px(t, cx - 8, 8, "W");
+    px(t, cx - 10, 9, "W");
+  }, "N", "K");
+  // Cream face disc with large yellow eyes.
+  part(L, (t) => {
+    ell(t, cx - 6, 18, 6.5, 6.5, "K");
+    ell(t, cx + 6, 18, 6.5, 6.5, "K");
+    ell(t, cx - 6, 18, 5.5, 5.5, "C");
+    ell(t, cx + 6, 18, 5.5, 5.5, "C");
+    ell(t, cx - 6, 18, 3.5, 3.5, "Y");
+    ell(t, cx + 6, 18, 3.5, 3.5, "Y");
+  });
+  const body = outline(L, 2);
+  over(g, body);
+  rect(g, cx - 7, 17, 2, 2, "K");
+  rect(g, cx + 5, 17, 2, 2, "K");
+  px(g, cx - 8, 16, "W");
+  px(g, cx + 4, 16, "W");
+  // Beak.
+  tri(g, [cx - 2.5, 20], [cx + 2.5, 20], [cx, 25], "O");
+  rect(g, cx - 1, 20, 2, 1, "R");
+  px(g, cx - 1, 25, "K");
+  return g;
+}
+
+// ---------------------------------------------------------------- none
+function none(): Grid {
+  const g = blank("L");
+  // A cloud.
+  part(g, (t) => {
+    ell(t, 18, 8, 7, 3.5, "W");
+    ell(t, 24, 6, 4.5, 3.5, "W");
+    ell(t, 12, 9, 4, 2.5, "W");
+  }, "W", "S");
+  // Small aeroplane, top-right.
+  const plane = [
+    "..K..........",
+    "..KK.........",
+    ".KKKKKKKKKK..",
+    "KKKKWKWKKKKKK",
+    ".KKKKKKKKKK..",
+    "....KKKK.....",
+    ".....KK......",
+  ];
+  stamp(g, plane, 49, 4);
+  // Sandy ground.
+  ground(g, "E", "N");
+  dots(g, [[4, 36], [5, 36], [14, 40], [26, 38], [27, 38], [40, 36], [49, 39], [50, 39], [58, 37]], "N");
+
+  const L = blank(".");
+  const cx = 34;
+  // Pointed ears.
+  part(L, (t) => {
+    tri(t, [cx - 15, 15], [cx - 13, 0], [cx - 4, 8], "O");
+    tri(t, [cx + 15, 15], [cx + 13, 0], [cx + 4, 8], "O");
+  }, "O", "R");
+  tri(L, [cx - 13, 11], [cx - 12, 4], [cx - 7, 8], "K");
+  tri(L, [cx + 13, 11], [cx + 12, 4], [cx + 7, 8], "K");
+  // Shoulders with a white chest.
+  part(L, (t) => {
+    ring(t, cx, 48, 21, 16, "O");
+    px(t, cx - 14, 37, "W");
+    px(t, cx - 13, 37, "W");
+  }, "O", "R");
+  part(L, (t) => {
+    tri(t, [cx - 8, 33], [cx + 8, 33], [cx, 44], "W");
+  }, "W", "S");
+  // Head with white cheeks.
+  part(L, (t) => {
+    ring(t, cx, 18, 14, 11, "O");
+    px(t, cx - 9, 9, "W");
+    px(t, cx - 8, 9, "W");
+    px(t, cx - 10, 10, "W");
+  }, "O", "R");
+  part(L, (t) => {
+    tri(t, [cx - 14, 20], [cx - 3, 23], [cx - 5, 28], "W");
+    tri(t, [cx + 14, 20], [cx + 3, 23], [cx + 5, 28], "W");
+    ell(t, cx, 24.5, 6.5, 4.5, "W");
+  }, "W", "S");
+  const body = outline(L, 2);
+  over(g, body);
+  rect(g, cx - 7, 15, 2, 2, "K");
+  rect(g, cx + 5, 15, 2, 2, "K");
+  rect(g, cx - 1, 22, 3, 2, "K");
+  rect(g, cx - 1, 27, 2, 1, "K");
+  // Red suitcase with a yellow tag, left.
+  part(g, (t) => {
+    rect(t, 2, 24, 17, 13, "K");
+    rect(t, 3, 25, 15, 11, "R");
+    rect(t, 3, 25, 4, 1, "W");
+    rect(t, 3, 26, 1, 2, "W");
+    rect(t, 3, 35, 15, 1, "M");
+    rect(t, 17, 27, 1, 8, "M");
+    rect(t, 6, 21, 9, 3, "K");
+    rect(t, 7, 22, 7, 2, "R");
+    rect(t, 3, 29, 15, 1, "M");
+    rect(t, 5, 28, 2, 3, "Y");
+    rect(t, 13, 28, 2, 3, "Y");
+  });
+  rect(g, 8, 24, 5, 4, "Y");
+  rect(g, 9, 25, 3, 2, "W");
+  return g;
+}
+
+export const AVATARS: Record<AvatarId, Sprite> = {
+  food: toSprite(food()),
+  commute: toSprite(commute()),
+  outdoors: toSprite(outdoors()),
+  hustle: toSprite(hustle()),
+  scene: toSprite(scene()),
+  none: toSprite(none()),
 };
 
-/** Inner SVG for an avatar scene. `uid` keeps gradient ids unique per page. */
-export function avatarScene(id: AvatarId, uid: string): string {
-  // The score badge sits over the scene's bottom-right corner, so scenes
-  // whose prop is drawn on the right are mirrored to keep it in view.
-  const mirrored = id === "food" || id === "hustle" || id === "scene" || id === "none";
-  return (
-    `<g ${mirrored ? `transform="translate(240 0) scale(-1 1)" ` : ""}stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">` +
-    SCENES[id](uid) +
-    `</g>`
-  );
+export function avatarRects(id: AvatarId, opts: { x?: number; y?: number; scale?: number } = {}): string {
+  return spriteRects(AVATARS[id], opts);
 }

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
 import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
-import { SeasonalScorecard } from "@/components/Cards/SeasonalScorecard";
+import { CardScorecard } from "@/components/Cards/CardScorecard";
+import { ScreenFrame } from "@/components/device/ScreenFrame";
+import { ArrowIcon } from "@/components/icons";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { TILES, decodeMarks, journeyFor, scoreFor } from "@/lib/game";
 
@@ -14,16 +17,42 @@ export const metadata: Metadata = {
 };
 
 function TileList({ indexes, empty }: { indexes: number[]; empty: string }) {
-  if (indexes.length === 0) return <p className="mt-3 text-xs font-semibold">{empty}</p>;
+  if (indexes.length === 0) return <p className="t-body">{empty}</p>;
   return (
-    <ul className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-x-3 gap-y-2">
+    <ul className="grid grid-cols-[repeat(auto-fill,minmax(190px,1fr))] gap-x-3 gap-y-2">
       {indexes.map((i) => (
-        <li key={TILES[i].id} className="flex items-center gap-2 text-xs font-semibold leading-tight">
-          <BingoCardIllustrator id={TILES[i].id} className="block w-8 flex-none [&_svg]:block" strokeWidth={2.6} />
-          {TILES[i].name}
+        <li key={TILES[i].id} className="flex items-center gap-3">
+          <span className="tile-chip">
+            <BingoCardIllustrator id={TILES[i].id} className="spr" />
+          </span>
+          <span className="t-body leading-tight">{TILES[i].name}</span>
         </li>
       ))}
     </ul>
+  );
+}
+
+function Panel({
+  title,
+  strip,
+  inverted = false,
+  note,
+  children,
+}: {
+  title: string;
+  strip: string;
+  inverted?: boolean;
+  note?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={`panel ${inverted ? "panel--inverted" : ""}`}>
+      <div className="panel__head" style={{ "--strip": strip } as CSSProperties}>
+        <h2 className="t-ui-l">{title}</h2>
+      </div>
+      {note && <p className="t-body mb-3">{note}</p>}
+      {children}
+    </section>
   );
 }
 
@@ -38,54 +67,80 @@ export default function JourneyPage({ params }: Props) {
   const match = Math.round(((journey.both.length + journey.neither.length) / TILES.length) * 100);
 
   return (
-    <div className="mx-auto max-w-[472px] px-3 pb-10 sm:px-4 lg:max-w-[1040px] lg:px-8">
+    <div className="mx-auto max-w-[472px] px-4 pb-10 lg:max-w-[1040px] lg:px-8">
       <SiteHeader />
       <main>
-        <h1 className="display mt-2 text-3xl lg:text-5xl">Bingo Journey</h1>
-        <p className="mt-2 max-w-[40rem] text-sm font-semibold">
+        <h1 className="wordmark t-display-xl mt-2" style={{ textShadow: "3px 3px 0 var(--cursor)" }}>
+          Bingo Journey
+        </h1>
+        <p className="t-body mt-4 max-w-[40rem]">
           Two cards, clubbed. Your Bengalurus match on {match}% of the board.
         </p>
 
-        {/* Bento: two cards, then what they add up to. */}
-        <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <div>
-            <SeasonalScorecard marks={a} title={`First card: ${scoreA.percent}% Bengaluru native, ${scoreA.badge}`} />
+        {/* Link-cable hero */}
+        <div className="mx-auto mt-6 max-w-[520px]">
+          <div className="grid grid-cols-2 gap-4">
+            <ScreenFrame label="First card" className="screen-frame--on-desk">
+              <CardScorecard
+                marks={a}
+                className="scorecard"
+                title={`First card: ${scoreA.percent}% Bengaluru native, ${scoreA.badge}`}
+              />
+            </ScreenFrame>
+            <ScreenFrame label="Second card" className="screen-frame--on-desk">
+              <CardScorecard
+                marks={b}
+                className="scorecard"
+                title={`Second card: ${scoreB.percent}% Bengaluru native, ${scoreB.badge}`}
+              />
+            </ScreenFrame>
           </div>
-          <div>
-            <SeasonalScorecard marks={b} title={`Second card: ${scoreB.percent}% Bengaluru native, ${scoreB.badge}`} />
+          <div className="cable" aria-hidden="true">
+            <i className="cable__v" style={{ left: "25%" }} />
+            <i className="cable__v" style={{ left: "75%" }} />
+            <i className="cable__h" />
+            <span className="cable__plug">{match}%</span>
           </div>
-
-          <section className="panel col-span-2 p-4">
-            <h2 className="display text-lg">Try these together</h2>
-            <p className="mt-1 text-xs">Neither of you has stamped these {journey.neither.length} yet.</p>
-            <TileList indexes={journey.neither} empty="Between you, the whole board is stamped." />
-          </section>
-
-          <section className="panel col-span-2 p-4" style={{ background: "var(--board)", color: "var(--board-ink)" }}>
-            <h2 className="display text-lg">You've both done {journey.both.length}</h2>
-            <TileList indexes={journey.both} empty="No overlap yet. Plenty to argue about." />
-          </section>
-
-          <section className="panel col-span-2 p-4 lg:col-span-2">
-            <h2 className="display text-lg">Only card {scoreA.code.toUpperCase()}</h2>
-            <p className="mt-1 text-xs">The {scoreA.badge} can play guide for these.</p>
-            <TileList indexes={journey.onlyA} empty="Nothing the second card hasn't also done." />
-          </section>
-
-          <section className="panel col-span-2 p-4 lg:col-span-2">
-            <h2 className="display text-lg">Only card {scoreB.code.toUpperCase()}</h2>
-            <p className="mt-1 text-xs">The {scoreB.badge} can play guide for these.</p>
-            <TileList indexes={journey.onlyB} empty="Nothing the first card hasn't also done." />
-          </section>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-6 grid gap-6 lg:grid-cols-2 lg:items-start">
+          <Panel
+            title="Try these together"
+            strip="var(--lcd-stamped)"
+            note={`Neither of you has stamped these ${journey.neither.length} yet.`}
+          >
+            <TileList indexes={journey.neither} empty="Between you, the whole board is stamped." />
+          </Panel>
+
+          <Panel title={`You've both done ${journey.both.length}`} strip="var(--cat-scene)" inverted>
+            <TileList indexes={journey.both} empty="No overlap yet. Plenty to argue about." />
+          </Panel>
+
+          <Panel
+            title={`Only card ${scoreA.code.toUpperCase()}`}
+            strip="var(--shell)"
+            note={`The ${scoreA.badge} can play guide for these.`}
+          >
+            <TileList indexes={journey.onlyA} empty="Nothing the second card hasn't also done." />
+          </Panel>
+
+          <Panel
+            title={`Only card ${scoreB.code.toUpperCase()}`}
+            strip="var(--cat-hustle)"
+            note={`The ${scoreB.badge} can play guide for these.`}
+          >
+            <TileList indexes={journey.onlyB} empty="Nothing the first card hasn't also done." />
+          </Panel>
+        </div>
+
+        <div className="mt-8 flex flex-wrap">
           <Link href="/" className="btn btn--primary">
+            <ArrowIcon dir="left" className="ico" />
             Back to my board
           </Link>
         </div>
       </main>
-      <SiteFooter />
+      <SiteFooter className="mt-10" />
     </div>
   );
 }
