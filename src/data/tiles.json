@@ -1,0 +1,31 @@
+[
+  { "id": "dosa", "top": "Masala", "bottom": "Dosa", "name": "Benne masala dosa", "category": "food", "blurb": "Ate a benne dosa standing up at a darshini counter." },
+  { "id": "signal", "top": "Silk Board", "bottom": "Jam", "name": "Silk Board jam", "category": "commute", "blurb": "Sat through three full signal cycles at Silk Board." },
+  { "id": "tree", "top": "Cubbon", "bottom": "Park", "name": "Cubbon Park Sunday", "category": "outdoors", "blurb": "Spent a Sunday morning under the trees in Cubbon Park." },
+  { "id": "rocket", "top": "Startup", "bottom": "Pitch", "name": "Overheard pitch", "category": "hustle", "blurb": "Overheard a startup pitch at the next table." },
+  { "id": "beer", "top": "Craft", "bottom": "Brew", "name": "Microbrewery pitcher", "category": "scene", "blurb": "Shared a pitcher at a microbrewery on a weeknight." },
+
+  { "id": "sunrise", "top": "Nandi", "bottom": "Sunrise", "name": "Nandi Hills sunrise", "category": "outdoors", "blurb": "Left home at 4am to catch sunrise at Nandi Hills." },
+  { "id": "bean", "top": "Laptop", "bottom": "Cafe", "name": "The Coffee Bean", "category": "hustle", "blurb": "Worked a full day from a café on a single coffee." },
+  { "id": "quiz", "top": "Pub", "bottom": "Quiz", "name": "Pub quiz night", "category": "scene", "blurb": "Joined a pub quiz team and argued over the last answer." },
+  { "id": "kaapi", "top": "Filter", "bottom": "Kaapi", "name": "Filter kaapi", "category": "food", "blurb": "Drank filter kaapi from a steel tumbler and davara." },
+  { "id": "metro", "top": "Namma", "bottom": "Metro", "name": "Namma Metro", "category": "commute", "blurb": "Rode the Purple Line from one end to the other." },
+
+  { "id": "book", "top": "Blossom", "bottom": "Books", "name": "Blossom Book House", "category": "scene", "blurb": "Lost an afternoon in the stacks at Blossom Book House." },
+  { "id": "chaat", "top": "VV Puram", "bottom": "Chaat", "name": "Thindi Beedi crawl", "category": "food", "blurb": "Ate your way down Thindi Beedi in VV Puram." },
+  { "id": "auto", "top": "Auto", "bottom": "Refusal", "name": "One-and-a-half meter", "category": "commute", "blurb": "Heard \"one-and-a-half meter\" from an auto driver." },
+  { "id": "flower", "top": "Lalbagh", "bottom": "Show", "name": "Lalbagh flower show", "category": "outdoors", "blurb": "Queued for the flower show at the Lalbagh glass house." },
+  { "id": "neon", "top": "Tech", "bottom": "Meetup", "name": "Bangalore Tech Meetup", "category": "hustle", "blurb": "Went to a tech meetup and stayed for the pizza." },
+
+  { "id": "bus", "top": "Vajra", "bottom": "Bus", "name": "Vajra Volvo", "category": "commute", "blurb": "Took a red Vajra Volvo across the city." },
+  { "id": "cloud", "top": "Sweater", "bottom": "Weather", "name": "Sweater weather", "category": "outdoors", "blurb": "Carried a jacket in May, because Bengaluru." },
+  { "id": "key", "top": "PG", "bottom": "Life", "name": "PG life", "category": "hustle", "blurb": "Lived in a PG with a curfew and a shared fridge." },
+  { "id": "bubble", "top": "Swalpa", "bottom": "Adjust", "name": "Swalpa adjust maadi", "category": "scene", "blurb": "Said \"swalpa adjust maadi\" and meant it." },
+  { "id": "idli", "top": "Idli", "bottom": "Vada", "name": "Idli vada dip", "category": "food", "blurb": "Ordered idli vada dip without looking at the menu." },
+
+  { "id": "house", "top": "Rent", "bottom": "Deposit", "name": "Ten-month deposit", "category": "hustle", "blurb": "Paid ten months of rent as a deposit." },
+  { "id": "cricket", "top": "Stadium", "bottom": "Roar", "name": "Chinnaswamy roar", "category": "scene", "blurb": "Watched a match from the stands at Chinnaswamy." },
+  { "id": "biryani", "top": "Dawn", "bottom": "Biryani", "name": "Hoskote dawn biryani", "category": "food", "blurb": "Drove to Hoskote for biryani before sunrise." },
+  { "id": "phone", "top": "Cab", "bottom": "Cancelled", "name": "Three cancellations", "category": "commute", "blurb": "Got cancelled on by three cabs in a row." },
+  { "id": "elephant", "top": "Monsoon", "bottom": "Safari", "name": "Bannerghatta in the rain", "category": "outdoors", "blurb": "Saw the elephants at Bannerghatta on a rainy day." }
+]

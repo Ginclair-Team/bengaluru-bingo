@@ -1,0 +1,126 @@
+# MASTER_PROJECT_SPEC.md (Ginhouse - The Impeccable Execution)
+## Project Owner: Ginclair | Brand Identity: Ginhouse
+## Design Philosophy: "Impeccable" Visuals + Social Utility
+## Date of Creation: [Current Date] | Version: 1.0
+
+---
+
+## 1. PROJECT OVERVIEW
+**Mission:** Create a mobile-first web application that gamifies the experience of understanding Bengaluru subcultures through a social Bingo game.
+**Core Goal:** Build a "City-Bio" engine where users score based on their knowledge/experience of local spots, trends, and vibes, resulting in a shareable infographic (Scorecard) branded with "Ginhouse".
+**Unique Feature:** 
+1.  **Dynamic Thematic Engine:** UI palette shifts based on the user's location date/season (Summer, Spring, Monsoon, Autumn, Winter).
+2.  **Tangz-Style Character Integration:** Instead of just text names (like *Cenote East*), cards feature bold, illustrative avatars representing the subculture (e.g., a Coffee Cat for café hopping).
+3.  **Bingo Grid Strictness:** A rigid, retro-futuristic grid layout inspired by vintage game boards but executed with modern UI polish.
+
+---
+
+## 2. VISUAL DIRECTION & DESIGN SYSTEM (OPUS ROLE - CRITICAL)
+### The "Impeccable" Style Guide
+*Based on the provided reference images, we will adopt a hybrid style: Retro Bingo structure meets Vibrant Tangz Illustration style.*
+
+#### Visual Language:
+1.  **Card Art:** 
+    *   Use vector illustrations with thick black outlines (`stroke-width: 2px`).
+    *   Backgrounds should be flat but use vibrant pastel gradients (Tangz style).
+    *   Character avatars must look like the example images provided (e.g., a stylized Bengaluru street food character, a tech worker avatar).
+2.  **Layout Geometry:**
+    *   Adopt the rigid, grid-based layout of Image 1 for the core game view (5x5 Grid).
+    *   Use "Bento Box" style grouping for social sharing cards.
+3.  **Typography:** 
+    *   **Headers:** Bold, chunky sans-serif fonts (like 'Fredoka' or 'Poppins').
+    *   **Labels:** Monospace or technical sans-serif for data points to maintain precision.
+
+### Color Palette Logic (Dynamic Seasonal Shift)
+*The Opus team must define these Tailwind classes.*
+
+*   **Summer (May – August):** 
+    *   *Dominant:* Burnt Orange / Coral Red (#FF4757 - Image 1 style).
+    *   *Accents:* Sand (#F3F0E6) & Cream (#FFF9C9).
+    *   *Vibe:* High contrast, bold strokes.
+*   **Monsoon (Sept – Nov):** 
+    *   *Dominant:* Deep Teal / Electric Blue (#00B4D8).
+    *   *Accents:* Rainy Grey & Ocean Blue.
+    *   *Vibe:* Cozier tones, slightly darker backgrounds for depth.
+*   **Spring/Autumn:** 
+    *   *Dominant:* Soft Lavender / Pastel Pink (#FF9F43).
+    *   *Accents:* Muted Beige & Gold.
+    *   *Vibe:* Warm and approachable.
+
+### UI Principles (Mobile First)
+1.  **High Contrast:** Ensure the "Bingo" text remains readable against all pastel backgrounds.
+2.  **Touch Targets:** Grid items must be square/tall rectangles suitable for thumb scrolling.
+3.  **Share Ready:** The scorecard must resemble a digital postcard (Image 2 format).
+
+---
+
+## 3. GAME MECHANICS & DATA
+### The Bingo Card Structure
+Each card is a grid (5x5 or 7x7).
+*   **Content:** Categories like "Tech Hubs", "Street Food", "Nightlife Spots".
+*   **Data Source:** Static JSON populated by Sonnet. 
+*   **Illustration Requirement:** Every tile must feature the character art style of the Tangz image reference provided.
+
+### Features
+1.  **Scorecard Generation (Infographic Mode):**
+    *   Upon finishing a round, generate an SVG infographic showing: "I am [X]% Bengaluru Native".
+    *   Include a ranking badge (e.g., "The Tech Guru", "Foodie").
+    *   Use the card style of Image 2 for the user's profile representation.
+2.  **Card Clubbing (Itineraries):** 
+    *   User A generates their card. User B creates a new card.
+    *   Users can link cards to form a shared "Bingo Journey" view for Instagram Stories or WhatsApp status.
+
+---
+
+## 4. ROLE ASSIGNMENT & EXECUTION PLAN
+
+### ROLE: SONNET (Core Logic, Architecture & Data)
+1.  **Code Generation:** Build the application logic, React Components, API endpoints, and Database Schemas.
+2.  **Data Safety:** Handle all data fetching securely. Do NOT perform real-time scraping of Reddit/X during user interaction. 
+3.  **Backend Logic:** Create a `scrapers` folder structure ready for future seeding (e.g., `utils/scrape.js`).
+
+### ROLE: OPUS (Creative Direction & Visuals)
+1.  **Visual Design:** Define the exact color variables in `/src/theme/context`. Ensure "Impeccable" design standards are met.
+2.  **Illustration Generation Strategy:** Since we need unique cards for Bengaluru, Opus must define a prompt structure to generate specific avatars (e.g., "A friendly Bengaluru Elephant holding a crockpot").
+3.  **UI Polish:** Focus on micro-interactions where the Bingo card tiles scale up slightly on hover.
+
+### ROLE: FABLE (Animation & Motion Systems)
+1.  **Motion Logic:** Implement `framer-motion` logic to animate the Bingo tiles appearing on the screen (staggered reveal).
+2.  **Page Transitions:** Design how the user moves from the Game View to the Scorecard View using a "Flip Card" animation effect (like opening a real card).
+
+---
+
+## 5. TECH STACK & IMPLEMENTATION
+*   **Frontend:** Next.js 14 (App Router) + Tailwind CSS + Framer Motion. 
+    *   Use `react-share` library for social sharing.
+    *   Implement custom SVG generators in `/components/Cards`.
+*   **Backend:** Node.js/Express (or Serverless API). 
+    *   Minimalist database: PostgreSQL or Supabase (**Sonnet** focuses).
+*   **Images:** SVG Generation server-side to ensure crisp rendering on Instagram/Twitter cards.
+
+---
+
+## 6. WORKFLOW FOR THIS SESSION
+1.  **Step 1 (Opus):** Define the "Impeccable" Design System and Color Palette variables in `tailwind.config.js`. Create a `components/BingoCardIllustrator` placeholder for future AI-generated art.
+2.  **Step 2 (Fable):** Build the Animation Layer. Create `layout.tsx` with a staggered fade-in entry for grid items. Ensure animations feel "smooth" and heavy (weighty).
+3.  **Step 3 (Sonnet):** Define the Database Schema and API Contract for user scores and sharing logic.
+
+---
+
+## 7. CONSTRAINTS & GUIDELINES
+1.  **No PII:** Do not store user names or real phone numbers. Use `anonymous_id`.
+2.  **Performance:** The app must load within 3 seconds on a standard Indian ISP connection (4G/3G).
+3.  **Accessibility:** Ensure Color Contrast meets WCAG AA for all seasonal themes (check accessibility contrast between the red bingo board and white text).
+4.  **Branding:** All text generated by the system should use "Ginclair" and "Ginhouse" branding where appropriate.
+
+---
+
+## 8. EXAMPLE DATA SNIPPET (ILLUSTRATED CARDS)
+*For the initial database, ensure variety matching the Tangz style:*
+*   **Card 1:** Name: "The Coffee Bean" | Type: "Tech/Food", Icon: Stylized coffee bean character holding a laptop.
+*   **Card 2:** Name: "Bangalore Tech Meetup" | Type: "Event", Icon: Neon sign character.
+*   **Card 3:** Name: "Lodi Garden (Monsoon)" | Type: "Nature", Icon: Elephant wearing a raincoat.
+
+---
+
+**[END OF MASTER_SPEC]**

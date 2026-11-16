@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T08:15:00.000Z",
+  "title": "Design System: Bengaluru Bingo",
+  "extensions": {
+    "colorMeta": {
+      "outline": { "role": "neutral", "displayName": "Outline Black", "canonical": "#000000" },
+      "monsoon-board": { "role": "primary", "displayName": "Monsoon Teal", "canonical": "#086F8A", "tonalRamp": ["#022A35", "#064B5E", "#086F8A", "#0A8FB0", "#00B4D8", "#7FD6EA", "#D5F1F7", "#E9FBFF"] },
+      "summer-board": { "role": "primary", "displayName": "Riso Red", "canonical": "#D4253A", "tonalRamp": ["#4A0610", "#9E0F22", "#D4253A", "#FF4757", "#FF8A93", "#FBB9B0", "#FBD9CF", "#FFF9C9"] },
+      "winter-board": { "role": "primary", "displayName": "Winter Violet", "canonical": "#5B3FA8", "tonalRamp": ["#1E1340", "#3A2478", "#5B3FA8", "#7D5FCB", "#A56EDB", "#C9B5EE", "#DDD3F0", "#EFE6FF"] },
+      "spring-board": { "role": "primary", "displayName": "Spring Orange", "canonical": "#FF9F43", "tonalRamp": ["#3D1F00", "#7A3E00", "#B86200", "#E0A100", "#FF9F43", "#FFC78F", "#F1E4CF", "#FFF3DC"] },
+      "monsoon-stamp": { "role": "secondary", "displayName": "Stamp Coral", "canonical": "#E8344A" },
+      "summer-stamp": { "role": "secondary", "displayName": "Stamp Blue", "canonical": "#2B3FD6" },
+      "monsoon-ground": { "role": "neutral", "displayName": "Rainy Grey", "canonical": "#B7C7D0" },
+      "summer-ground": { "role": "neutral", "displayName": "Sand", "canonical": "#F3F0E6" },
+      "monsoon-paper": { "role": "neutral", "displayName": "Monsoon Paper", "canonical": "#D5F1F7" },
+      "art-yellow": { "role": "tertiary", "displayName": "Dosa Yellow", "canonical": "#FFC93C" },
+      "art-pink": { "role": "tertiary", "displayName": "Card Pink", "canonical": "#FF8FB8" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Titles, panel headings, badge names, percentages, card numbers." },
+      "board-letters": { "displayName": "Board letters", "purpose": "B I N G O across the top of the board, one letter per column." },
+      "body": { "displayName": "Body", "purpose": "Instructions and descriptions." },
+      "label": { "displayName": "Label", "purpose": "Tile labels and the board footer, uppercase." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "tile-settle", "value": "spring(stiffness 210, damping 17, mass 1.35), stagger 28ms", "purpose": "Tiles settle into the board once on load." },
+      { "name": "stamp-land", "value": "spring(stiffness 520, damping 21, mass 1.1) from scale 1.9", "purpose": "A stamp landing on a tile." },
+      { "name": "card-flip", "value": "spring(stiffness 64, damping 14, mass 1.5) on rotateY", "purpose": "Board to scorecard and back." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Season colour change and button press." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action in a view, such as flipping the card.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Flip for my scorecard</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 0.8rem; border:3px solid #000; border-radius:12px; background:var(--paper, #D5F1F7); color:#000; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-weight:700; font-size:14px; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1), background-color .18s; } .ds-btn:hover { background:#fff; } .ds-btn:active { transform:translateY(2px); } .ds-btn:focus-visible { outline:3px solid #000; outline-offset:3px; } .ds-btn-primary { background:#000; color:#fff; } .ds-btn-primary:hover { background:var(--ink, #064B5E); }"
+    },
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Secondary actions: share targets, copy link.",
+      "html": "<button class=\"ds-btn2\">Copy link</button>",
+      "css": ".ds-btn2 { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 0.8rem; border:3px solid #000; border-radius:12px; background:var(--paper, #D5F1F7); color:#000; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-weight:700; font-size:14px; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1), background-color .18s; } .ds-btn2:hover { background:#fff; } .ds-btn2:active { transform:translateY(2px); } .ds-btn2:focus-visible { outline:3px solid #000; outline-offset:3px; }"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Outlined paper container for the tile detail, sharing and journey lists.",
+      "html": "<div class=\"ds-panel\"><strong>Three cancellations</strong><p>Got cancelled on by three cabs in a row.</p></div>",
+      "css": ".ds-panel { border:3px solid #000; border-radius:16px; background:var(--paper, #D5F1F7); padding:16px; font-family:'Martian Mono', ui-monospace, monospace; font-stretch:87.5%; font-size:12px; color:#000; } .ds-panel strong { font-family:'Dela Gothic One', sans-serif; font-weight:400; font-size:16px; } .ds-panel p { margin:4px 0 0; }"
+    },
+    {
+      "name": "Tile",
+      "kind": "custom",
+      "refersTo": "tile",
+      "description": "One square of the bingo grid: label, character, label, and a stamp when marked.",
+      "html": "<button class=\"ds-tile\"><span>Filter</span><svg viewBox=\"0 0 48 48\" width=\"34\" height=\"34\"><g stroke=\"#000\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M11 31 H37 L34 41 H14 Z\" fill=\"#C9D3DA\"/><path d=\"M15 12 H33 L31 33 H17 Z\" fill=\"#C9D3DA\"/><ellipse cx=\"24\" cy=\"12.5\" rx=\"9\" ry=\"2.6\" fill=\"#A0623A\"/></g></svg><span>Kaapi</span><svg class=\"ds-stamp\" viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\"><circle cx=\"24\" cy=\"24\" r=\"21\" stroke-width=\"2.6\" stroke-dasharray=\"58 3 40 2 26 4\"/><circle cx=\"17\" cy=\"19\" r=\"2.4\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"31\" cy=\"19\" r=\"2.4\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M13 28 Q24 40 35 28\" stroke-width=\"2.6\"/></svg></button>",
+      "css": ".ds-tile { position:relative; display:grid; grid-template-rows:auto 1fr auto; justify-items:center; align-items:center; width:72px; height:72px; padding:5px 2px; border:0; background:var(--paper, #D5F1F7); color:var(--ink, #064B5E); font-family:'Martian Mono', ui-monospace, monospace; font-stretch:75%; font-weight:600; font-size:9px; letter-spacing:.03em; text-transform:uppercase; cursor:pointer; transition:transform .18s cubic-bezier(.16,1,.3,1); } .ds-tile:hover { transform:scale(1.05); } .ds-tile:focus-visible { outline:3px solid #000; outline-offset:-3px; } .ds-stamp { position:absolute; inset:15%; color:var(--stamp, #E8344A); mix-blend-mode:multiply; transform:rotate(-11deg); }"
+    },
+    {
+      "name": "Season Switch",
+      "kind": "nav",
+      "description": "Four outlined swatches; the active season is larger.",
+      "html": "<div class=\"ds-seasons\"><span style=\"background:#D4253A\"></span><span class=\"ds-on\" style=\"background:#086F8A\"></span><span style=\"background:#5B3FA8\"></span><span style=\"background:#FF9F43\"></span></div>",
+      "css": ".ds-seasons { display:flex; align-items:center; gap:14px; } .ds-seasons span { display:block; width:16px; height:16px; border:3px solid #000; border-radius:50%; } .ds-seasons .ds-on { width:26px; height:26px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "One card, two faces",
+    "overview": "The whole product is a single physical card. The front is a printed bingo board in the season's colour that you mark with a rubber stamp. The back is your trading card: a character, a badge, stars, stat boxes and a card number. Everything else on screen is a quiet label next to that object.",
+    "keyCharacteristics": [
+      "Flat colour and black outline carry everything. There are no shadows and no blur.",
+      "The board and the scorecard share one 5:7 footprint and flip into each other.",
+      "Illustration is geometric: circles, rounded rectangles, dot eyes.",
+      "Stamps are the only thing allowed to sit crooked."
+    ],
+    "rules": [
+      { "name": "The Re-ink Rule", "body": "A component never names a season's hex. It uses the role (board, paper, ink, stamp) and the calendar does the rest.", "section": "colors" },
+      { "name": "The AA Rule", "body": "Board ink on board and ink on paper hold at least 4.5:1 in every season. The spec's named dominants (#FF4757, #00B4D8) are too light for that, so they are deepened on the board and kept as the small accent.", "section": "colors" },
+      { "name": "The Card Scale Rule", "body": "Type printed on the card is sized in container units against the card face, so the card scales as one object from a phone to a desktop.", "section": "typography" },
+      { "name": "The No Shadow Rule", "body": "If something needs to stand out, give it an outline or a fill, never a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use season roles (bg-board, text-ink, bg-paper) instead of fixed hex values.",
+      "Do outline every surface in 3px black and every illustration in one stroke weight.",
+      "Do draw new characters from circles and rounded rectangles with dot eyes, on a 48x48 grid.",
+      "Do size anything printed on the card in cqw.",
+      "Do check both lettering pairs for 4.5:1 when adding a season."
+    ],
+    "donts": [
+      "Don't add shadows, blur or gradients to interface surfaces. Gradients belong only to the sky behind an avatar.",
+      "Don't round the tiles or loosen the 2px grid.",
+      "Don't rotate anything except stamps.",
+      "Don't use emoji or an icon font; icons are drawn in the same round stroke.",
+      "Don't put a second primary button in one view."
+    ]
+  }
+}
