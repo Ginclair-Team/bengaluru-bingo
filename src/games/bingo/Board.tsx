@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState, useEffect, type CSSProperties } from "react";
-import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
-import { stampBadgeSvg } from "@/components/BingoCardIllustrator/art";
-import { categoryGlyphSvg } from "@/components/Cards/glyphs";
+import { BingoCardIllustrator } from "@/games/bingo/illustrator";
+import { stampBadgeSvg } from "@/games/bingo/illustrator/art";
+import { categoryGlyphSvg } from "@/games/bingo/cards/glyphs";
 import { StarIcon } from "@/components/icons";
-import { CATEGORIES, GRID, TILES, TILE_COUNT, countMarks, isMarked, type Marks } from "@/lib/game";
+import { CATEGORIES, GRID, TILES, TILE_COUNT, countMarks, isMarked, type Marks } from "@/games/bingo/rules";
 
 export type Celebration = {
   id: number;
@@ -103,7 +103,7 @@ export function Board({
                   <button
                     type="button"
                     className="tile"
-                    data-tile={index}
+                    data-cell={index}
                     data-autofocus={cursor === index}
                     data-fresh={fresh?.index === index && marked ? true : undefined}
                     data-flash={flashIdx !== undefined ? true : undefined}

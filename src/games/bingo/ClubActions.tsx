@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowIcon, ClubIcon } from "@/components/icons";
-import { encodeMarks } from "@/lib/game";
-import { loadGame } from "@/lib/storage";
+import { encodeMarks } from "@/games/bingo/rules";
+import { loadGame } from "@/games/bingo/storage";
 
 /** What a visitor can do with someone else's card. */
 export function ClubActions({ friendCode }: { friendCode: string }) {

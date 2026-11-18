@@ -25,14 +25,14 @@ const body = Pixelify_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Bengaluru Bingo, a Ginhouse game",
+  title: "Bengaluru Pocket, a Ginhouse console",
   description:
-    "Stamp everything you've done in Bengaluru on a pocket console, press START, and share how native you are. A Ginhouse game by Ginclair.",
-  applicationName: "Bengaluru Bingo",
+    "Bengaluru Pocket: a pocket console of small games about the city. Start with Bingo: stamp what you've done in Bengaluru, press START, and share how native you are. A Ginhouse game by Ginclair.",
+  applicationName: "Bengaluru Pocket",
   authors: [{ name: "Ginclair" }],
   openGraph: {
-    title: "Bengaluru Bingo",
-    description: "How Bengaluru are you? Stamp the card and find out.",
+    title: "Bengaluru Pocket",
+    description: "Games about the city, on a pocket console. How Bengaluru are you?",
     siteName: "Ginhouse",
     type: "website",
   },

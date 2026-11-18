@@ -93,18 +93,23 @@ export function PauseMenu(props: {
   );
 }
 
-export function ConfirmClear({
-  count,
+/** A yes or no question, with the safe answer first. */
+export function ConfirmDialog({
+  question,
+  keep,
+  confirm,
   selected,
   onSelect,
   onKeep,
-  onClear,
+  onConfirm,
 }: {
-  count: number;
+  question: string;
+  keep: string;
+  confirm: string;
   selected: 0 | 1;
   onSelect: (i: 0 | 1) => void;
   onKeep: () => void;
-  onClear: () => void;
+  onConfirm: () => void;
 }) {
   return (
     <>
@@ -118,7 +123,7 @@ export function ConfirmClear({
           onKeyDown={trapTab}
         >
           <p id="confirm-title" className="t-ui-l" style={{ margin: 0, fontSize: "max(12px, calc(14 * var(--u)))", lineHeight: 1.3 }}>
-            Lift all {count} stamp{count === 1 ? "" : "s"}?
+            {question}
           </p>
           <div style={{ display: "flex", gap: "calc(8 * var(--u))" }}>
             <button
@@ -129,7 +134,7 @@ export function ConfirmClear({
               onFocus={() => onSelect(0)}
               onClick={onKeep}
             >
-              Keep them
+              {keep}
             </button>
             <button
               type="button"
@@ -137,9 +142,9 @@ export function ConfirmClear({
               data-selected={selected === 1}
               data-autofocus={selected === 1}
               onFocus={() => onSelect(1)}
-              onClick={onClear}
+              onClick={onConfirm}
             >
-              Yes, clear
+              {confirm}
             </button>
           </div>
         </div>
@@ -148,10 +153,15 @@ export function ConfirmClear({
   );
 }
 
+/** A dialog with a copy button and a status line for screen readers. */
 export function LinkInfo({
+  title,
+  body,
   status,
   onCopy,
 }: {
+  title: string;
+  body: string;
   status: string;
   onCopy: () => void;
 }) {
@@ -167,11 +177,10 @@ export function LinkInfo({
           onKeyDown={trapTab}
         >
           <h2 id="link-title" className="t-ui-l" style={{ margin: 0, fontSize: "max(12px, calc(14 * var(--u)))" }}>
-            Link cable
+            {title}
           </h2>
           <p className="t-body-lcd" style={{ margin: 0 }}>
-            Send your link to a friend. When they stamp their own card, the two join into one Bingo
-            Journey: what you&apos;ve both done, and what to try together.
+            {body}
           </p>
           <div style={{ display: "flex" }}>
             <button type="button" className="lcd-btn lcd-btn--primary" data-autofocus="true" onClick={onCopy}>
@@ -187,8 +196,17 @@ export function LinkInfo({
   );
 }
 
-export function Help({ onClose }: { onClose: () => void }) {
-  // Esc and B are handled by the Game; this button is the tap / click route.
+/** How to play: the cartridge's own words, then the shared controls. */
+export function Help({
+  text,
+  onClose,
+  title = "How to play",
+}: {
+  text: string;
+  onClose: () => void;
+  title?: string;
+}) {
+  // Esc and B are handled by the cartridge; this button is the tap / click route.
   return (
     <>
       <div className="dim-stage" aria-hidden="true" />
@@ -202,10 +220,10 @@ export function Help({ onClose }: { onClose: () => void }) {
           style={{ width: "calc(276 * var(--u))" }}
         >
           <h2 id="help-title" className="t-ui-l" style={{ margin: 0, fontSize: "max(12px, calc(14 * var(--u)))" }}>
-            How to play
+            {title}
           </h2>
           <p className="t-body-lcd" style={{ margin: 0 }}>
-            Stamp every Bengaluru thing you have actually done. Press START to see how native you are.
+            {text}
           </p>
           <div className="help-table">
             {CONTROLS.map((row) => (

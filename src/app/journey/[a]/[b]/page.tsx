@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
-import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
-import { CardScorecard } from "@/components/Cards/CardScorecard";
-import { ScreenFrame } from "@/components/device/ScreenFrame";
+import { BingoCardIllustrator } from "@/games/bingo/illustrator";
+import { CardScorecard } from "@/games/bingo/cards/CardScorecard";
+import { ScreenFrame } from "@/console/device/ScreenFrame";
 import { ArrowIcon } from "@/components/icons";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
-import { TILES, decodeMarks, journeyFor, scoreFor } from "@/lib/game";
+import { TILES, decodeMarks, journeyFor, scoreFor } from "@/games/bingo/rules";
 
 type Props = { params: { a: string; b: string } };
 
 export const metadata: Metadata = {
-  title: "Bingo Journey, Bengaluru Bingo",
+  title: "Bingo Journey, Bengaluru Pocket",
   description: "Two Bengaluru Bingo cards, clubbed: what you've both done and what to try together.",
 };
 

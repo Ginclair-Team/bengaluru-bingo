@@ -1,5 +1,5 @@
 import { spriteRects, type Sprite } from "@/lib/pixel";
-import { STAR_SPRITE } from "./Cards/glyphs";
+import { STAR_SPRITE } from "@/games/bingo/cards/glyphs";
 
 // 8x8 one-colour pixel icons (DESIGN.md section 8). Drawn in currentColor and
 // sized by CSS (1em by default); `#` is a lit pixel.

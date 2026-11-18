@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
 import { audioUnlocked, play } from "@/lib/sound";
+import { Mascot } from "../mascot";
 
-const WORD = "GINHOUSE";
+const WORD = "BENGALURU";
 
 /**
- * Boot, 1400ms: LED on at 150, GINHOUSE types on from 250 (one letter per
- * 80ms), POCKET GH-25 and the elephant at 900, wipe to the board at 1400.
- * Any key, button or tap skips (the Game skips; a tap here does too).
+ * Boot, 1400ms: LED on at 150, BENGALURU types on from 250 (one letter per
+ * 80ms), POCKET BP-01 and the mascot at 900, wipe to the menu at 1400.
+ * Any key, button or tap skips (the Console skips; a tap here does too).
  */
 export function BootScreen({
   onLed,
@@ -49,14 +49,14 @@ export function BootScreen({
   return (
     <div className="boot" aria-hidden="true" onPointerDown={() => done.current()}>
       <div style={{ height: "calc(64 * var(--u))" }}>
-        {showSub && <BingoCardIllustrator id="elephant" className="spr boot-elephant" />}
+        {showSub && <Mascot className="spr boot-elephant" />}
       </div>
       <div className="boot-word">
         {WORD.slice(0, letters)}
         <span className="boot-cursor" />
       </div>
       <div className="t-ui-s" style={{ height: "1em", visibility: showSub ? "visible" : "hidden" }}>
-        POCKET GH-25
+        POCKET BP-01
       </div>
     </div>
   );

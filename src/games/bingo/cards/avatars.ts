@@ -1,6 +1,6 @@
-import type { CategoryId } from "@/lib/game";
+import type { CategoryId } from "@/games/bingo/rules";
 import { spriteRects, type Sprite } from "@/lib/pixel";
-import { TILE_ART } from "@/components/BingoCardIllustrator/art";
+import { TILE_ART } from "@/games/bingo/illustrator/art";
 
 // Avatar scenes: 64 x 44 pixel grids (DESIGN.md section 8), shown at 7px per
 // pixel on the scorecard. Each scene is composed from layers (sky, ground,

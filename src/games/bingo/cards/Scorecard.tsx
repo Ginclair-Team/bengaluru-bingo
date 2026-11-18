@@ -1,4 +1,4 @@
-﻿import type { Score } from "@/lib/game";
+﻿import type { Score } from "@/games/bingo/rules";
 import { scorecardSvg } from "./scorecardSvg";
 
 const PAGE_FONTS = {

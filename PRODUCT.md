@@ -34,10 +34,10 @@ A "City-Bio" engine: the score describes the player's own relationship with one 
 - Tile content is static JSON. No real-time scraping of Reddit/X during play; a `scrapers` folder exists only as a seeding stub for later.
 - Scorecard: an SVG infographic with the native percentage and a ranking badge (for example "The Tech Guru", "Foodie").
 - Card clubbing: player A's card and player B's card link into one shared journey view.
-- Presentation: the game runs inside a Y2K handheld console, the Ginhouse Pocket GH-25, with a pixel LCD and working D-pad, A, B, START and SELECT keys (also mapped to the keyboard). Tiles stay directly tappable. One fixed palette; the earlier seasonal theme engine is retired (owner's direction, 2026-11-16).
+- Presentation: the game runs inside a Y2K handheld console, the Bengaluru Pocket BP-01, with a pixel LCD and working D-pad, A, B, START and SELECT keys (also mapped to the keyboard). Tiles stay directly tappable. One fixed palette; the earlier seasonal theme engine is retired (owner's direction, 2026-11-16).
 - Optional 8-bit sound and vibration, generated in the browser, with a persisted mute switch.
 - No PII: no names or phone numbers stored, only `anonymous_id`.
-- Tile characters are original pixel art (16x16 text grids rendered as SVG rects); `components/BingoCardIllustrator` is the slot for them.
+- Tile characters are original pixel art (16x16 text grids rendered as SVG rects); `src/games/bingo/illustrator` holds them.
 
 ## Brand Commitments
 
@@ -63,3 +63,7 @@ A "City-Bio" engine: the score describes the player's own relationship with one 
 ## Accessibility & Inclusion
 
 WCAG AA colour contrast for every text pair in the fixed palette. Touch targets of at least 44px, including the console keys. Everything the console keys do is also reachable by tapping the screen and by keyboard. Visible focus states. Reduced-motion preference respected. Sound and vibration are optional and mutable.
+
+## Platform (added 2026-11-18)
+
+Bengaluru Pocket is a pocket console of small games about the city. Bingo is the first cartridge. Future cartridges share the console's hardware, pixel art, palette, sound and menu, and each brings its own rules and screens. See `DESIGN.md` section 12 for the contract.

@@ -1,4 +1,4 @@
-import type { CategoryId } from "@/lib/game";
+import type { CategoryId } from "@/games/bingo/rules";
 import { spriteSvg, type Sprite } from "@/lib/pixel";
 
 // 8x8 one-colour category glyphs (DESIGN.md section 8). `#` is a lit pixel;

@@ -1,12 +1,57 @@
-# bengaluru-bingo
+# Bengaluru Pocket
 
-Bengaluru Bingo, a Ginhouse game by Ginclair. A 5x5 card of 25 Bengaluru experiences, played on a Y2K handheld: the **GINHOUSE POCKET GH-25**.
+A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. The first cartridge is **Bingo**: stamp 25 things you've actually done in the city, press START, and share how native you are.
 
-- **Play** on the colour LCD. Tap a tile, or drive it with the hardware: D-pad (arrows / WASD), A (Z / Space) to stamp, B (X / Backspace / Esc) to go back, START (Enter) for your scorecard, SELECT (Shift) for the menu, M to mute.
-- **Pixel art everywhere.** Tile characters, the stamp badge, icons and the scorecard are inline SVG rects on a pixel grid (`crispEdges`), drawn in one fixed palette. No images, no icon fonts, no audio files (sound is square-wave oscillators, mute is stored in `localStorage` as `bb:sound`).
-- **One fixed palette.** All colours are CSS custom properties on `:root` in `src/app/globals.css` (see `DESIGN.md`). There are no seasons or theme switches.
-- **The device** lives in `src/components/device/*` and scales as one object: everything is measured in `u`, where `1u` is the device width / 344.
-- Your card lives in this browser (`localStorage`); nothing personal is stored. Share links are `/card/[code]`, and two cards join into a `/journey/[a]/[b]` "link cable" page.
+- **Console:** a Y2K handheld, the **BENGALURU POCKET BP-01**, with an LCD, a D-pad, A, B, START and SELECT. Every control works from the keyboard too.
+- **Cartridges:** each game is a cartridge that the console runs one at a time, from a home menu. Games share the same hardware, palette, pixel art and sound.
+- **Pixel art everywhere.** Sprites are text grids drawn as inline SVG rects (`crispEdges`), in one fixed palette. No images, no icon fonts, no audio files. Sound is square-wave oscillators.
+- **Private.** Your card lives in this browser (`localStorage`). Nothing personal is stored.
+
+## Play
+
+| Input | Keyboard | Does |
+| --- | --- | --- |
+| D-pad | Arrows / WASD | Move the cursor or the menu selection |
+| A | Z / Space | Select, stamp or confirm |
+| B | X / Backspace / Esc | Go back, or lift a stamp |
+| START | Enter | Continue, or see your score |
+| SELECT | Shift | Pause menu |
+| Sound | M | Sound and haptics on or off |
+
+Tapping works too: tap a menu row or a tile.
+
+## Links
+
+- `/` opens the console at the home menu.
+- `/?g=bingo` opens Bingo straight away.
+- `/card/[code]` shows a shared scorecard. `/journey/[a]/[b]` joins two cards. Old `?c=` and `?view=card` links still open Bingo.
+
+## Layout
+
+| Path | What it holds |
+| --- | --- |
+| `src/console/` | The console: the boot, the home menu, the key router, the device shell |
+| `src/console/types.ts` | The `Cartridge` contract every game implements |
+| `src/console/registry.ts` | The list of cartridges, in menu order |
+| `src/console/device/` | The hardware: bezel, LCD, D-pad, keys, grille, overlays, boot |
+| `src/games/bingo/` | Cartridge 1: rules, board, scorecards, sharing, clubbing, tile art |
+| `src/games/bingo/index.ts` | Bingo's cartridge entry (title, sticker, legends, icon) |
+| `src/games/bingo/rules.ts` | Scoring, bingo lines, share codes |
+| `src/games/bingo/tiles.json` | The 25 tiles: labels, categories, blurbs |
+| `src/games/bingo/cards/` | Scorecard generator and the six avatar scenes |
+| `src/games/bingo/illustrator/` | The 16 x 16 tile sprites |
+| `src/lib/` | Pixel-sprite renderer and sound (shared by every game) |
+| `src/app/` | Routes: the console, shared cards, journeys, API |
+| `DESIGN.md` | The design system, including the console and cartridge platform (section 12) |
+
+## Add a game
+
+1. Create `src/games/<id>/` with your screens and rules. Keep them inside the cartridge.
+2. Export a `Cartridge` from `src/games/<id>/index.ts` (see `src/console/types.ts`): title, tagline, sticker (16 characters at most), a 16 x 16 icon, the A and B legends, and the `Game` component.
+3. Inside the game, use `useCartridge()` for the console host (`transition`, `announce`, `flashLed`, `setGrille`, `exit`, sound) and `useConsoleKeys(handler)` for the D-pad, A, B, START and SELECT.
+4. Add it to `CARTRIDGES` in `src/console/registry.ts`.
+
+Keys, the wipe between screens, the boot, the sound setting and the menu all come from the console, so a new game gets them for free.
 
 ## Develop
 
@@ -15,4 +60,12 @@ npm install
 npm run dev
 ```
 
-Fonts (Press Start 2P, Silkscreen, Pixelify Sans) load through `next/font/google`.
+Open http://localhost:3000. No keys or database are needed. Fonts (Press Start 2P, Silkscreen, Pixelify Sans) load through `next/font/google`.
+
+## Deploy to Vercel
+
+Push to GitHub, import the repo at [vercel.com/new](https://vercel.com/new), and deploy. Next.js is detected automatically and no environment variables are required.
+
+## Optional: Supabase
+
+`POST /api/scores` stores finished rounds once a database is connected. Until then it answers `stored: false`. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`, and run `db/schema.sql` in the Supabase SQL editor.

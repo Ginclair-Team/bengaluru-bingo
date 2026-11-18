@@ -1,8 +1,8 @@
 {
-  "name": "bengaluru-bingo",
-  "version": "0.1.0",
+  "name": "bengaluru-pocket",
+  "version": "0.2.0",
   "private": true,
-  "description": "Bengaluru Bingo, a Ginhouse game by Ginclair",
+  "description": "Bengaluru Pocket: a pocket console of small games about Bengaluru. A Ginhouse console by Ginclair.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

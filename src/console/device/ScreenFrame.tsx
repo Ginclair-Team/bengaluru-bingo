@@ -19,7 +19,7 @@ export function ScreenFrame({
       <div className="screen-frame__strip" aria-hidden="true">
         <PowerLed on />
         <span>PWR</span>
-        <span className="screen-frame__name" style={{ marginLeft: "auto", marginRight: "auto" }}>GINHOUSE POCKET</span>
+        <span className="screen-frame__name" style={{ marginLeft: "auto", marginRight: "auto" }}>BENGALURU POCKET</span>
         <span style={{ width: 24 }} />
       </div>
       <div className="screen-frame__lcd">{children}</div>

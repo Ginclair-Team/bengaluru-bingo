@@ -1,5 +1,5 @@
-import { Game } from "@/components/Game";
+import { Console } from "@/console/Console";
 
 export default function HomePage() {
-  return <Game />;
+  return <Console />;
 }

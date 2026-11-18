@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { decodeMarks, scoreFor } from "@/lib/game";
+import { decodeMarks, scoreFor } from "@/games/bingo/rules";
 
 // GET /api/cards/:code
 // A card's score, computed from the share code alone. No database needed:

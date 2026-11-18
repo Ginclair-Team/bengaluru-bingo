@@ -1,4 +1,4 @@
-import tilesJson from "@/data/tiles.json";
+import tilesJson from "@/games/bingo/tiles.json";
 
 export type CategoryId = "food" | "commute" | "outdoors" | "hustle" | "scene";
 

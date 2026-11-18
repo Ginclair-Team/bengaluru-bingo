@@ -1,5 +1,5 @@
-﻿import { STANDALONE_FONTS, scorecardSvg } from "@/components/Cards/scorecardSvg";
-import { decodeMarks, scoreFor } from "@/lib/game";
+﻿import { STANDALONE_FONTS, scorecardSvg } from "@/games/bingo/cards/scorecardSvg";
+import { decodeMarks, scoreFor } from "@/games/bingo/rules";
 
 // GET /api/scorecard/:code
 // The scorecard as a server-rendered SVG image, built by the same generator

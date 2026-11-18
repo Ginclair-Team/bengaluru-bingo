@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { decodeMarks, scoreFor } from "@/lib/game";
+import { decodeMarks, scoreFor } from "@/games/bingo/rules";
 
 // POST /api/scores
 // Body: { anonymous_id: uuid, card_code: string }

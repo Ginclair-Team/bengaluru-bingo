@@ -1,4 +1,4 @@
-import { decodeMarks, encodeMarks, type Marks } from "./game";
+import { decodeMarks, encodeMarks, type Marks } from "./rules";
 
 // Everything the game remembers lives in this browser: a random anonymous id
 // and the stamped tiles. No names, no phone numbers.

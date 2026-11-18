@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { BingoCardIllustrator } from "@/components/BingoCardIllustrator";
-import { ScreenFrame } from "@/components/device/ScreenFrame";
+import { BingoCardIllustrator } from "@/games/bingo/illustrator";
+import { ScreenFrame } from "@/console/device/ScreenFrame";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 
 export default function NotFound() {

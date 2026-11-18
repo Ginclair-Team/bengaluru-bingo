@@ -1,6 +1,6 @@
 ---
-name: Bengaluru Bingo
-description: A Y2K pocket console running one game. Stamp 25 Bengaluru tiles on the LCD, press START for your scorecard. A Ginhouse game.
+name: Bengaluru Pocket
+description: A Y2K pocket console for small Bengaluru games on one LCD and one D-pad. Bingo is the first cartridge. A Ginhouse console by Ginclair.
 colors:
   desk: "#2B1D17"
   desk-2: "#35251D"
@@ -98,17 +98,17 @@ components:
     rounded: "0px"
 ---
 
-# Design System: Bengaluru Bingo
+# Design System: Bengaluru Pocket
 
 ## 1. Concept
 
 **Creative North Star: "One pocket console, one cartridge."**
 
-The whole product is a handheld from the year 2000 lying on a desk: the **GINHOUSE POCKET GH-25** (25 for the 25 tiles), in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent), with *Bengaluru Bingo* as the cartridge that's always in it. The game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, START, SELECT. Everything on the LCD is pixel art.
+The whole product is a handheld from the year 2000 lying on a desk: the **BENGALURU POCKET BP-01**, in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent). It is a console, not a game: a shelf of small games about the city share its LCD, D-pad and buttons. One cartridge sits in it at a time. *Bingo* is cartridge 1. The game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, START, SELECT. Everything on the LCD is pixel art.
 
 Mood: warm café plastic on an espresso desk, chunky hard bevels, sticker labels, blinking cursors, 8-bit blips. Friendly, a little silly, fast.
 
-- **One fixed palette.** No seasons, no month logic, no theme switch. Delete the season engine (`src/theme/*`, `SeasonSwitch`, `SeasonalScorecard` becomes a plain scorecard wrapper, `scorecardSvg` loses its `season` argument, `/api/scores` stops sending `season`).
+- **One fixed palette.** No seasons, no month logic, no theme switch. The season engine is removed (`src/theme/*` and `SeasonSwitch` are gone; the scorecard is a plain wrapper, `scorecardSvg` has no `season` argument, and `/api/scores` no longer sends `season`).
 - **Original hardware.** Not a replica of any real console: symmetric shell, octagonal A/B keys, disc D-pad, a 5x5 speaker grille that doubles as a stamp map.
 - **Hard pixels only.** No blur, no soft shadows, no gradients except the two-band LCD scanline texture.
 
@@ -164,7 +164,7 @@ Plastic treatment: three layers inside the shell, back to front. (1) the 0.96 al
 | `--focus` | `#F28C78` | Focus ring, always doubled (see Focus) |
 
 ### Category colours (scorecard frame, chips, journey headers)
-`--cat-food #E9B949` (turmeric), `--cat-commute #D9824F` (terracotta), `--cat-outdoors #A7B27C` (sage), `--cat-hustle #CDAE8E` (latte), `--cat-scene #F28C78` (salmon), `--cat-none #F6E3C8` (cream). Ink text on every one is at least 5.4:1. `CATEGORIES[*].color` in `src/lib/game.ts` mirrors these.
+`--cat-food #E9B949` (turmeric), `--cat-commute #D9824F` (terracotta), `--cat-outdoors #A7B27C` (sage), `--cat-hustle #CDAE8E` (latte), `--cat-scene #F28C78` (salmon), `--cat-none #F6E3C8` (cream). Ink text on every one is at least 5.4:1. `CATEGORIES[*].color` in `src/games/bingo/rules.ts` mirrors these.
 
 ### Contrast rules
 - Text on the LCD is only ever `--lcd-ink` or `--lcd-dim` on paper/white/stamped, `--lcd-paper` on ink, or `--lcd-white` on `--stamp`.
@@ -221,9 +221,9 @@ device width = clamp(328px, min(100vw - 16px, (100dvh - 24px) * 0.544), 440px)
 | Shell | 0, 0, 344, 632 | Radius 32u on all four corners. 3px `--shell-edge` outline, 4px hi/lo inset bevels, hard shadow `8px 8px 0 var(--desk-shadow)`. |
 | Lanyard notch | 20, 0, 28, 6 | A `--shell-edge` slot cut into the top edge. Decorative. |
 | Bezel | 14, 14, 316, 416 | `--bezel`, radius 14u, 2px `--bezel-hi` inner line. |
-| Bezel top strip | 14, 14, 316, 22 | Left: power LED (6u square, at x 28) + `PWR` in `ui-s`. Centre: `GINHOUSE POCKET` in `ui-s`. Right: sound toggle, an 8x8 speaker icon (crossed when muted); 44px hit area centred on it. |
+| Bezel top strip | 14, 14, 316, 22 | Left: power LED (6u square, at x 28) + `PWR` in `ui-s`. Centre: `BENGALURU POCKET` in `ui-s`. Right: sound toggle, an 8x8 speaker icon (crossed when muted); 44px hit area centred on it. |
 | LCD | 26, 36, 292, 368 | `--lcd-paper`. Square corners. Scanline overlay on top (pointer-events none). |
-| Bezel bottom strip | 14, 404, 316, 26 | Centred sticker: `--lcd-stamped` rectangle 150 x 16u with `BENGALURU BINGO` in `ui-s` ink, tilted 0deg (no rotation). Right end: `GH-25` in `--bezel-ink`. |
+| Bezel bottom strip | 14, 404, 316, 26 | Centred sticker: `--lcd-stamped` rectangle 150 x 16u with `BENGALURU BINGO` in `ui-s` ink, tilted 0deg (no rotation). Right end: `BP-01` in `--bezel-ink`. |
 | D-pad | 16, 442, 132, 132 | `--btn-dark-lo` disc (circle, 132u). On it a cross of four 44 x 44u arms plus a 44u centre, `--btn-dark` with 3u `--btn-dark-hi` top edge. Each arm is a real `<button>` with an 8x8 pixel arrow. |
 | A key | centre 292, 484; 52 x 52 | Octagon (`clip-path` with 12u corner cuts), `--btn-ab`, 6u `--btn-ab-lo` wall below, 3u `--btn-ab-hi` top edge. Letter `A` in `display-l` ink. Legend `STAMP` in `ui-s` below-right. |
 | B key | centre 232, 524; 52 x 52 | Same as A. Legend `BACK`. |
@@ -241,7 +241,7 @@ device width = clamp(328px, min(100vw - 16px, (100dvh - 24px) * 0.544), 440px)
 Scanline overlay: `repeating-linear-gradient(0deg, rgb(26 28 44 / 0.06) 0 1px, transparent 1px 3px)`. Nothing else textures the screen.
 
 ### Mobile page (below 1024px)
-Single column, centred. Order: skip link; device (8px top margin); below it, in `--desk-ink`: a visually hidden `<h1>Bengaluru Bingo</h1>` (the sticker is decorative), a one-line `body` hint ("Tap a tile or use the buttons. START shows your score."), and the footer. The old header, season swatches, sticky bar and separate panels are gone: counter, tile detail, share and clear all live on the LCD.
+Single column, centred. Order: skip link; device (8px top margin); below it, in `--desk-ink`: a visually hidden `<h1>Bengaluru Pocket</h1>` (the sticker is decorative), a one-line `body` hint ("Tap a tile or use the buttons. START shows your score."), and the footer. The old header, season swatches, sticky bar and separate panels are gone: counter, tile detail, share and clear all live on the LCD.
 
 ### Desktop page (1024px and up)
 Two columns, max width 1040px, 56px gap, vertically centred. Left: the device. Right (max 30rem), all on the desk:
@@ -259,9 +259,9 @@ State machine: `boot -> board <-> result -> share`, with overlays `pause`, `help
 1. 0ms: LCD is `--lcd-off`, LED off.
 2. 150ms: LED turns on; LCD snaps to `--lcd-paper`.
 3. 250 to 900ms: `GINHOUSE` types on, one letter per 80ms, in `display-l`, centred, with a blinking ink block cursor. Each letter plays a tick.
-4. 900ms: `POCKET GH-25` appears below in `ui-s`; the food avatar's elephant head (16x16 crop) pops in above the wordmark; two-note chime.
+4. 900ms: `POCKET BP-01` appears below in `ui-s`; the food avatar's elephant head (16x16 crop) pops in above the wordmark; two-note chime.
 5. 1400ms: wipe to board.
-Any key, button or tap skips to the board at once. Reduced motion: no boot at all. `aria-hidden`; a live region says "Bengaluru Bingo ready" when the board appears.
+Any key, button or tap skips to the board at once. Reduced motion: no boot at all. `aria-hidden`; a live region says "Bengaluru Pocket ready" (or the cartridge name, when a game is opened by link) when the board appears.
 
 ### Board
 - Grid: 5x5, tiles 56u, 2u gaps, 2u outer padding. Gaps and padding show `--lcd-mid`. Container `role="grid"`, label "Bingo card, 25 tiles"; tiles are `<button aria-pressed>` with the existing `name. blurb` label and a roving `tabindex` that follows the cursor.
@@ -532,7 +532,7 @@ Shared chrome for all three: `--desk` background with the checker, a compact hea
 
 - **Panel**: `--lcd-paper` fill, ink text, 4px ink border, stepped corners (4px cut via `clip-path` or four corner pixels), hard shadow `4px 4px 0 var(--desk-shadow)`, 16px padding. Optional header strip: 28px tall, category or accent fill, title in `ui-l` ink.
 - **Page button** (`.btn`): 48px tall, `ui-l`, ink text, 4px ink border, stepped corners, fill `--lcd-paper` (default) or `--btn-pill` (primary, one per view), wall `0 4px 0 var(--lcd-ink)`. Hover: fill `--lcd-white` / `--btn-pill-hi`. Active: `translateY(4px)` and the wall disappears. Disabled: `--lcd-mid` fill, `--lcd-dim` text, no wall. 8x8 icon at 2x on the left.
-- **Screen frame**: the device's bezel on its own (`--bezel`, radius 14px, top strip with LED and `GINHOUSE POCKET`), used to present a scorecard outside the device.
+- **Screen frame**: the device's bezel on its own (`--bezel`, radius 14px, top strip with LED and `BENGALURU POCKET`), used to present a scorecard outside the device.
 
 ### `/card/[code]` (a friend's card)
 Mobile: one column. Desktop: 380px left column and text right, 56px gap. Left: the scorecard inside a screen frame (16px bezel padding). Right: `display-xl` heading `A FRIEND IS 68% BENGALURU NATIVE` (wraps; 20px on mobile), the existing paragraph in `body`, then `ClubActions` as page buttons: primary `LINK CABLE: CLUB WITH MY CARD` with the `club` icon and `BACK TO MY BOARD`, or the single primary `STAMP MY OWN CARD`.
@@ -553,7 +553,7 @@ A screen frame (max 360px) showing an LCD in `--lcd-paper`: the `none` fox head 
 
 ## 11. Do not
 
-- **No console trademarks.** No Nintendo or Game Boy names, logos, wordmarks, boot animation, jingle, grey-brick proportions, purple-and-magenta "atomic" look, or slanted START/SELECT. The device is the Ginhouse Pocket GH-25.
+- **No console trademarks.** No Nintendo or Game Boy names, logos, wordmarks, boot animation, jingle, grey-brick proportions, purple-and-magenta "atomic" look, or slanted START/SELECT. The device is the Bengaluru Pocket BP-01.
 - **No seasonal colours.** No season switch, no month logic, no `season` in props, storage or API payloads.
 - **No anti-aliased art.** No stroked paths, circles, gradients or bitmaps in illustrations. Rects on the grid, `crispEdges`, palette keys only.
 - **No soft shadows or blur.** Every `box-shadow` and `text-shadow` has zero blur. No `backdrop-filter`, no glow. The only alpha is the shell tint, the gloss stripe, the circuit pattern and the scanlines.
@@ -566,3 +566,61 @@ A screen frame (max 360px) showing an LCD in `--lcd-paper`: the `none` fox head 
 - **No audio files, image files or icon fonts.** Sound is oscillators; art is inline SVG rects.
 - **No emoji** as icons.
 - **No autoplaying sound before a user gesture**, and nothing that plays when muted.
+
+## 12. Platform: the console and its cartridges
+
+Bengaluru Pocket is a console. The console owns everything that is hardware or shared chrome; each game is a **cartridge** that runs inside it.
+
+### What the console owns
+- **Shell**: the bezel, LED, sound toggle, LCD, D-pad, A, B, START, SELECT, the speaker grille, the model `BP-01`, the sticker and the legends (`src/console/device/`).
+- **Boot** (once per session), then the **home menu** (`src/console/Menu.tsx`): one row per cartridge, a coming-soon row, and the sound setting.
+- **Input routing** (`src/console/Console.tsx`): one keyboard listener and one set of device handlers. Keys go to the menu or to the cartridge in play. The console ignores keys during the wipe.
+- **Screen changes**: the eight-blind wipe, 120ms closing and 120ms opening. Reduced motion swaps instantly. Cartridges use `host.transition(change)` for their own screen changes.
+- **Sound, haptics, LED, grille**: `host.toggleSound`, `host.muted`, `host.flashLed`, `host.setGrille(mask)`.
+
+### What a cartridge owns
+- Its rules, its screens, its own pause menu (SELECT), How to play and dialogs, built from the shared overlays in `src/console/device/Overlays.tsx`.
+- Its **legends** (the words under A and B, for example STAMP and BACK), its **sticker** (16 characters at most, for example BENGALURU BINGO), its 16 x 16 **menu icon**, and its **lede** and **hint** copy.
+- Its desk-side panels, rendered into the console's side column with a portal to `useCartridge().side` (Bingo's save file does this).
+- Its own storage, under its own id.
+
+### The contract
+```ts
+// src/console/types.ts
+type Cartridge = {
+  id: string;            // "bingo": the URL slug (/?g=bingo) and storage namespace
+  title: string;         // "Bingo"
+  tagline: string;       // second line on the menu
+  sticker: string;       // printed on the device, 16 characters at most
+  icon: Sprite;          // 16 x 16 pixel icon
+  legends: { a: string; b: string };
+  lede: string;          // desk text on desktop
+  hint: string;          // text under the console on phones
+  status: "ready" | "soon";
+  Game: ComponentType;   // rendered inside the LCD
+};
+```
+
+A game reads the console through two hooks:
+
+- `useCartridge()` returns `{ host, lcd, side }`.
+- `useConsoleKeys(handler)` receives `up | down | left | right | a | b | start | select` while the game is mounted.
+
+### Routes
+- `/` opens the console at the menu.
+- `/?g=<id>` opens a cartridge directly.
+- `/?c=…`, `/?club=…` and `/?view=card` are the old Bingo links. They open Bingo.
+- `/card/[code]` and `/journey/[a]/[b]` are Bingo's shared pages. They use the console's bezel as a frame and do not need the console to run.
+
+### Naming
+The console is **Bengaluru Pocket**, model **BP-01**, made by Ginhouse and played by Ginclair's games. The Bingo cartridge keeps its name. `bb:` storage keys belong to Bingo and stay as they are so saved cards survive.
+
+### Keyboard map (unchanged)
+| Key | Action |
+| --- | --- |
+| Arrows / WASD | D-pad |
+| Z / Space | A |
+| X / Backspace / Esc | B |
+| Enter | START |
+| Shift | SELECT (pause) |
+| M | Sound on or off |

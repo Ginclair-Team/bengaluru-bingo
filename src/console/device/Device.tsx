@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 import { SoundOffIcon, SoundOnIcon } from "@/components/icons";
-import type { Marks } from "@/lib/game";
 import { ActionKeys } from "./ActionKeys";
 import type { Key } from "./controls";
 import { DPad } from "./DPad";
@@ -11,8 +10,11 @@ import { PowerLed } from "./PowerLed";
 import { SystemKeys } from "./SystemKeys";
 import { box, u } from "./units";
 
+/** The model number printed on the bezel. */
+export const MODEL = "BP-01";
+
 /**
- * The GINHOUSE POCKET GH-25. Everything is laid out in device units (1u =
+ * The Bengaluru Pocket console. Everything is laid out in device units (1u =
  * device width / 344), so the whole console scales as one object.
  *
  * DOM order is the tab order: sound toggle, LCD, D-pad, B, A, SELECT, START.
@@ -25,7 +27,9 @@ export function Device({
   onToggleMute,
   ledOn,
   ledBlink,
-  marks,
+  grille,
+  sticker,
+  legends,
 }: {
   /** The LCD (a <Screen>). */
   children: ReactNode;
@@ -35,10 +39,15 @@ export function Device({
   onToggleMute: () => void;
   ledOn: boolean;
   ledBlink: boolean;
-  marks: Marks;
+  /** Bit i lights speaker hole i. Zero for a dark grille. */
+  grille: number;
+  /** The label sticker of the inserted cartridge. */
+  sticker: string;
+  /** Printed under A and B. An empty string prints nothing. */
+  legends: { a: string; b: string };
 }) {
   return (
-    <div className="device" id="game">
+    <div className="device" id="console">
       <div className="notch" style={box(20, 0, 28, 6)} aria-hidden="true" />
 
       {/* Bezel and its two strips */}
@@ -54,7 +63,7 @@ export function Device({
         style={{ left: u(172), top: u(25), transform: "translate(-50%, -50%)" }}
         aria-hidden="true"
       >
-        GINHOUSE POCKET
+        BENGALURU POCKET
       </span>
 
       <button
@@ -84,21 +93,21 @@ export function Device({
         style={{ left: u(97), top: u(409), width: u(150), height: u(16) }}
         aria-hidden="true"
       >
-        BENGALURU BINGO
+        {sticker}
       </div>
       <span
         className="bezel-text t-ui-s"
         style={{ right: u(26), top: u(417), transform: "translateY(-50%)" }}
         aria-hidden="true"
       >
-        GH-25
+        {MODEL}
       </span>
 
       {/* Controls */}
       <DPad pressed={pressed} onPress={onPress} />
-      <ActionKeys pressed={pressed} onPress={onPress} />
+      <ActionKeys pressed={pressed} onPress={onPress} legends={legends} />
       <SystemKeys pressed={pressed} onPress={onPress} />
-      <Grille marks={marks} />
+      <Grille mask={grille} />
     </div>
   );
 }

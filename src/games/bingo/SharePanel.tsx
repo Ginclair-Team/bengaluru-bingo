@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useState, type RefObject } from "react";
 import { TwitterShareButton, WhatsappShareButton } from "react-share";
 import { ArrowIcon, ChatIcon, ClubIcon, LinkIcon, PostIcon, SaveIcon } from "@/components/icons";
-import type { Score } from "@/lib/game";
+import type { Score } from "@/games/bingo/rules";
 
 export type ShareStatus = { kind: "idle" } | { kind: "ok" | "error"; message: string };
 

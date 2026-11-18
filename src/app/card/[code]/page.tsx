@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CardScorecard } from "@/components/Cards/CardScorecard";
-import { ClubActions } from "@/components/ClubActions";
-import { ScreenFrame } from "@/components/device/ScreenFrame";
+import { CardScorecard } from "@/games/bingo/cards/CardScorecard";
+import { ClubActions } from "@/games/bingo/ClubActions";
+import { ScreenFrame } from "@/console/device/ScreenFrame";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
-import { decodeMarks, scoreFor } from "@/lib/game";
+import { decodeMarks, scoreFor } from "@/games/bingo/rules";
 
 type Props = { params: { code: string } };
 
 export function generateMetadata({ params }: Props): Metadata {
   const marks = decodeMarks(params.code);
-  if (marks === null) return { title: "Card not found, Bengaluru Bingo" };
+  if (marks === null) return { title: "Card not found, Bengaluru Pocket" };
   const score = scoreFor(marks);
   const title = `${score.percent}% Bengaluru native: ${score.badge}`;
   return {
-    title: `${title}, Bengaluru Bingo`,
-    description: "A Bengaluru Bingo scorecard from Ginhouse. Stamp your own card and compare.",
+    title: `${title}, Bengaluru Pocket`,
+    description: "A Bengaluru Bingo scorecard from Bengaluru Pocket. Stamp your own card and compare.",
     openGraph: {
       title,
       description: "Stamp your own Bengaluru Bingo card and compare.",

@@ -1,6 +1,6 @@
 # Scrapers
 
-Empty on purpose. Tile content is static JSON in `src/data/tiles.json`, and nothing is scraped while someone plays.
+Empty on purpose. Tile content is static JSON in `src/games/bingo/tiles.json`, and nothing is scraped while someone plays.
 
 A source module added here exports one function:
 

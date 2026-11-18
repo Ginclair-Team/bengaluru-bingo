@@ -1,4 +1,4 @@
-import { CATEGORIES, CATEGORY_ORDER, NONE_COLOR, decodeMarks, type Score } from "@/lib/game";
+import { CATEGORIES, CATEGORY_ORDER, NONE_COLOR, decodeMarks, type Score } from "@/games/bingo/rules";
 import { spriteRects } from "@/lib/pixel";
 import { avatarRects } from "./avatars";
 import { CATEGORY_GLYPHS, STAR_SPRITE } from "./glyphs";
