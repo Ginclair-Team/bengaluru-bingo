@@ -2,6 +2,8 @@
 
 A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. The first cartridge is **Bingo**: stamp 25 things you've actually done in the city, press START, and share how native you are.
 
+<img width="2400" height="3200" alt="bengaluru-bingo-poster" src="https://github.com/user-attachments/assets/fb3f5b3b-b0f4-4ef6-96e0-0f4ffdf0e3dd" />
+
 - **Console:** a Y2K handheld, the **BENGALURU POCKET BP-01**, with an LCD, a D-pad, A, B, START and SELECT. Every control works from the keyboard too.
 - **Cartridges:** each game is a cartridge that the console runs one at a time, from a home menu. Games share the same hardware, palette, pixel art and sound.
 - **Pixel art everywhere.** Sprites are text grids drawn as inline SVG rects (`crispEdges`), in one fixed palette. No images, no icon fonts, no audio files. Sound is square-wave oscillators.
