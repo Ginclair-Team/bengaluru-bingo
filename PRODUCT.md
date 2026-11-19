@@ -66,4 +66,4 @@ WCAG AA colour contrast for every text pair in the fixed palette. Touch targets 
 
 ## Platform (added 2026-11-18)
 
-Bengaluru Pocket is a pocket console of small games about the city. Bingo is the first cartridge. Future cartridges share the console's hardware, pixel art, palette, sound and menu, and each brings its own rules and screens. See `DESIGN.md` section 12 for the contract.
+Bengaluru Pocket is a pocket console of small games about the city. Bingo, Which Side, Macha? and Gundu are the first three cartridges. Future cartridges share the console's hardware, pixel art, palette, sound and menu, and each brings its own rules and screens. See `DESIGN.md` section 12 for the contract.
