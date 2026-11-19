@@ -1,6 +1,10 @@
 # Bengaluru Pocket
 
-A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. The first cartridge is **Bingo**: stamp 25 things you've actually done in the city, press START, and share how native you are.
+A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. Three cartridges so far:
+
+- **Bingo:** stamp 25 things you've actually done in the city, press START, and share how native you are.
+- **Which Side, Macha?:** five landmarks, five guesses. Which zone of the city is each one in?
+- **Gundu:** a balcony pet on city time. Pick a cat, dog or bird, name it, feed it, walk it across the junction to the darshini, and send its postcard to a neighbour.
 
 <img width="2400" height="3200" alt="bengaluru-bingo-poster" src="https://github.com/user-attachments/assets/fb3f5b3b-b0f4-4ef6-96e0-0f4ffdf0e3dd" />
 
@@ -25,7 +29,7 @@ Tapping works too: tap a menu row or a tile.
 ## Links
 
 - `/` opens the console at the home menu.
-- `/?g=bingo` opens Bingo straight away.
+- `/?g=bingo`, `/?g=which-side` and `/?g=gundu` open a cartridge straight away.
 - `/card/[code]` shows a shared scorecard. `/journey/[a]/[b]` joins two cards. Old `?c=` and `?view=card` links still open Bingo.
 
 ## Layout
@@ -42,6 +46,8 @@ Tapping works too: tap a menu row or a tile.
 | `src/games/bingo/tiles.json` | The 25 tiles: labels, categories, blurbs |
 | `src/games/bingo/cards/` | Scorecard generator and the six avatar scenes |
 | `src/games/bingo/illustrator/` | The 16 x 16 tile sprites |
+| `src/games/which-side/` | Cartridge 2: Which Side, Macha? (landmarks, zones, rounds, stats) |
+| `src/games/gundu/` | Cartridge 3: Gundu (cat, dog or bird; needs, walks, decor, visit codes) |
 | `src/lib/` | Pixel-sprite renderer and sound (shared by every game) |
 | `src/app/` | Routes: the console, shared cards, journeys, API |
 | `DESIGN.md` | The design system, including the console and cartridge platform (section 12) |
@@ -64,9 +70,11 @@ npm run dev
 
 Open http://localhost:3000. No keys or database are needed. Fonts (Press Start 2P, Silkscreen, Pixelify Sans) load through `next/font/google`.
 
+To check the production build locally: `npm run build`, then `npm start`.
+
 ## Deploy to Vercel
 
-Push to GitHub, import the repo at [vercel.com/new](https://vercel.com/new), and deploy. Next.js is detected automatically and no environment variables are required.
+Push to GitHub, import the repo at [vercel.com/new](https://vercel.com/new), and deploy. `vercel.json` sets the build, install and dev commands. Next.js is detected automatically and no environment variables are required.
 
 ## Optional: Supabase
 
