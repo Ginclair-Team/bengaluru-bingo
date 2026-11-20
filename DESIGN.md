@@ -1,6 +1,6 @@
 ---
 name: Bengaluru Pocket
-description: A Y2K pocket console for small Bengaluru games on one LCD and one D-pad. Three cartridges so far: Bingo, Which Side, Macha? and Gundu. A Ginhouse console by Ginclair.
+description: A Y2K pocket console for small Bengaluru games on one LCD and one D-pad. Four cartridges so far: Bingo, Which Side, Macha?, Gundu and Gig Hunt. A Ginhouse console by Ginclair.
 colors:
   desk: "#2B1D17"
   desk-2: "#35251D"
@@ -104,7 +104,7 @@ components:
 
 **Creative North Star: "One pocket console, one cartridge."**
 
-The whole product is a handheld from the year 2000 lying on a desk: the **BENGALURU POCKET BP-01**, in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent). It is a console, not a game: a shelf of small games about the city share its LCD, D-pad and buttons. One cartridge sits in it at a time. *Bingo* is cartridge 1, *Which Side, Macha?* is cartridge 2 and *Gundu* is cartridge 3. Each game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, CONTINUE, MENU. Everything on the LCD is pixel art.
+The whole product is a handheld from the year 2000 lying on a desk: the **BENGALURU POCKET BP-01**, in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent). It is a console, not a game: a shelf of small games about the city share its LCD, D-pad and buttons. One cartridge sits in it at a time. *Bingo* is cartridge 1, *Which Side, Macha?* is cartridge 2 and *Gundu* is cartridge 3 and *Gig Hunt* is cartridge 4. Each game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, CONTINUE, MENU. Everything on the LCD is pixel art.
 
 Mood: warm café plastic on an espresso desk, chunky hard bevels, sticker labels, blinking cursors, 8-bit blips. Friendly, a little silly, fast.
 
@@ -623,6 +623,7 @@ The console is **Bengaluru Pocket**, model **BP-01**, made by Ginhouse and playe
 | The console (all cartridges) | `/` | `src/console/`, `src/lib/sound.ts` | `bb:sound` (sound on or off), `bp:booted` (the boot flag, per session) |
 | Which Side, Macha? | `/?g=which-side` | `src/games/which-side/` | `wsm:v1` |
 | Gundu | `/?g=gundu` | `src/games/gundu/` | `bp-pet:v2` |
+| Gig Hunt | `/?g=gig-hunt` | `src/games/gig-hunt/` | `gh:v1` (the run, and lifetime stats) |
 
 ### Keyboard map (unchanged)
 | Key | Action |

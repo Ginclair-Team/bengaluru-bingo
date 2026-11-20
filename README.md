@@ -1,10 +1,11 @@
 # Bengaluru Pocket
 
-A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. Three cartridges so far:
+A pocket console of small games about Bengaluru: its tiffin, traffic, parks, tech and quiz nights. A Ginhouse console by Ginclair. Four cartridges so far:
 
 - **Bingo:** stamp 25 things you've actually done in the city, press CONTINUE, and share how native you are.
 - **Which Side, Macha?:** five landmarks, five guesses. Which zone of the city is each one in?
 - **Gundu:** a balcony pet on city time. Pick a cat, dog or bird, name it, feed it, walk it across the junction to the darshini, and send its postcard to a neighbour.
+- **Gig Hunt:** three weeks to land a first gig in Bengaluru. Interview for listings, take your tiffin, learn a skill, and keep the rent paid. Save your stats as a file to share.
 
 <img width="2400" height="3200" alt="bengaluru-bingo-poster" src="https://github.com/user-attachments/assets/fb3f5b3b-b0f4-4ef6-96e0-0f4ffdf0e3dd" />
 
@@ -48,6 +49,7 @@ Tapping works too: tap a menu row or a tile.
 | `src/games/bingo/illustrator/` | The 16 x 16 tile sprites |
 | `src/games/which-side/` | Cartridge 2: Which Side, Macha? (landmarks, zones, rounds, stats) |
 | `src/games/gundu/` | Cartridge 3: Gundu (cat, dog or bird; needs, walks, decor, visit codes) |
+| `src/games/gig-hunt/` | Cartridge 4: Gig Hunt (listings, interviews, tiffin, rent, stats file) |
 | `src/lib/` | Pixel-sprite renderer and sound (shared by every game) |
 | `src/app/` | Routes: the console, shared cards, journeys, API |
 | `DESIGN.md` | The design system, including the console and cartridge platform (section 12) |
