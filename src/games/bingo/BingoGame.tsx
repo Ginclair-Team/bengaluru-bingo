@@ -352,6 +352,35 @@ export function BingoGame() {
 
   useConsoleKeys(press);
 
+  // What A and B do on the screen showing now.
+  const marked = isMarked(marks, cursor);
+  let legendA = "";
+  let legendB = "";
+  if (overlay === "pause") {
+    legendA = "PICK";
+    legendB = "BACK";
+  } else if (overlay === "help") {
+    legendB = "BACK";
+  } else if (overlay === "confirmClear") {
+    legendA = "PICK";
+    legendB = "BACK";
+  } else if (overlay === "linkInfo") {
+    legendA = "COPY";
+    legendB = "BACK";
+  } else if (screen === "board") {
+    legendA = marked ? "LIFT" : "STAMP";
+    legendB = marked ? "LIFT" : "";
+  } else if (screen === "result") {
+    legendA = "SHARE";
+    legendB = "BOARD";
+  } else if (screen === "share") {
+    legendA = "PICK";
+    legendB = "BACK";
+  }
+  useEffect(() => {
+    host.setLegends({ a: legendA, b: legendB });
+  }, [host, legendA, legendB]);
+
   // ---- Focus management, inside the LCD ----
   const focusIn = useCallback((el: Element | null) => {
     if (!el) return;

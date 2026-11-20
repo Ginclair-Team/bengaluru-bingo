@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { spriteSvg } from "@/lib/pixel";
 import { play } from "@/lib/sound";
-import { useConsoleKeys } from "./context";
+import { useCartridge, useConsoleKeys } from "./context";
 import { LcdHeader } from "./device/Screen";
 import { CARTRIDGES } from "./registry";
 import type { Cartridge } from "./types";
@@ -35,6 +35,7 @@ export function Menu({
   onSound: () => void;
   announce: (message: string) => void;
 }) {
+  const { host } = useCartridge();
   const start = Math.max(
     0,
     ROWS.findIndex((row) => row.kind === "game" && row.cartridge.id === lastPlayed)
@@ -89,6 +90,14 @@ export function Menu({
     // Runs once, when the menu appears.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // The legends follow the selected row.
+  useEffect(() => {
+    const row = ROWS[sel];
+    if (row.kind === "game" && row.cartridge.status === "ready") host.setLegends({ a: "PLAY", b: "" });
+    else if (row.kind === "sound") host.setLegends({ a: "TOGGLE", b: "" });
+    else host.setLegends({ a: "", b: "" });
+  }, [host, sel]);
 
   return (
     <div className="lcd-screen">

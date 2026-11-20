@@ -10,7 +10,7 @@ export const gundu: Cartridge = {
   tagline: TAGLINE,
   sticker: STICKER,
   icon: ICON_SPRITE,
-  legends: { a: "Pick", b: "Back" },
+  legends: { a: "", b: "" },
   lede: LEDE,
   hint: HINT,
   status: "ready",

@@ -577,10 +577,11 @@ Bengaluru Pocket is a console. The console owns everything that is hardware or s
 - **Input routing** (`src/console/Console.tsx`): one keyboard listener and one set of device handlers. Keys go to the menu or to the cartridge in play. The console ignores keys during the wipe.
 - **Screen changes**: the eight-blind wipe, 120ms closing and 120ms opening. Reduced motion swaps instantly. Cartridges use `host.transition(change)` for their own screen changes.
 - **Sound, haptics, LED, grille**: `host.toggleSound`, `host.muted`, `host.flashLed`, `host.setGrille(mask)`.
+- **Legends**: the menu and each cartridge screen call `host.setLegends({ a, b })` when the screen changes, so the words under A and B match the action.
 
 ### What a cartridge owns
 - Its rules, its screens, its own pause menu (SELECT), How to play and dialogs, built from the shared overlays in `src/console/device/Overlays.tsx`.
-- Its **legends** (the words under A and B, for example STAMP and BACK), its **sticker** (16 characters at most, for example BENGALURU BINGO), its 16 x 16 **menu icon**, and its **lede** and **hint** copy.
+- Its **legends**: the words under A and B name what those buttons do on the screen showing now. Each screen sets them with `host.setLegends({ a, b })` (8 characters or fewer; empty prints nothing). The `legends` field on the cartridge is only the starting pair. Its **sticker** (16 characters at most, for example BENGALURU BINGO), its 16 x 16 **menu icon**, and its **lede** and **hint** copy.
 - Its desk-side panels, rendered into the console's side column with a portal to `useCartridge().side` (Bingo's save file does this).
 - Its own storage, under its own id.
 

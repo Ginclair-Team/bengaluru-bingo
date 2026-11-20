@@ -10,7 +10,7 @@ export const whichSide: Cartridge = {
   tagline: TAGLINE,
   sticker: STICKER,
   icon: ICON_SPRITE,
-  legends: { a: "GUESS", b: "BACK" },
+  legends: { a: "START", b: "MENU" },
   lede: LEDE,
   hint: HINT,
   status: "ready",

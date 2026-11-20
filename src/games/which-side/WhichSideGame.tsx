@@ -275,6 +275,29 @@ export function WhichSideGame() {
     el?.focus({ preventScroll: true });
   }, [phase, sel, pauseSel, overlay, round, lcd]);
 
+  // What A and B do on the screen showing now.
+  let legendA = "";
+  let legendB = "";
+  if (overlay === "pause") {
+    legendA = "PICK";
+    legendB = "BACK";
+  } else if (overlay === "help") {
+    legendB = "BACK";
+  } else if (phase === "intro") {
+    legendA = "START";
+    legendB = "MENU";
+  } else if (phase === "guess") {
+    legendA = "GUESS";
+  } else if (phase === "reveal") {
+    legendA = round + 1 < ROUNDS ? "NEXT" : "RESULT";
+  } else if (phase === "summary") {
+    legendA = "PLAY";
+    legendB = "MENU";
+  }
+  useEffect(() => {
+    host.setLegends({ a: legendA, b: legendB });
+  }, [host, legendA, legendB]);
+
   const rowStyle: CSSProperties = { height: u(28), minHeight: 26 };
 
   return (

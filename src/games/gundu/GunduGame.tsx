@@ -1460,6 +1460,86 @@ export function GunduGame() {
 
   // ---------------------------------------------------------------- render
 
+  // What A and B do on the screen showing now.
+  let legendA = "";
+  let legendB = "";
+  if (overlay === "pause" || overlay === "areas" || overlay === "confirmMove" || overlay === "confirmReset") {
+    legendA = "PICK";
+    legendB = "BACK";
+  } else if (overlay === "help") {
+    legendB = "BACK";
+  } else if (screen === "rain") {
+    if (rainStage === "choice") {
+      legendA = "UMBRELLA";
+      legendB = "GET WET";
+    }
+  } else if (screen === "intro") {
+    if (introStep === 1) {
+      legendA = "LOOK";
+      legendB = "MENU";
+    } else if (introStep === 2) {
+      legendA = "PICK";
+      legendB = "BACK";
+    } else if (introStep === 3) {
+      legendA = "TYPE";
+      legendB = nameText.length > 0 ? "DEL" : "BACK";
+    } else if (introStep === 4) {
+      legendA = "PICK";
+      legendB = "BACK";
+    } else if (introStep === 5) {
+      legendA = "HELLO";
+      legendB = "BACK";
+    }
+  } else if (screen === "home") {
+    const homeId = ACTIONS[sel].id;
+    legendA =
+      homeId === "feed"
+        ? "FEED"
+        : homeId === "bath"
+          ? "BATH"
+          : homeId === "walk"
+            ? "WALK"
+            : homeId === "sleep"
+              ? sim.asleep
+                ? "WAKE"
+                : "SLEEP"
+              : homeId === "decor"
+                ? "DECOR"
+                : "VISIT";
+  } else if (screen === "feed") {
+    legendA = "FEED";
+    legendB = "BACK";
+  } else if (screen === "bath") {
+    legendA = "POUR";
+    legendB = bath.mugs > 0 ? "DONE" : "BACK";
+  } else if (screen === "walkask") {
+    legendA = "WALK";
+    legendB = "BACK";
+  } else if (screen === "walk") {
+    legendA = "HOP";
+    legendB = "CALL OFF";
+  } else if (screen === "walkresult") {
+    legendA = walkResult?.food ? "FEED" : "";
+    legendB = "HOME";
+  } else if (screen === "decor") {
+    legendA = "PLACE";
+    legendB = "BACK";
+  } else if (screen === "visit") {
+    legendA = "TYPE";
+    legendB = codeText.length > 0 ? "DEL" : "BACK";
+  } else if (screen === "rename") {
+    legendA = "TYPE";
+    legendB = nameText.length > 0 ? "DEL" : "BACK";
+  } else if (screen === "today") {
+    legendA = "SHARE";
+    legendB = "BACK";
+  } else if (screen === "box") {
+    legendB = "HOME";
+  }
+  useEffect(() => {
+    host.setLegends({ a: legendA, b: legendB });
+  }, [host, legendA, legendB]);
+
   const clock = now ? R.formatClock(now) : "";
   const statusText = save ? R.statusLine(sim, C.name) : "";
   const homeInfo = info ?? (!touched ? C.MSG.beforeInput : statusText);

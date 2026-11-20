@@ -10,7 +10,7 @@ import { Device } from "./device/Device";
 import { Screen, type WipePhase } from "./device/Screen";
 import { Menu } from "./Menu";
 import { CARTRIDGES, playable } from "./registry";
-import type { ConsoleHost } from "./types";
+import type { ConsoleHost, Legends } from "./types";
 
 const BOOTED_KEY = "bp:booted";
 const MENU_LEDE =
@@ -38,6 +38,8 @@ export function Console() {
   const [pressed, setPressed] = useState<Partial<Record<Key, boolean>>>({});
   const [announcement, setAnnouncement] = useState("");
   const [side, setSide] = useState<HTMLDivElement | null>(null);
+  // The legends the running screen asked for, and which screen asked (the menu or a game id).
+  const [legendState, setLegendState] = useState<{ owner: string; legends: Legends } | null>(null);
 
   const lcdRef = useRef<HTMLDivElement>(null);
   const listeners = useRef(new Set<KeyListener>());
@@ -49,6 +51,8 @@ export function Console() {
   const shiftClean = useRef(false);
   const viewRef = useRef<View>("boot");
   viewRef.current = view;
+  const cartridgeIdRef = useRef<string | null>(null);
+  cartridgeIdRef.current = cartridgeId;
 
   const later = useCallback((fn: () => void, ms: number) => {
     timers.current.push(setTimeout(fn, ms));
@@ -188,9 +192,18 @@ export function Console() {
     later(() => setLedBlink(false), 1200);
   }, [later]);
 
+  const setLegends = useCallback((legends: Legends) => {
+    const owner = viewRef.current === "menu" ? "menu" : cartridgeIdRef.current ?? "";
+    setLegendState((prev) =>
+      prev && prev.owner === owner && prev.legends.a === legends.a && prev.legends.b === legends.b
+        ? prev
+        : { owner, legends }
+    );
+  }, []);
+
   const host = useMemo<ConsoleHost>(
-    () => ({ muted, toggleSound, exit, transition, announce, flashLed, setGrille }),
-    [muted, toggleSound, exit, transition, announce, flashLed]
+    () => ({ muted, toggleSound, exit, transition, announce, flashLed, setGrille, setLegends }),
+    [muted, toggleSound, exit, transition, announce, flashLed, setLegends]
   );
 
   // ---- Keys: one place decides who hears them ----
@@ -298,7 +311,17 @@ export function Console() {
 
   // ---- What the shell shows ----
   const cartridge = view === "game" ? CARTRIDGES.find((c) => c.id === cartridgeId) ?? null : null;
-  const legends = cartridge ? cartridge.legends : { a: "PLAY", b: "" };
+  // Legends come from the screen that is showing: the menu, or the game's own
+  // call to host.setLegends. A game's legends never show on the menu.
+  const owner = view === "menu" ? "menu" : cartridge ? cartridge.id : "";
+  const legends: Legends =
+    view === "boot"
+      ? { a: "", b: "" }
+      : legendState && legendState.owner === owner
+        ? legendState.legends
+        : cartridge
+          ? cartridge.legends
+          : { a: "PLAY", b: "" };
   const sticker = cartridge ? cartridge.sticker : "CHOOSE A GAME";
   const lede = cartridge ? cartridge.lede : MENU_LEDE;
   const hint = cartridge ? cartridge.hint : MENU_HINT;

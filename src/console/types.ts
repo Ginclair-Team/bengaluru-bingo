@@ -3,6 +3,9 @@ import type { Sprite } from "@/lib/pixel";
 
 export type { Key } from "./device/controls";
 
+/** The words printed under the A and B keys. An empty word prints nothing. */
+export type Legends = { a: string; b: string };
+
 /** What the console gives every cartridge. Reach it with useCartridge(). */
 export type ConsoleHost = {
   /** Sound and haptics are off. */
@@ -22,6 +25,13 @@ export type ConsoleHost = {
   flashLed: () => void;
   /** Light the speaker grille. Bit i lights hole i (0 to 24, row by row). */
   setGrille: (mask: number) => void;
+  /**
+   * Name what A and B do on the screen that is showing now. Call it when the
+   * screen changes, and keep each word to 8 characters or fewer. The menu
+   * and each cartridge set their own; the cartridge's `legends` are only the
+   * starting words.
+   */
+  setLegends: (legends: Legends) => void;
 };
 
 /**
@@ -40,8 +50,8 @@ export type Cartridge = {
   sticker: string;
   /** 16 x 16 pixel icon for the menu. */
   icon: Sprite;
-  /** Legends printed on the shell under A and B. */
-  legends: { a: string; b: string };
+  /** Starting legends under A and B, until the game sets its screen's own. */
+  legends: Legends;
   /** Desk text beside the console, on desktop. */
   lede: string;
   /** Text under the console, on phones. */
