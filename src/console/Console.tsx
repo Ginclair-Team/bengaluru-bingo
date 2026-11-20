@@ -14,7 +14,7 @@ import type { ConsoleHost, Legends } from "./types";
 
 const BOOTED_KEY = "bp:booted";
 const MENU_LEDE =
-  "Bengaluru Pocket is a console for small games about the city. Pick a cartridge from the shelf and press START.";
+  "Bengaluru Pocket is a console for small games about the city. Pick a cartridge from the shelf and press CONTINUE.";
 const MENU_HINT = "Tap a game, or use the D-pad and A.";
 
 type View = "boot" | "menu" | "game";
@@ -286,9 +286,9 @@ export function Console() {
       if (e.key === "Shift") {
         if (shiftClean.current) {
           shiftClean.current = false;
-          api.current.flash("select", true);
-          api.current.dispatch("select");
-          releaseLater("select");
+          api.current.flash("menu", true);
+          api.current.dispatch("menu");
+          releaseLater("menu");
         }
         return;
       }

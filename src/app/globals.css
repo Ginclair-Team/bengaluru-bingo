@@ -727,7 +727,7 @@
     transition: transform 60ms steps(1);
   }
 
-  /* START and SELECT: pill with stepped corners */
+  /* CONTINUE and MENU: pill with stepped corners */
   .key-pill {
     --c: calc(4 * var(--u));
   }

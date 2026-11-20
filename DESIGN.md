@@ -104,7 +104,7 @@ components:
 
 **Creative North Star: "One pocket console, one cartridge."**
 
-The whole product is a handheld from the year 2000 lying on a desk: the **BENGALURU POCKET BP-01**, in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent). It is a console, not a game: a shelf of small games about the city share its LCD, D-pad and buttons. One cartridge sits in it at a time. *Bingo* is cartridge 1, *Which Side, Macha?* is cartridge 2 and *Gundu* is cartridge 3. Each game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, START, SELECT. Everything on the LCD is pixel art.
+The whole product is a handheld from the year 2000 lying on a desk: the **BENGALURU POCKET BP-01**, in Ginclair's "Latte Cream" plastic (creams and browns, salmon as the one accent). It is a console, not a game: a shelf of small games about the city share its LCD, D-pad and buttons. One cartridge sits in it at a time. *Bingo* is cartridge 1, *Which Side, Macha?* is cartridge 2 and *Gundu* is cartridge 3. Each game is played on its colour LCD. You can tap the screen directly, or drive it with the hardware: D-pad, A, B, CONTINUE, MENU. Everything on the LCD is pixel art.
 
 Mood: warm café plastic on an espresso desk, chunky hard bevels, sticker labels, blinking cursors, 8-bit blips. Friendly, a little silly, fast.
 
@@ -159,7 +159,7 @@ Plastic treatment: three layers inside the shell, back to front. (1) the 0.96 al
 |---|---|---|
 | `--btn-ab` / `-hi` / `-lo` | `#F28C78` / `#FFB9A9` / `#C4614D` | A and B keys (salmon): face, top bevel, side wall. Letter in `--lcd-ink` (6.6:1). Also text selection |
 | `--btn-dark` / `-hi` / `-lo` | `#4A3428` / `#6B4E3D` / `#2A1C15` | D-pad disc and cross (cocoa). Arrows in `--bezel-ink` |
-| `--btn-pill` / `-hi` / `-lo` | `#C99A6B` / `#E6C49C` / `#8F6A45` | START, SELECT, and primary page buttons (caramel). Text in `--lcd-ink` (6.3:1) |
+| `--btn-pill` / `-hi` / `-lo` | `#C99A6B` / `#E6C49C` / `#8F6A45` | CONTINUE, MENU, and primary page buttons (caramel). Text in `--lcd-ink` (6.3:1) |
 | `--led-on` / `--led-off` | `#FF9C86` / `#5A3A30` | Power LED (salmon glow) |
 | `--focus` | `#F28C78` | Focus ring, always doubled (see Focus) |
 
@@ -192,7 +192,7 @@ Sizes. `u` is the device unit (section 4). Use `max()` so nothing drops under th
 | `display-l` | Press Start 2P | 16px | 0 | Dialog titles, A/B key letters, result percent on LCD |
 | `display-s` | Press Start 2P | `max(10px, 12u)` | 0 | B I N G O column letters, counter `17/25` |
 | `ui-l` | Silkscreen 700 | 16px | 0.02em | Page buttons, menu rows |
-| `ui-s` | Silkscreen 700 | `max(8px, 9u)` | 0.04em | Shell legends (START, SELECT, PWR), bezel sticker |
+| `ui-s` | Silkscreen 700 | `max(8px, 9u)` | 0.04em | Shell legends (CONTINUE, MENU, PWR), bezel sticker |
 | `label` | Silkscreen 400 | `max(8px, 8u)` | 0 | Tile labels, soft-key hints |
 | `body` | Pixelify Sans 400 | 16px, line-height 1.4 | 0 | Page paragraphs, journey lists |
 | `body-lcd` | Pixelify Sans 400 | `max(12px, 12u)`, line-height 1.2 | 0 | Tile blurb in the info bar, help text |
@@ -227,8 +227,8 @@ device width = clamp(328px, min(100vw - 16px, (100dvh - 24px) * 0.544), 440px)
 | D-pad | 16, 442, 132, 132 | `--btn-dark-lo` disc (circle, 132u). On it a cross of four 44 x 44u arms plus a 44u centre, `--btn-dark` with 3u `--btn-dark-hi` top edge. Each arm is a real `<button>` with an 8x8 pixel arrow. |
 | A key | centre 292, 484; 52 x 52 | Octagon (`clip-path` with 12u corner cuts), `--btn-ab`, 6u `--btn-ab-lo` wall below, 3u `--btn-ab-hi` top edge. Letter `A` in `display-l` ink. Legend `STAMP` in `ui-s` below-right. |
 | B key | centre 232, 524; 52 x 52 | Same as A. Legend `BACK`. |
-| SELECT | centre 136, 600; 56 x 24 (hit 56 x 44) | `--btn-pill` rectangle with 4u stepped corners, 4u `--btn-pill-lo` wall. Legend `SELECT` above in `ui-s`, in `--shell-ink`. |
-| START | centre 208, 600; 56 x 24 (hit 56 x 44) | Same. Legend `START`. |
+| MENU | centre 136, 600; 56 x 24 (hit 56 x 44) | `--btn-pill` rectangle with 4u stepped corners, 4u `--btn-pill-lo` wall. Legend `MENU` above in `ui-s`, in `--shell-ink`. |
+| CONTINUE | centre 208, 600; 56 x 24 (hit 56 x 44) | Same. Legend `CONTINUE`. |
 | Speaker grille | 284, 576, 32, 32 | 5x5 grid of 4u square holes, 3u gaps. Hole = `--shell-edge`. A hole turns `--cursor` salmon when its tile is stamped: a live mini-map. `aria-hidden`. |
 
 ### LCD internals (292 x 368u)
@@ -241,7 +241,7 @@ device width = clamp(328px, min(100vw - 16px, (100dvh - 24px) * 0.544), 440px)
 Scanline overlay: `repeating-linear-gradient(0deg, rgb(26 28 44 / 0.06) 0 1px, transparent 1px 3px)`. Nothing else textures the screen.
 
 ### Mobile page (below 1024px)
-Single column, centred. Order: skip link; device (8px top margin); below it, in `--desk-ink`: a visually hidden `<h1>Bengaluru Pocket</h1>` (the sticker is decorative), a one-line `body` hint ("Tap a tile or use the buttons. START shows your score."), and the footer. The old header, season swatches, sticky bar and separate panels are gone: counter, tile detail, share and clear all live on the LCD.
+Single column, centred. Order: skip link; device (8px top margin); below it, in `--desk-ink`: a visually hidden `<h1>Bengaluru Pocket</h1>` (the sticker is decorative), a one-line `body` hint ("Tap a tile or use the buttons. CONTINUE shows your score."), and the footer. The old header, season swatches, sticky bar and separate panels are gone: counter, tile detail, share and clear all live on the LCD.
 
 ### Desktop page (1024px and up)
 Two columns, max width 1040px, 56px gap, vertically centred. Left: the device. Right (max 30rem), all on the desk:
@@ -269,7 +269,7 @@ Any key, button or tap skips to the board at once. Reduced motion: no boot at al
 - Tile (hover, fine pointers only): `--lcd-white`. The info bar previews this tile without moving the cursor.
 - Tile (stamped): fill `--lcd-stamped`, 2u inset ink border, and the 7x7 **stamp badge** (section 8) at 2x in the top-right corner, 2u in from the edges. Sprite and label stay visible. State is never colour-only: the badge and border carry it.
 - Cursor: four L-shaped corner brackets around the cursor tile, each 10u long and 4u thick, outer half ink, inner half `--cursor`. They sit 1u outside the tile and blink between "tight" and "2u out" every 500ms. Starts on tile 13 (centre). The cursor is always visible on the board, including for touch users (it marks the last tile touched).
-- Info bar: line 1, tile name in `body-strong` (left, truncates) and counter `17/25` in `display-s` (right) with one 8x8 star per completed line after it (cap 5, then `x12`). Line 2 to 3: category chip (8x8 glyph + category label in `label`, on the category colour, 2u ink border) followed by the blurb in `body-lcd`. The info bar is `aria-live="polite"` and always describes the cursor tile (or the hovered tile). Before the first input it shows: `D-PAD MOVE · A STAMP · START SCORE`.
+- Info bar: line 1, tile name in `body-strong` (left, truncates) and counter `17/25` in `display-s` (right) with one 8x8 star per completed line after it (cap 5, then `x12`). Line 2 to 3: category chip (8x8 glyph + category label in `label`, on the category colour, 2u ink border) followed by the blurb in `body-lcd`. The info bar is `aria-live="polite"` and always describes the cursor tile (or the hovered tile). Before the first input it shows: `D-PAD MOVE · A STAMP · CONTINUE SCORE`.
 
 ### Result (scorecard)
 Header row: `YOUR CARD` left, `NO.9Z3K7` right. Stage plus info area: the scorecard SVG (section 9) centred at 214 x 300u, on `--lcd-mid` with a hard `4u 4u 0 var(--lcd-ink)` shadow. Bottom 44u: two real buttons side by side, each half width, `ui-l`: `[A] SHARE` (primary, `--lcd-stamped`) and `[B] BOARD` (`--lcd-white`). A visually hidden paragraph repeats the score in words.
@@ -282,7 +282,7 @@ The selected row is inverted (`--lcd-ink` fill, `--lcd-paper` text) with a blink
 - Without one: opens the `linkInfo` overlay, a dialog with the existing clubbing explanation in `body-lcd` and one button `COPY MY LINK`.
 - `SAVE IMAGE` uses `html-to-image` on the inline scorecard with `pixelRatio = ceil(1000 / renderedWidth)` so the PNG is at least 1000px wide.
 
-### Pause menu (SELECT)
+### Pause menu (MENU)
 Same list component, over a dimmed stage (stage gets a 50% ink checker dither, not opacity): `HOW TO PLAY`, `SOUND: ON` / `SOUND: OFF`, `CLEAR CARD` (row in `--lcd-dim` with `aria-disabled` when nothing is stamped), `RESUME`. `HOW TO PLAY` opens the `help` overlay: the controls table and two sentences of body copy, closed with A or B.
 
 ### Confirm clear
@@ -304,13 +304,13 @@ Reduced motion: only the banner (no slide) and the announcement.
 | D-pad | Arrow keys, W A S D | skip | Move cursor one tile; wraps at edges | none | Up/down move the selection, wraps | Left/right switch button |
 | A | Z, Space | skip | Stamp or lift the cursor tile | Open share menu | Activate the selected row | Activate the focused button |
 | B | X, Backspace, Esc | skip | Lift the stamp if the tile is stamped, else error blip | Back to board | Close the menu (share returns to result) | Cancel |
-| START | Enter | skip | Go to result | Open share menu | Activate the selected row | Activate the focused button |
-| SELECT | Shift (Tab stays native) | skip | Open pause menu | Open pause menu | Close the menu | Cancel |
+| CONTINUE | Enter | skip | Go to result | Open share menu | Activate the selected row | Activate the focused button |
+| MENU | Shift (Tab stays native) | skip | Open pause menu | Open pause menu | Close the menu | Cancel |
 | Sound toggle | M | (works) | Toggle sound and haptics | same | same | same |
 
 Rules:
-- Hardware keys are `<button>`s with `aria-label` ("D-pad up", "A: stamp", "B: back", "Start: show scorecard", "Select: menu") and `aria-keyshortcuts`.
-- The global key handler ignores Space and Enter when focus is on a link or a button that is not a tile or a hardware key, so native activation still works. It ignores everything when a modifier (Ctrl, Alt, Meta) is held. Tab order: sound toggle, the LCD (grid is one tab stop; menus are a list), D-pad, B, A, SELECT, START, then page content.
+- Hardware keys are `<button>`s with `aria-label` ("D-pad up", "A: stamp", "B: back", "Continue: show scorecard", "Menu: pause menu") and `aria-keyshortcuts`.
+- The global key handler ignores Space and Enter when focus is on a link or a button that is not a tile or a hardware key, so native activation still works. It ignores everything when a modifier (Ctrl, Alt, Meta) is held. Tab order: sound toggle, the LCD (grid is one tab stop; menus are a list), D-pad, B, A, MENU, CONTINUE, then page content.
 - Holding a D-pad arm repeats after 300ms, every 120ms.
 - **Touch**: tapping a tile moves the cursor there and toggles its stamp in one tap (same as today). Tapping a menu row selects and activates it. Tapping anywhere during boot skips it. The hardware keys respond on `pointerdown` (press visual and sound) and act on `click`.
 - **Sound** (WebAudio, one shared `AudioContext` created on the first user gesture, square oscillators, gain 0.05, no files):
@@ -336,7 +336,7 @@ Everything moves in steps; there are no springs and no smooth eases. Framer Moti
 
 | Name | Duration / easing | What |
 |---|---|---|
-| `key-press` | 60ms `steps(1)` down, 90ms `steps(2)` up | Key face moves down by its wall height (A/B 6u, START/SELECT 4u) and the wall collapses. D-pad: the pressed arm drops 3u and darkens to `--btn-dark-lo`. Applies on pointer, on click and when triggered from the keyboard. |
+| `key-press` | 60ms `steps(1)` down, 90ms `steps(2)` up | Key face moves down by its wall height (A/B 6u, CONTINUE/MENU 4u) and the wall collapses. D-pad: the pressed arm drops 3u and darkens to `--btn-dark-lo`. Applies on pointer, on click and when triggered from the keyboard. |
 | `cursor-blink` | 1000ms loop `steps(2)` | Brackets alternate tight / 2u out. |
 | `cursor-move` | 80ms `steps(2)` | Brackets jump half way, then land. |
 | `stamp-land` | 150ms `steps(3)` | Badge scales 3x, 2x, 1x; tile flashes `--lcd-white` on the first frame, then settles on `--lcd-stamped`; tile nudges 2u down and back. |
@@ -553,7 +553,7 @@ A screen frame (max 360px) showing an LCD in `--lcd-paper`: the `none` fox head 
 
 ## 11. Do not
 
-- **No console trademarks.** No Nintendo or Game Boy names, logos, wordmarks, boot animation, jingle, grey-brick proportions, purple-and-magenta "atomic" look, or slanted START/SELECT. The device is the Bengaluru Pocket BP-01.
+- **No console trademarks.** No Nintendo or Game Boy names, logos, wordmarks, boot animation, jingle, grey-brick proportions, purple-and-magenta "atomic" look, or slanted CONTINUE/MENU. The device is the Bengaluru Pocket BP-01.
 - **No seasonal colours.** No season switch, no month logic, no `season` in props, storage or API payloads.
 - **No anti-aliased art.** No stroked paths, circles, gradients or bitmaps in illustrations. Rects on the grid, `crispEdges`, palette keys only.
 - **No soft shadows or blur.** Every `box-shadow` and `text-shadow` has zero blur. No `backdrop-filter`, no glow. The only alpha is the shell tint, the gloss stripe, the circuit pattern and the scanlines.
@@ -572,7 +572,7 @@ A screen frame (max 360px) showing an LCD in `--lcd-paper`: the `none` fox head 
 Bengaluru Pocket is a console. The console owns everything that is hardware or shared chrome; each game is a **cartridge** that runs inside it.
 
 ### What the console owns
-- **Shell**: the bezel, LED, sound toggle, LCD, D-pad, A, B, START, SELECT, the speaker grille, the model `BP-01`, the sticker and the legends (`src/console/device/`).
+- **Shell**: the bezel, LED, sound toggle, LCD, D-pad, A, B, CONTINUE, MENU, the speaker grille, the model `BP-01`, the sticker and the legends (`src/console/device/`).
 - **Boot** (once per session), then the **home menu** (`src/console/Menu.tsx`): one row per cartridge, a coming-soon row, and the sound setting.
 - **Input routing** (`src/console/Console.tsx`): one keyboard listener and one set of device handlers. Keys go to the menu or to the cartridge in play. The console ignores keys during the wipe.
 - **Screen changes**: the eight-blind wipe, 120ms closing and 120ms opening. Reduced motion swaps instantly. Cartridges use `host.transition(change)` for their own screen changes.
@@ -580,7 +580,7 @@ Bengaluru Pocket is a console. The console owns everything that is hardware or s
 - **Legends**: the menu and each cartridge screen call `host.setLegends({ a, b })` when the screen changes, so the words under A and B match the action.
 
 ### What a cartridge owns
-- Its rules, its screens, its own pause menu (SELECT), How to play and dialogs, built from the shared overlays in `src/console/device/Overlays.tsx`.
+- Its rules, its screens, its own pause menu (MENU), How to play and dialogs, built from the shared overlays in `src/console/device/Overlays.tsx`.
 - Its **legends**: the words under A and B name what those buttons do on the screen showing now. Each screen sets them with `host.setLegends({ a, b })` (8 characters or fewer; empty prints nothing). The `legends` field on the cartridge is only the starting pair. Its **sticker** (16 characters at most, for example BENGALURU BINGO), its 16 x 16 **menu icon**, and its **lede** and **hint** copy.
 - Its desk-side panels, rendered into the console's side column with a portal to `useCartridge().side` (Bingo's save file does this).
 - Its own storage, under its own id.
@@ -605,7 +605,7 @@ type Cartridge = {
 A game reads the console through two hooks:
 
 - `useCartridge()` returns `{ host, lcd, side }`.
-- `useConsoleKeys(handler)` receives `up | down | left | right | a | b | start | select` while the game is mounted.
+- `useConsoleKeys(handler)` receives `up | down | left | right | a | b | continue | menu` while the game is mounted.
 
 ### Routes
 - `/` opens the console at the menu.
@@ -630,6 +630,6 @@ The console is **Bengaluru Pocket**, model **BP-01**, made by Ginhouse and playe
 | Arrows / WASD | D-pad |
 | Z / Space | A |
 | X / Backspace / Esc | B |
-| Enter | START |
-| Shift | SELECT (pause) |
+| Enter | CONTINUE |
+| Shift | MENU (pause) |
 | M | Sound on or off |

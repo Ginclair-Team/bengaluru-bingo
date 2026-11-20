@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useCartridge, useConsoleKeys } from "@/console/context";
@@ -1142,7 +1142,7 @@ export function GunduGame() {
     go("rename", () => setInfo(null));
   };
 
-  /** Type a key on the naming board. `onGo` keeps the name (Go or START). */
+  /** Type a key on the naming board. `onGo` keeps the name (Go or CONTINUE). */
   const typeNameKey = (k: string, onGo: () => void) => {
     if (k === "Del") setNameText((t) => t.slice(0, -1));
     else if (k === "Clear") setNameText("");
@@ -1154,7 +1154,7 @@ export function GunduGame() {
       );
   };
 
-  /** D-pad moves over the board, A types, B deletes (or backs out when empty), START keeps the name. */
+  /** D-pad moves over the board, A types, B deletes (or backs out when empty), CONTINUE keeps the name. */
   function pressName(key: Key, onGo: () => void, onBack: () => void) {
     if (isDir(key)) {
       const step = key === "right" ? 1 : key === "left" ? -1 : key === "down" ? 6 : -6;
@@ -1164,7 +1164,7 @@ export function GunduGame() {
     else if (key === "b") {
       if (nameText.length === 0) onBack();
       else setNameText((t) => t.slice(0, -1));
-    } else if (key === "start") onGo();
+    } else if (key === "continue") onGo();
   }
 
   // ---------------------------------------------------------------- overlays and the pause menu
@@ -1262,8 +1262,8 @@ export function GunduGame() {
         focusPending.current = true;
         setPauseSel((s) => wrap(s + (key === "down" ? 1 : -1), pauseItems.length));
         play("move");
-      } else if (key === "a" || key === "start") clickRow(pauseListRef.current, pauseSel);
-      else if (key === "b" || key === "select") closeOverlay();
+      } else if (key === "a" || key === "continue") clickRow(pauseListRef.current, pauseSel);
+      else if (key === "b" || key === "menu") closeOverlay();
       return;
     }
     if (overlay === "help") {
@@ -1275,8 +1275,8 @@ export function GunduGame() {
         focusPending.current = true;
         setAreaListSel((s) => wrap(s + (key === "down" ? 1 : -1), AREAS.length));
         play("move");
-      } else if (key === "a" || key === "start") clickRow(areaListRef.current, areaListSel);
-      else if (key === "b" || key === "select") toPause();
+      } else if (key === "a" || key === "continue") clickRow(areaListRef.current, areaListSel);
+      else if (key === "b" || key === "menu") toPause();
       return;
     }
     if (overlay === "confirmMove" || overlay === "confirmReset") {
@@ -1284,7 +1284,7 @@ export function GunduGame() {
         focusPending.current = true;
         setDlgSel((s) => (s === 0 ? 1 : 0));
         play("move");
-      } else if (key === "a" || key === "start") {
+      } else if (key === "a" || key === "continue") {
         if (dlgSel === 0) {
           if (overlay === "confirmMove") openOverlay("areas");
           else toPause();
@@ -1297,19 +1297,19 @@ export function GunduGame() {
 
     if (screen === "loading" || screen === "rain") {
       if (screen === "rain" && rainStage === "choice") {
-        if (key === "select") openOverlay("pause");
-        else if (key === "a" || key === "start") chooseRain("umbrella");
+        if (key === "menu") openOverlay("pause");
+        else if (key === "a" || key === "continue") chooseRain("umbrella");
         else if (key === "b") chooseRain("wet");
       }
       return;
     }
     if (screen === "intro") {
-      if (key === "select") openOverlay("pause");
+      if (key === "menu") openOverlay("pause");
       else pressIntro(key);
       return;
     }
 
-    if (key === "select") {
+    if (key === "menu") {
       if (screen === "walk" && !walkRef.current) return;
       openOverlay("pause");
       return;
@@ -1326,7 +1326,7 @@ export function GunduGame() {
           play("move");
         } else if (key === "a") feedItem(feedSel);
         else if (key === "b") go("home", () => setInfo(null));
-        else if (key === "start") go("today");
+        else if (key === "continue") go("today");
         return;
       }
       case "bath":
@@ -1347,7 +1347,7 @@ export function GunduGame() {
           const idx = (saveRef.current?.pantry.lastIndexOf(walkResult.food) ?? -1) + 1;
           setFeedSel(Math.max(1, idx));
           go("feed", () => setInfo(null));
-        } else if (key === "b" || (key === "a" && !walkResult?.food) || key === "start") go("home", () => setInfo(null));
+        } else if (key === "b" || (key === "a" && !walkResult?.food) || key === "continue") go("home", () => setInfo(null));
         return;
       case "decor":
         if (key === "left" || key === "right") {
@@ -1371,7 +1371,7 @@ export function GunduGame() {
         else if (key === "b") {
           if (codeText.length === 0) go("home", () => setInfo(null));
           else setCodeText((c) => c.slice(0, -1));
-        } else if (key === "start") submitCode();
+        } else if (key === "continue") submitCode();
         return;
       case "today":
         if (key === "left" || key === "right") {
@@ -1379,11 +1379,11 @@ export function GunduGame() {
             setCardIndex((i) => wrap(i + (key === "right" ? 1 : -1), cards.length));
             play("move");
           }
-        } else if (key === "a" || key === "start") void shareCard();
+        } else if (key === "a" || key === "continue") void shareCard();
         else if (key === "b") go("home", () => setInfo(null));
         return;
       case "box":
-        if (key === "a" || key === "b" || key === "start") go("home", () => setInfo(null));
+        if (key === "a" || key === "b" || key === "continue") go("home", () => setInfo(null));
         return;
       case "rename":
         return pressName(key, finishRename, () => go("home", () => setInfo(null)));
@@ -1400,7 +1400,7 @@ export function GunduGame() {
         focusPending.current = true;
         setPetSel((s) => wrap(s + (key === "down" ? 1 : -1), SPECIES.length));
         play("move");
-      } else if (key === "a" || key === "start") pickSpecies(petSel);
+      } else if (key === "a" || key === "continue") pickSpecies(petSel);
       else if (key === "b") setIntroStep(1);
     } else if (introStep === 3) {
       pressName(key, confirmIntroName, () => setIntroStep(2));
@@ -1413,7 +1413,7 @@ export function GunduGame() {
         setIntroStep(5);
         play("stamp");
       } else if (key === "b") setIntroStep(3);
-    } else if (key === "a" || key === "start") {
+    } else if (key === "a" || key === "continue") {
       const t = Date.now();
       const s = newSave(AREAS[areaSel], SPECIES[petSel], nameText, t, R.dateKey(t));
       saveRef.current = s;
@@ -1438,7 +1438,7 @@ export function GunduGame() {
     else if (key === "down") pat();
     else if (key === "a") doAction(sel);
     else if (key === "b") flash(C.MSG.homeB, "error");
-    else if (key === "start") {
+    else if (key === "continue") {
       setCardIndex(0);
       registerOwn(ownCode);
       go("today");
@@ -1476,7 +1476,7 @@ export function GunduGame() {
   } else if (screen === "intro") {
     if (introStep === 1) {
       legendA = "LOOK";
-      legendB = "MENU";
+      legendB = "QUIT";
     } else if (introStep === 2) {
       legendA = "PICK";
       legendB = "BACK";

@@ -17,7 +17,7 @@ export const MODEL = "BP-01";
  * The Bengaluru Pocket console. Everything is laid out in device units (1u =
  * device width / 344), so the whole console scales as one object.
  *
- * DOM order is the tab order: sound toggle, LCD, D-pad, B, A, SELECT, START.
+ * DOM order is the tab order: sound toggle, LCD, D-pad, B, A, MENU, CONTINUE.
  */
 export function Device({
   children,

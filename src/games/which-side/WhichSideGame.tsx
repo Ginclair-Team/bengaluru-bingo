@@ -223,8 +223,8 @@ export function WhichSideGame() {
         focusPending.current = true;
         setPauseSel((s) => wrap(s + (key === "down" ? 1 : -1), pauseItems.length));
         play("move");
-      } else if (key === "a" || key === "start") clickRow(pauseListRef.current, pauseSel);
-      else if (key === "b" || key === "select") closeOverlay();
+      } else if (key === "a" || key === "continue") clickRow(pauseListRef.current, pauseSel);
+      else if (key === "b" || key === "menu") closeOverlay();
       return;
     }
     if (overlay === "help") {
@@ -235,12 +235,12 @@ export function WhichSideGame() {
       }
       return;
     }
-    if (key === "select") {
+    if (key === "menu") {
       openOverlay("pause");
       return;
     }
     if (phase === "intro") {
-      if (key === "a" || key === "start") start();
+      if (key === "a" || key === "continue") start();
       else if (key === "b") host.exit();
     } else if (phase === "guess") {
       if (isDir(key)) {
@@ -248,13 +248,13 @@ export function WhichSideGame() {
         focusPending.current = true;
         setSel((s) => wrap(s + step, ZONES.length));
         play("move");
-      } else if (key === "a" || key === "start") guess(ZONES[sel]);
+      } else if (key === "a" || key === "continue") guess(ZONES[sel]);
       else if (key === "b") play("error");
     } else if (phase === "reveal") {
-      if (key === "a" || key === "start") next();
+      if (key === "a" || key === "continue") next();
       else if (key === "b") play("error");
     } else if (phase === "summary") {
-      if (key === "a" || key === "start") start();
+      if (key === "a" || key === "continue") start();
       else if (key === "b") host.exit();
     }
   };
@@ -284,15 +284,15 @@ export function WhichSideGame() {
   } else if (overlay === "help") {
     legendB = "BACK";
   } else if (phase === "intro") {
-    legendA = "START";
-    legendB = "MENU";
+    legendA = "PLAY";
+    legendB = "QUIT";
   } else if (phase === "guess") {
     legendA = "GUESS";
   } else if (phase === "reveal") {
     legendA = round + 1 < ROUNDS ? "NEXT" : "RESULT";
   } else if (phase === "summary") {
     legendA = "PLAY";
-    legendB = "MENU";
+    legendB = "QUIT";
   }
   useEffect(() => {
     host.setLegends({ a: legendA, b: legendB });
@@ -319,13 +319,13 @@ export function WhichSideGame() {
                 <span className="key t-label" aria-hidden="true">
                   A
                 </span>
-                START
+                PLAY
               </button>
               <button type="button" className="lcd-btn" onClick={() => host.exit()}>
                 <span className="key t-label" aria-hidden="true">
                   B
                 </span>
-                MENU
+                QUIT
               </button>
             </div>
           </div>
@@ -434,7 +434,7 @@ export function WhichSideGame() {
                 <span className="key t-label" aria-hidden="true">
                   B
                 </span>
-                MENU
+                QUIT
               </button>
             </div>
           </div>

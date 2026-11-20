@@ -32,7 +32,7 @@ type OverlayId = null | "pause" | "help" | "confirmClear" | "linkInfo";
 type Dir = "up" | "down" | "left" | "right";
 
 const HOW_TO_PLAY =
-  "Stamp every Bengaluru thing you have actually done. Press START to see how native you are.";
+  "Stamp every Bengaluru thing you have actually done. Press CONTINUE to see how native you are.";
 
 const isDir = (key: Key): key is Dir => key === "up" || key === "down" || key === "left" || key === "right";
 
@@ -295,8 +295,8 @@ export function BingoGame() {
         focusSel.current = true;
         setPauseSel((s) => wrap(s + (key === "down" ? 1 : -1), pauseItems.length));
         play("move");
-      } else if (key === "a" || key === "start") clickRow(pauseListRef.current, pauseSel);
-      else if (key === "b" || key === "select") closeOverlay();
+      } else if (key === "a" || key === "continue") clickRow(pauseListRef.current, pauseSel);
+      else if (key === "b" || key === "menu") closeOverlay();
       return;
     }
     if (overlay === "help") {
@@ -311,7 +311,7 @@ export function BingoGame() {
         focusSel.current = true;
         setDlgSel((s) => (s === 0 ? 1 : 0));
         play("move");
-      } else if (key === "a" || key === "start") {
+      } else if (key === "a" || key === "continue") {
         if (dlgSel === 0) {
           setOverlay("pause");
           play("close");
@@ -323,7 +323,7 @@ export function BingoGame() {
       return;
     }
     if (overlay === "linkInfo") {
-      if (key === "a" || key === "start") void copyFromDialog();
+      if (key === "a" || key === "continue") void copyFromDialog();
       else if (!isDir(key)) closeOverlay();
       return;
     }
@@ -334,19 +334,19 @@ export function BingoGame() {
       else if (key === "b") {
         if (isMarked(marks, cursor)) stampTile(cursor);
         else play("error");
-      } else if (key === "start") openResult();
+      } else if (key === "continue") openResult();
       else openOverlay("pause");
     } else if (screen === "result") {
-      if (key === "a" || key === "start") openShare();
+      if (key === "a" || key === "continue") openShare();
       else if (key === "b") go("board");
-      else if (key === "select") openOverlay("pause");
+      else if (key === "menu") openOverlay("pause");
     } else if (screen === "share") {
       if (key === "up" || key === "down") {
         focusSel.current = true;
         setShareSel((s) => wrap(s + (key === "down" ? 1 : -1), 6));
         play("move");
-      } else if (key === "a" || key === "start") clickRow(shareListRef.current, shareSel);
-      else if (key === "b" || key === "select") go("result");
+      } else if (key === "a" || key === "continue") clickRow(shareListRef.current, shareSel);
+      else if (key === "b" || key === "menu") go("result");
     }
   };
 

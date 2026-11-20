@@ -64,9 +64,9 @@ export function Menu({
       moved.current = true;
       setSel((s) => wrap(s + (key === "down" ? 1 : -1), ROWS.length));
       play("move");
-    } else if (key === "a" || key === "start") {
+    } else if (key === "a" || key === "continue") {
       activate(sel);
-    } else if (key === "b" || key === "select") {
+    } else if (key === "b" || key === "menu") {
       play("error");
     }
   });
@@ -145,7 +145,7 @@ export function Menu({
           );
         })}
       </ul>
-      <p className="cart-note t-body-lcd">D-pad to choose. A or START to play.</p>
+      <p className="cart-note t-body-lcd">D-pad to choose. A or CONTINUE to play.</p>
     </div>
   );
 }

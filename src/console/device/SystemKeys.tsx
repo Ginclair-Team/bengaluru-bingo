@@ -10,7 +10,7 @@ function PillKey({
   pressed,
   onPress,
 }: {
-  id: "select" | "start";
+  id: "menu" | "continue";
   cx: number;
   pressed: boolean;
   onPress: (key: Key) => void;
@@ -44,21 +44,21 @@ export function SystemKeys({
 }) {
   return (
     <>
-      <PillKey id="select" cx={136} pressed={!!pressed.select} onPress={onPress} />
-      <PillKey id="start" cx={208} pressed={!!pressed.start} onPress={onPress} />
+      <PillKey id="menu" cx={136} pressed={!!pressed.menu} onPress={onPress} />
+      <PillKey id="continue" cx={208} pressed={!!pressed.continue} onPress={onPress} />
       <span
         className="shell-legend t-ui-s"
         style={{ left: u(136), top: u(576), transform: "translateX(-50%)" }}
         aria-hidden="true"
       >
-        SELECT
+        MENU
       </span>
       <span
         className="shell-legend t-ui-s"
         style={{ left: u(208), top: u(576), transform: "translateX(-50%)" }}
         aria-hidden="true"
       >
-        START
+        CONTINUE
       </span>
     </>
   );

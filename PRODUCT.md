@@ -34,7 +34,7 @@ A "City-Bio" engine: the score describes the player's own relationship with one 
 - Tile content is static JSON. No real-time scraping of Reddit/X during play; a `scrapers` folder exists only as a seeding stub for later.
 - Scorecard: an SVG infographic with the native percentage and a ranking badge (for example "The Tech Guru", "Foodie").
 - Card clubbing: player A's card and player B's card link into one shared journey view.
-- Presentation: the game runs inside a Y2K handheld console, the Bengaluru Pocket BP-01, with a pixel LCD and working D-pad, A, B, START and SELECT keys (also mapped to the keyboard). Tiles stay directly tappable. One fixed palette; the earlier seasonal theme engine is retired (owner's direction, 2026-11-16).
+- Presentation: the game runs inside a Y2K handheld console, the Bengaluru Pocket BP-01, with a pixel LCD and working D-pad, A, B, CONTINUE and MENU keys (also mapped to the keyboard). Tiles stay directly tappable. One fixed palette; the earlier seasonal theme engine is retired (owner's direction, 2026-11-16).
 - Optional 8-bit sound and vibration, generated in the browser, with a persisted mute switch.
 - No PII: no names or phone numbers stored, only `anonymous_id`.
 - Tile characters are original pixel art (16x16 text grids rendered as SVG rects); `src/games/bingo/illustrator` holds them.

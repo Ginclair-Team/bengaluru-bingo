@@ -32,7 +32,7 @@ export function useCartridge() {
 
 /**
  * Receive the console's keys while mounted. Keys arrive from the D-pad, A, B,
- * START, SELECT and the keyboard. The latest handler is always the one called.
+ * CONTINUE, MENU and the keyboard. The latest handler is always the one called.
  */
 export function useConsoleKeys(handler: KeyListener) {
   const { subscribe } = useConsoleContext();

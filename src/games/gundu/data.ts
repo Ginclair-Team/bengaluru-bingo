@@ -105,9 +105,9 @@ export const TAGLINE = "A balcony pal on city time";
 export const STICKER = "NAMMA GUNDU";
 export const LEDE =
   "A trumpet flower fell on your balcony, and a cat, dog or bird came out of it. Keep it fed, walk it across the junction to the darshini, and send its postcard to a neighbour.";
-export const HINT = "Pick an action with the D-pad, press A to do it, and press START for today's card.";
+export const HINT = "Pick an action with the D-pad, press A to do it, and press CONTINUE for today's card.";
 export const HOW_TO_PLAY =
-  "Your pet lives on your balcony and follows your clock: kaapi at dawn, traffic at dusk, quiet at night. Choose an action with the D-pad and press A. Walk it to the darshini for its favourite food, then press START for today's card and share it.";
+  "Your pet lives on your balcony and follows your clock: kaapi at dawn, traffic at dusk, quiet at night. Choose an action with the D-pad and press A. Walk it to the darshini for its favourite food, then press CONTINUE for today's card and share it.";
 
 // ---- E. Copy ----
 export const ACTIONS = [
@@ -155,9 +155,9 @@ export const MSG = {
   intro3: "{name}'s here. It keeps Bengaluru time.",
   whereTitle: "Where's this balcony?",
   noAnswer: "Nothing to answer. {name}'s busy watching the road.",
-  homeB: "You're home. SELECT opens the menu.",
+  homeB: "You're home. MENU opens the pause menu.",
   asleepShh: "Shh. {name}'s asleep. Wake it first.",
-  beforeInput: "D-PAD PICK · A DO · START CARD",
+  beforeInput: "D-PAD PICK · A DO · CONTINUE CARD",
   pantryEmpty: "Only idli in the tiffin. Take {name} for a walk to bring back more.",
   boxEmpty: "No visitors yet. Share today's card so a neighbour can visit.",
   tooFull: "{name}'s full, maga. Take it for a walk.",
@@ -189,7 +189,7 @@ export const MSG = {
   copied: "Copied. Paste it in WhatsApp or anywhere.",
   oneItem: "One pot so far. More arrive on day 2.",
   renamed: "Now called {name}. Good name, macha.",
-  nameHint: "Type a name, then START or Go to keep it.",
+  nameHint: "Type a name, then CONTINUE or Go to keep it.",
 } as const;
 
 export const SCREEN_TITLES = {

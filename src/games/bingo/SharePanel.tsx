@@ -26,7 +26,7 @@ export async function copyCardLink(code: string): Promise<ShareStatus> {
 /**
  * The share menu. Six rows, each a real control (button, react-share button
  * or link). The Game drives the selection from the D-pad and calls .click()
- * on the selected row when A or START is pressed.
+ * on the selected row when A or CONTINUE is pressed.
  */
 export function SharePanel({
   score,

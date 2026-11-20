@@ -186,7 +186,7 @@ export function Board({
             </>
           ) : (
             <p className="t-label" style={{ margin: 0, padding: "calc(14 * var(--u)) 0", textAlign: "center" }}>
-              D-PAD MOVE &middot; A STAMP &middot; START SCORE
+              D-PAD MOVE &middot; A STAMP &middot; CONTINUE SCORE
             </p>
           )}
         </div>

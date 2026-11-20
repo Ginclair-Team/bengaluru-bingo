@@ -73,7 +73,7 @@ export function MenuList({
   );
 }
 
-/** SELECT: pause menu over a dithered stage. */
+/** MENU: pause menu over a dithered stage. */
 export function PauseMenu(props: {
   items: MenuItem[];
   selected: number;

@@ -10,8 +10,8 @@ export const bingo: Cartridge = {
   sticker: "BENGALURU BINGO",
   icon: TILE_ART.dosa,
   legends: { a: "STAMP", b: "" },
-  lede: "Stamp everything you've actually done in Bengaluru. Press START to see how native you are, then post your card.",
-  hint: "Tap a tile or use the buttons. START shows your score.",
+  lede: "Stamp everything you've actually done in Bengaluru. Press CONTINUE to see how native you are, then post your card.",
+  hint: "Tap a tile or use the buttons. CONTINUE shows your score.",
   status: "ready",
   Game: BingoGame,
 };
